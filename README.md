@@ -23,7 +23,7 @@ to work in their specific environments.
 	- To enable running the ant command from any folder, add %ANT_HOME%\bin to the system path	
 - Set SCORM4ED_TS111_HOME environment variable to the Test Suite folder containing the ant build scripts  
 	- ex: C:\dev\SCORM-2004-4ed-Test-Suite\  
-- Include a code signing certificate in the Test Suite folder  
+- Include a code signing certificate in the `software_development` folder  
 - Set the `build.properties` values for the code signing certificate  
 ```
 <!-- signing certificate values -->
