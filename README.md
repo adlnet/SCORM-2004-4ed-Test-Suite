@@ -12,7 +12,7 @@ to work in their specific environments.
 ## Building
 ### Prerequisites  
 - Java 6 update 10 Java Development Kit (JDK)  
-- Apache Ant 1.7.1  
+- Apache Ant 1.7.1  (Instructions [here](http://ant.apache.org/manual/install.html))
 
 ### Configuration
 - Set JAVA_HOME environment variable to the root folder of Java's JDK  
@@ -23,7 +23,7 @@ to work in their specific environments.
 	- To enable running the ant command from any folder, add %ANT_HOME%\bin to the system path	
 - Set SCORM4ED_TS111_HOME environment variable to the Test Suite folder containing the ant build scripts  
 	- ex: C:\dev\SCORM-2004-4ed-Test-Suite\  
-- Include a code signing certificate in the `software_development` folder  
+- Include a code signing certificate (keystore) in the `software_development` folder  
 - Set the `build.properties` values for the code signing certificate  
 ```
 <!-- signing certificate values -->
@@ -36,21 +36,21 @@ keystorePassword=
 The Test Suite uses Apache Ant build scripts. To initiate the build, navigate to the 
 folder containing the Ant build scripts in a terminal and execute the following command:  
 ```
-C:\dev\SCORM-2004-4ed-Test-Suite > ant
+C:\dev\SCORM-2004-4ed-Test-Suite\software_development > ant
 ```
 
 ## Running
 ### Prerequisites
-- Internet Explorer 8  
+- Internet Explorer 8 (Or a lesser version)  
 - Java 6 update 10 Runtime Environment (JRE)  
 
 ### Launching the Test Suite
 - Navigate to the TestSuite folder 
-	- ex: C:\dev\SCORM-2004-4ed-Test-Suite\TestSuite\  
+	- ex: C:\dev\SCORM-2004-4ed-Test-Suite\software_development\TestSuite\  
 - Double click main.htm  
 
 ### Test Suite Readme
-There is a Readme for operating the Test Suite found at `C:\dev\SCORM-2004-4ed-Test-Suite\CTS_Readme`  
+There is a Readme for operating the Test Suite found at `C:\dev\SCORM-2004-4ed-Test-Suite\software_development\CTS_Readme`  
   
   
 ## License
