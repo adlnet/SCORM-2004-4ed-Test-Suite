@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <link href="../includes/LMSTestContentPackages_style.css"
+         rel="stylesheet" type="text/css" />
+      <script type="text/javascript" src="../common/EmulationCode.js"></script>
+      <script type="text/javascript" src="../common/BrowserDetect.js"></script>
+      <script type="text/javascript" src="../common/About.js"></script>
+      <script type="text/javascript" src="../common/lmsrtefunctions.js"></script>
+
+      <title>API Implementation Test 1</title>
+
+      <script type="text/javascript">
+         //<!-- [CDATA[
+         var driver = null;
+				
+         function performTest()
+         {
+            DetectBrowser();
+
+            if ( ! IE )
+            {
+           		driver = document.getElementById('NNLMSTestSCODriver');
+            }
+            else 
+            {
+               	driver = document.getElementById('LMSTestSCODriver');
+            }
+
+            launchTestPassed = testSCOLaunch();
+ 			
+            if ( ! launchTestPassed )
+            {
+               document.getElementById('teststatus').innerHTML = "Status:  " +
+                  "Testing Stopped.";  
+ 				
+               return;
+            }
+
+            launchTestPassed = testAPIImplementation() && launchTestPassed;
+			
+            if ( launchTestPassed )
+            {
+            	
+	          	functionTestPassed = driver.runCommands();
+	          	if ( getScoStatus() == "terminated" )
+	            {
+	               //change status display to "Status:  This SCO Test Terminated"
+	               document.getElementById('teststatus').innerHTML = "Status:  " +
+	                  "Test Terminated.  Please view the log for details.";	                 
+	            }
+	            else
+	            {
+	               //change status display to "Status:  This SCO Test Completed"
+	               document.getElementById('teststatus').innerHTML = "Status:  " +
+	                  "Test Completed.";	                 
+	               messageDisplay();
+	            }
+	
+	            //writeLogEntry( _DETAILED_LOG, _INFO, "Attempting to call " +
+	            //               "Terminate(&quot;&quot;)" );	          	
+	          	doTerminate("");
+	          }
+	          else
+	          {
+	          
+	               //change status display to "Status:  This SCO Test Terminated"
+	               document.getElementById("teststatus").innerHTML = "Status:  " +
+	                  "Test Terminated.  Please view the log for details.";
+	               	terminateTest();
+	          }
+         }
+         
+         function messageDisplay()
+         {
+         	//pauseMS(450);
+            document.getElementById('directionText').innerHTML = driver.curUserInstructions();
+            document.getElementById('boxTitle').innerHTML = "Testing Instructions:"; 
+            document.getElementById('currentDirections').style.border = "#890C08 2px solid"; 
+           
+         }
+
+         /**********************************************************************
+          **
+          ** Function testAPIImplementation()
+          ** Inputs:  None
+          ** Return:  None
+          **
+          ** Description:
+          ** This function audits the LMS's API implementation by trying to
+          ** determine which functions it can find.
+          **
+          *********************************************************************/
+         function testAPIImplementation()
+         {
+            var testPassed = true;
+
+            //writeLogEntry( _DETAILED_LOG, _INFO, "Attempting to find the LMS " +
+            //              "API implementation." );
+            // Attempt to find the LMS's API Object....
+            apiObj = getAPIHandle();
+
+            if( apiObj == null )
+            {
+               // Could not find the API implementation
+               writeLogEntry( _DETAILED_LOG, _FAILED, "Unable to locate the LMS " +
+                             "API implementation." );
+
+               alert("Unable to locate the LMS " +
+                              "API implementation.");
+
+               testPassed = false;
+            }
+            else
+            {
+               // There is no way to tell at this stage if we found *THE* API
+               // or not, just that we found some object named API.
+               if( typeof(apiObj) != "object" && typeof(apiObj) != "function" )
+               {
+               alert("apiObj is a: " + typeof(apiObj));
+               
+                  writeLogEntry( _DETAILED_LOG, _FAILED, "Found LMS's API, but " +
+                                 "it is not an object." );
+
+                  alert("Found LMS's API, but it is not an object.");
+
+                  testPassed = false;
+               }
+               else
+               {
+                  // writeLogEntry( _DETAILED_LOG, _PASSED, "Found API." );
+				  
+                  // make sure that the API has a version attribute
+                  var apiVersion = apiObj.version;
+
+                  if ( apiVersion == null )
+                  {
+                     writeLogEntry( _DETAILED_LOG, _FAILED, "The LMS's API " +
+                                    "does not have an attribute named " +
+                                    "\"version\"." );
+
+                     testPassed = false;
+                  }
+                  else
+                  {
+                     // writeLogEntry( _DETAILED_LOG, _PASSED, "Found an " +
+                      //             "attribute named \"version\"." );
+
+                     var first3chars = apiVersion.substring( 0, 3 );
+
+                     if ( first3chars == "1.0" )
+                     {
+                     //   writeLogEntry( _DETAILED_LOG, _PASSED, "The first " +
+                      //                 "three characters of the APIs version " +
+                      //                 "attribute is \"1.0\"." );
+                     }
+                     else
+                     {
+                        writeLogEntry( _DETAILED_LOG, _FAILED, "The first " +
+                                       "three characters of the APIs version " +
+                                       "attribute is not \"1.0\"." );
+
+                        testPassed = false;
+                     }
+
+                     if ( apiVersion.length > 3 )
+                     {
+                        var fourthChar = apiVersion.charAt( 3 );
+
+                        if ( fourthChar == '.' )
+                        {
+                           if (apiVersion.length > 4 )
+                           {
+                           //   writeLogEntry( _DETAILED_LOG, _PASSED,
+                           //                 "The minor release value syntax is" + 
+                           //                 " valid for the APIs version attribute." );                               
+                           } 
+                           else 
+                           {
+                              writeLogEntry( _DETAILED_LOG, _WARNING, "Additional " +
+                                            "characters not provided after the " +
+                                            "sub-version separator." );
+                           }
+                        }
+                        else
+                        {
+                           writeLogEntry( _DETAILED_LOG, _FAILED,
+                                          "The fourth character of the APIs " +
+                                          "version attribute is not \".\"." );
+
+                           testPassed = false;
+                        }
+                     }
+                  }
+               }
+            }
+
+            return testPassed;
+         }
+
+         function completeTest()
+         {	
+            driver.completed();
+         }
+        //]]-->
+      </script>
+   </head>
+
+
+   <body onload="performTest();" onunload="completeTest();">
+      <div id="scoPage">
+         <!-- LMSTestSCODriver -->
+         <!--[if !IE]> Firefox and others will use outer object -->
+         <object
+            classid="java:org/adl/testsuite/rte/lms/comm/LMSTestSCOApplet.class"
+            codetype="application/x-java-applet"
+            codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+            type="application/x-java-applet"
+            archive="LMSTest.jar" height="0" width="0"
+            name="NNLMSTestSCODriver" id="NNLMSTestSCODriver">
+
+            <!-- Konqueror browser needs the following param -->
+            <param name="archive" value="./LMSTest.jar" />
+            <param name="code"
+               value="org/adl/testsuite/rte/lms/comm/LMSTestSCOApplet.class" />
+            <param name="MAYSCRIPT" value="true" />
+            <param name="scriptable" value="true" />
+            <param name="java_codebase" value="../common" />
+            <param name="separate_jvm" value="true" />
+            <!--<![endif]-->
+
+            <!-- MSIE (Microsoft Internet Explorer) will use inner object -->
+            <object name="LMSTestSCODriver" id="LMSTestSCODriver"
+               classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+               codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+               height="0" width="0">
+
+               <param name="code"
+                  value="org/adl/testsuite/rte/lms/comm/LMSTestSCOApplet.class" />
+               <param name="codebase" value="../common" />
+               <param name="archive" value="LMSTest.jar" />
+               <param name="name" value="SCO" />
+               <param name="type" value="application/x-java-applet" />
+               <param name="separate_jvm" value="true">
+
+               <strong> This browser does not have a Java
+                  Plug-in. <br /> <a
+                  href="http://java.sun.com/products/plugin/downloads/index.html">
+                     Get the latest Java Plug-in here. </a> </strong>
+            </object>
+
+
+            <!--[if !IE]> close outer object -->
+         </object>
+         <!--<![endif]-->
+
+         <p class="darkBlue_text">
+            Learning Management System (LMS) Conformance Test
+            <br />
+            <br />
+            API Implementation Test 1
+            <br />
+            <br />
+         </p>
+         <div id="teststatus">
+            Status:&nbsp;&nbsp;Testing in progress...
+            <br />
+            <br />
+         </div>
+
+         <div id="boxTitle">
+            <br />
+         </div>
+
+         <div id="currentDirections">
+            <div id="directionText"></div>
+         </div>
+
+         <hr />
+         <br />
+      </div>
+
+
+      <p>
+         This test may take
+         <span id="red">several minutes</span> to complete.
+         <br />
+         <br />
+         Depending upon the functionality of the LMS, this content
+         object may or may not be unloaded automatically upon conclusion
+         of the testing. &nbsp;When the content object completes, the
+         status above will change to "
+         <span id="blackItalic">Test Completed</span>".
+         <br />
+         <br />
+         This content object tests the LMS for conformance with the
+         SCORM<sup>&reg;</sup> 2004 4<sup>th</sup> Edition RTE. Specifically, this content
+         object performs the following:
+      </p>
+      <ul>
+         <li>
+            API Implementation Test 1 (visits - 1)
+            <ul>
+               <li>
+                  Find the API
+               </li>
+               <li>
+                  Check if the API is an object
+               </li>
+               <li>
+                  Check if the API has a DOM attribute named "version"
+               </li>
+               <li>
+                  Test for a successful call to Initialize()
+               </li>
+               <li>
+                  Test for a successful call to Terminate()
+               </li>
+            </ul>
+            <br />
+         </li>
+      </ul>
+
+      <hr />
+
+      <!-- <form action="refreshMenu()">		
+			<input value="refresh Code frame" type="button" />
+		</form>
+		-->
+   </body>
+</html>

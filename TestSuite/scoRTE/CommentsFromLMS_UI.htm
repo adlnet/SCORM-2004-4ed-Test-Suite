@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <title>Comments From Learner User Interface</title>
+      <script type="text/javascript" src="../scripts/EmulationCode.js"></script>
+      <script type = "text/javascript">
+      //<!--[CDATA[
+   /***************************************************************************
+   **
+   ** Filename:  CommentsFromLearner_UI.htm
+   **
+   ** File Description:  This file is the user interface for the SCO Test Suite used
+   **                    for collecting comments from the LMS.  The values collected
+   **                    in this interface is used to initialize the cmi.comments_from_lms
+   **                    data model element.
+   **
+   ** Browser Compatibility:
+   **
+   ** Author: ADLI Project
+   **
+   ** Module/Package Name:  none
+   ** Module/Package Description: none
+   **
+   ** Design Issues:
+   **
+   ** Implementation Issues:
+   ** Known Problems:
+   ** Side Effects:
+   **
+   ** References: ADL SCORM
+   **
+   ***************************************************************************
+          
+ 
+   **************************************************************************/
+   var myCommentsFromLMS = "";
+
+   //*********************************************************************
+   // Function: addToCollectionOfLMSComments()
+   //
+   // Description: This function collects the data entered by the user and
+   //              builds the final result to be sent back to the Test Suite
+   //              Instructions.
+   //
+   //*********************************************************************
+   function addToCollectionOfLMSComments()
+   {
+      var errMsg = "The following error was encountered:\n";
+      var errors = 0;
+
+      var iTimestamp = 0;
+      iTimestamp = document.getElementById("timestamp").value;
+
+      if (window.opener.validateDateTime(iTimestamp))
+      {
+         myCommentsFromLMS +=
+            "[1c]" + document.getElementById("comment").value;
+         myCommentsFromLMS +=
+            "[2l]" + document.getElementById("location").value;
+         myCommentsFromLMS +=
+            "[3t]" + document.getElementById("timestamp").value;
+         myCommentsFromLMS += "[EOC]";
+      }
+      else
+      {
+         alert("Date Time must be a Valid TimeInterval of the " +
+                     "form P[yY][mM][dD][T[hH][mM][s[.s]S]\n");
+         errors++;
+      }
+
+      if (!errors)
+      {
+         clearForm();
+      }
+   }
+
+   //*********************************************************************
+   // Function: clearForm()
+   //
+   // Description: This function clears the comments from LMS form.
+   //
+   //*********************************************************************
+   function clearForm()
+   {
+      document.getElementById("comment").value="";
+      document.getElementById("location").value = "";
+      document.getElementById("timestamp").value = "";
+   }
+
+   //*********************************************************************
+   // Function: done()
+   //
+   // Description: This function reports the comments collected back to
+   //              the opener window (Instructions page of the SCO Test
+   //              Suite)
+   //
+   //*********************************************************************
+   function done()
+   {
+      window.opener.commentsFromLMS = myCommentsFromLMS;
+      window.opener.doneAddingComments();
+   }
+		//]]-->
+      </script>
+      <link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+   </head>
+
+   <body>
+
+      <form id="comments_from_learner_data" action ="">
+         <div id="comments_from_learner_data2">
+         <!-- ID changed for conformance - duplicate ID not allowed  -->
+            <table border="1">
+               <tr>
+                  <td class="cell">
+                     <label class="products">Comment: </label>
+                  </td>
+                  <td class="cell">
+                     <input id="comment" name="comment" />
+                  </td>
+               </tr>
+
+               <tr>
+                  <td class="cell">
+                 <label class="products">Location:</label>
+              </td>
+               <td class="cell">
+                     <input id="location" name="location" />
+                  </td>
+               </tr>
+
+               <tr>
+                  <td class="cell">
+                 <label class="products">Timestamp:</label>
+               </td>
+                  <td class="cell">
+                     <input id="timestamp" name="timestamp" />
+                  </td>
+               </tr>
+
+            <tr>
+                  <td class="cell">
+                     <input type="button" id="addCommentFromLMS"
+                            name="addCommentFromLMS"
+                            value="Set Comments From LMS"
+                            onclick="addToCollectionOfLMSComments()" />
+                  </td>
+                  <td class="cell">
+                     <input type="button" id="doneAddingCommentFromLMS"
+                            name="doneAddingCommentFromLMS"
+                            value="Done"
+                            onclick="done()" />
+                  </td>
+            </tr>
+             </table>
+         </div>
+      </form>
+      
+   </body>
+</html>

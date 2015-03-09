@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<project name="ADL" default="CTS">
+<description>Compiles code for the Checksum.jar</description>
+
+<!-- Importing properties from build.properties file -->
+
+    <target name="compile" >
+        <javac destdir="${buildDir}" srcdir="${src}" includes="org/adl/testsuite/checksum/" >        
+            <classpath>
+                <pathelement location="${lib}/saxon8.jar" /> 
+                <pathelement location="${lib}/jdom.jar" /> 
+                <pathelement location="${lib}/jaxen-1.1.1.jar" /> 
+                <pathelement location="${lib}/xercesImpl.jar" /> 
+                <pathelement location="${lib}/xml-apis.jar" /> 
+                <pathelement location="${lib}/xmlParserAPIs.jar" /> 
+                <pathelement location="${lib}/xalan.jar" /> 
+                <pathelement location="${lib}/ant.jar" /> 
+                <pathelement location="${lib}/java40.jar" /> 
+            </classpath>
+	    </javac>
+    </target>
+
+    <target name="buildChecksumJar" depends="compile">
+        <echo message="building jar file from class files"/>      
+        <jar destfile="${buildDir}/${checksumJar}" basedir="${buildDir}/" 
+            includes="org/adl/testsuite/checksum/**" />
+    </target>
+
+    <target name="signJar" depends="buildChecksumJar" >
+        <echo message="signing jar file"/>
+        <signjar jar="${buildDir}\${checksumJar}"
+            alias="${keystoreAlias}"
+            storepass="${keystorePassword}"
+            keystore="${keystore}"
+            signedjar="${lib}\${checksumJar}"
+        />
+    </target>  
+
+    <!--If the TestSuite is being built this is the call that will be made -->
+    <target name="CTS" depends="signJar" />
+
+</project>
+

@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+
+<project name="ADL" default="CTS">
+   <import file="buildTestPackages.xml" />
+
+
+   <!-- Properties are passed down to other 'ant' calls, with properties being loaded here they apply to all other ant files called in this build process -->
+   <property environment="env" />
+   <property file="build.properties" />
+
+   <target name="setup">
+      <mkdir dir="${buildDir}" />
+   </target>
+
+   <!-- This will build the Conformance Test Suite -->
+   <target name="CTS" depends="setup">
+
+      <ant antfile="buildCTS.xml" />
+      <echo message="Creating CTS Printable Readme" />
+
+
+      <java classname="org.adl.util.createPrintableReadmeCTS" fork="true" failonerror="true">
+         <classpath>
+            <pathelement location="${buildDir}/" />
+         </classpath>
+      </java>
+
+      <copy todir="${ccHome}/software_development/TestSuite/CTS_Readme"
+            file="${ccHome}/software_development/css/README.css" />
+   </target>
+
+   <!-- Cleans the CTS directories -->
+   <target name="clean">
+      <delete includeEmptyDirs="true" quiet="true">
+         <fileset dir="${ccHome}\software_development\build" />
+         <fileset dir="${lib}">
+            <exclude name="bsf.jar" />
+            <exclude name="java40.jar" />
+            <exclude name="joda-time-1.1.jar" />
+            <exclude name="joda-time-0.95.jar" />
+            <exclude name="junit.jar" />
+            <exclude name="xalan.jar" />
+            <exclude name="xerces.jar" />
+            <exclude name="xercesImpl.jar" />
+            <exclude name="xml-apis.jar" />
+            <exclude name="xmlParserAPIs.jar" />
+            <exclude name="xmlunit1.0.jar" />
+            <exclude name="ant.jar" />
+            <exclude name="saxon8.jar" />
+            <exclude name="jdom.jar" />
+            <exclude name="jaxen-1.1.1.jar" />
+            <exclude name="boot.jar" />
+            <exclude name="commons-fileupload-1.1.jar" />
+            <exclude name="commons-io-1.2.jar" />
+            <exclude name="javaw.exe.manifest" />
+            <exclude name="jface.jar" />
+            <exclude name="jfacetext.jar" />
+            <exclude name="jsp-api.jar" />
+            <exclude name="jtest.jar" />
+            <exclude name="reload-diva.jar" />
+            <exclude name="runtime.jar" />
+            <exclude name="servlet-api.jar" />
+            <exclude name="swt-win32-3232.dll" />
+            <exclude name="swt.jar" />
+            <exclude name="text.jar" />
+            <exclude name="xmlunit-1.1.jar" />            
+         </fileset>
+         <fileset dir="${ccHome}\software_development\TestSuite\Logs" />
+         <fileset dir="${ccHome}\software_development\TestSuite\LMSRTE" includes="*.obj" />
+         <fileset dir="${ccHome}\software_development\TestSuite\saves" includes="*.obj" />
+      </delete>
+   </target>
+
+   <target name="unjar">
+      <ant antfile="buildCTS.xml" target="unjar" />
+   </target>
+
+   <!-- Builds the CTS and LMSTestPackages -->
+   <target name="buildCTSRelease" depends="CTS, buildTestPackages">
+   </target>
+
+   <!-- Displays a simple help menu listing the possible commands -->
+   <target name="help">
+      <echo>ant                     -- (default)Build CTS w/o LMS Test Packages</echo>
+      <echo>ant buildTestPackages   -- Build LMS Test Packages</echo>
+      <echo>ant buildCTSRelease     -- Build CTS with LMS Test Packages</echo>
+      <echo>ant clean               -- Clean CTS directories</echo>
+      <echo>ant cleanTestPackages   -- Clean LMS Test Packages directories</echo>
+      <echo>ant {Package_Set}  where{Package_Set} = CM-01, CM-02, ..., RU-15, etc. --Builds LMS Test Packages by set.</echo>
+   </target>
+
+</project>

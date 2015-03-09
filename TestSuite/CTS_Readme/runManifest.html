@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+   <title>SCORM 2004 4th Edition Test Suite Version 1.1.1 Readme</title>
+   <link rel="stylesheet" href="README.css" type="text/css" />
+</head>
+<body class="bg">
+<div class="bg">
+<a name="runManifest"> </a>
+<table width="100%" cellpadding="3">
+   <tr>
+      <td class="stagebar">Running the Manifest Utility Test</td>
+   </tr>
+</table>
+   <table>
+      <tr>
+         <td>
+            To run the Manifest Utility Test, click the corresponding link from
+            the main Test Suite menu. A Java Plug-in Security Warning
+            dialog box will appear because the
+            Test Suite is reading and writing files from/to the local
+            file system via a Java Applet. Click <strong>Grant this Session</strong>
+            or <strong>Grant Always</strong> to allow the Test Suite 
+            applet to run.  Clicking <strong>Deny</strong> will 
+            cause the Test Suite software to not function properly.
+            <br />
+            <br />
+            
+            <a name="ManifestOverview"> </a>
+            <h5 class="title">Manifest Utility Overview</h5>
+            The Manifest Utility Test verifies that the IMS Manifest is conformant
+            with the rules specified in the SCORM 2004 4<sup>th</sup> Ed. 
+            Testing Requirements.
+            <br />
+            <br />
+            The purpose of this test is to verify that the IMS Manifest
+            test subject:
+                      
+            <ul>
+               <li>
+                  Is named imsmanifest.xml.
+               </li>
+               <li>
+                  Is located at the root of the content package.
+               </li>
+               <li>
+                  Is well-formed.
+               </li>
+               <li>
+                  Validates against the IMS Content Packaging XML Schema
+                  Definition (XSD) Version 1.1.4 ( imscp_v1p1.xsd found at 
+                  http://www.imsglobal.org/ ).
+               </li>
+               <li>
+                  Validates against the SCORM 2004 4<sup>th</sup> Ed. Content Packaging Extensions 
+                  XML XSD Version 2.0 ( adlcp_v1p3.xsd found at http://www.adlnet.gov/ ).
+               </li>
+               <li>
+                  Implements all mandatory elements correctly.
+               </li>
+               <li>
+                  Uses optional elements, and if used, that they are used correctly.
+               </li>
+               <li>
+                  Uses extensions elements, and if used, that they are
+                  valid to their respective controlling document.
+               </li>
+               <li>
+                  Verifies that the sequencing information is valid according to 
+                  the IMS Simple Sequencing XML Schema Definition (XSD) 
+                  ( imsss_v1p0.xsd and supporting files found at http://www.imsglobal.org/ )
+                  if the IMS Manifest contains IMS Simple Sequencing Information.
+               </li>
+               <li>
+                  Verifies that the sequencing extensions are valid according to 
+                  the  SCORM 2004 4<sup>th</sup> Ed. Sequencing Extensions XML XSD Version 2.0 
+                  ( adlseq_v1p3.xsd found at http://www.adlnet.gov/ )
+                  if the IMS Manifest contains SCORM CAM Sequencing extensions.
+               </li>
+               <li>
+                  Verifies that the navigation extensions are valid according to 
+                  the SCORM 2004 4<sup>th</sup> Ed. Navigation Extensions XML XSD Version 1.0 
+                  ( adlnav_v1p3.xsd found at http://www.adlnet.gov/ )
+                  if the IMS Manifest contains SCORM CAM Navigation extensions.
+               </li>
+            </ul>
+            
+            <a name="opInstr"> </a>
+            <h5 class="title">Operational Instructions</h5>
+            <ol>
+               <li>
+                  Provide the Manifest Identifier Name, Manifest
+                  Version/Release Number and Manifest Vendor/Developer 
+                  information.
+               </li>
+               <li>Click <strong>Continue</strong>.</li>
+               <li>
+                  Select the type of test to be performed by selecting the
+                  appropriate radio button. You can test an IMS Manifest
+                  in the form of a Package Interchange File (PIF), in the form of
+                  a PKZIP 2.0.4 (or compatible), or an uncompressed
+                  Package (non-PIF).
+               </li>
+               <li>
+                  Select the type of SCORM Content Package Application Profile 
+                  to be tested (i.e., Content Aggregation Manifest or 
+                  Resource Manifest) by selecting the appropriate radio button.
+               </li>
+               <li>
+                  Click <strong>Continue</strong>.
+               </li>
+               <li>
+                  Click <strong>Browse</strong> to select the
+                  imsmanifest.xml that is to be tested.
+               </li>
+               <li>
+                  After you click <strong>Begin Test</strong> the
+                  Test Suite will test the IMS Manifest and any 
+                  inline metadata for schema validation only.
+                  <br />
+                  <br />
+               </li>
+             </ol>
+             <a name="addFun"> </a>
+             <h5 class="title">Additional Functionality</h5>
+   <ul>
+      <li>
+         <strong>Log Legend:</strong> Clicking this link will open
+         a window describing the meaning of the colors and
+         symbols used in the Test Suite log.
+         <br />
+         <br />
+      </li>
+   </ul>
+            <a name="opNotes"> </a>
+            <h5 class="title">Operational Notes</h5>
+             Both Summary and Detailed Logs are automatically saved in the
+             folder:
+             <br />
+                &lt;install_directory&gt;\SCORM_2004_4th_Ed_TS_V1.1.1\TestSuite\Logs\CP\&lt;timestamp-test subject name&gt;\  
+             <br />
+             <br />
+             <strong>Note:</strong> Logs are saved in this folder as a result of a portability enhancement. 
+             If you need to move the logs, move the entire folder and its contents
+             since they are required to properly render the logs in the browser.
+         </td>
+      </tr>
+   </table>
+   </div>
+</body>
+</html>

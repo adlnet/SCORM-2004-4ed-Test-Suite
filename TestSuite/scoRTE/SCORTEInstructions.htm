@@ -1,0 +1,1696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <title>Instructions for the Sharable Content Object (SCO) Run-time
+      Environment (RTE) Conformance Utility Test
+      </title>
+
+      <script type="text/javascript" src="../scripts/EmulationCode.js"></script>
+      <script type="text/javascript" src="../scripts/BrowserDetect.js"></script>
+
+      <script type = "text/javascript">
+      //<!-- [CDATA[     
+      /***************************************************************************
+      **
+      ** Filename:  SCORTEInstructions.htm
+      **
+      ** File Description:  The instructions web page for the Sharable Content
+      **                    Object Runtime Conformance Utility Test Suite.  The
+      **                    page describes the step-by-step procedures needed to
+      **                    run the test.
+      **
+      ** Browser Compatibility:
+      **
+      ** Author: ADLI Project
+      **
+      ** References: ADL SCORM
+      **
+      ***************************************************************************
+
+ 
+      **************************************************************************/
+
+      var logWindow = top.frames[2];
+      var scoWin = null;
+
+      // variable to indicate if the test is complete
+      var testComplete = false;
+
+      // variable that holds the reference to the Test Suite API
+      var API_1484_11 = null;
+
+      // variable used to hold the time out period
+      var timeoutValue = 0;
+
+      // variable used to hold the SCO Location
+      var scoLocation = "";
+
+      // variable used to hold the Add to List Filename(s)
+      var scoAddToList = "";
+
+      // variable used to hold the list of SCOs being tested
+      var scoList = "";
+
+      // variable used to indicate the number of SCOs launched
+      var scosLaunched=0;
+      
+      var listOfSCOs_STR = "";
+      var currentSCO = 0;
+      var totalNumberOfSCOs = 0;
+      
+      var scoArray = new Array();
+      
+      var isTestAborted = false;
+      var totalError = "0";
+
+      var finishedCalled = false;
+
+      var studentid = "User01";
+      var studentname="Joe Student";
+      var credit = "credit";
+      var mode = "normal";
+      var launchdata = "";
+
+      var commentsFromLMS = "";
+      var objectivesData = "";
+      var datamapData = "";
+
+      var commentswin = "";
+      var objectivewin = "";
+	  var datamapwin = "";
+      var scaledscore = "";
+      var maxtimeallowed = "";
+      var timelimitaction = "continue,no message";
+      var completionthreshold = "";
+
+      // indicates whether it's the first SCO of a multi-SCO test.
+      var multipleSCOFirstSCO = "true";
+
+      // define the log message type constants
+      var _INFO = "0";     //  0 = informational (diagnostic, trace, etc.)
+      var _WARNING = "1";  //  1 = warning
+      var _PASSED = "2";      //  2 = conformance check passed
+      var _FAILED = "3";      //  3 = conformance check failure
+      var _TERMINATE = "4";   //  4 = test suite termination due to
+      //      nonconformance or error
+      var _CONFORMANT = "5";  //  5 = subject is found to be conformant
+      var _OTHER = "9";       //  other
+      var _HEADER = "10";
+
+      // constants for which log to write to
+      var _BOTH = "0";
+      var _DLOG = "1";
+      var _SLOG = "2"; 
+      
+      /**
+      * Function:  initializeTest()
+      *
+      * Description:
+      *    This function initializes the testing procedures.  It determines
+      *    the appropriate browser and sets the variables accordingly.
+      *    If a supported browser is used the function begins the test.
+      */
+      function initializeTest()
+      {      
+         DetectBrowser();
+         beginTest();
+         
+         if(IE){
+            document.getElementById('ListOfSCOs').wrap = "off";
+         } 
+      }
+
+      /**
+       * Function: beginTest()
+       * 
+       * Description: This function performs some set up for the test.  It
+       *              sets a local variable (API) to point to the SCO RTE
+       *              Driver APPLET.  The function also initializes the log.
+       * 
+       * 
+       */
+      function beginTest()
+      {
+         if ( ! IE )
+         { 
+            API_1484_11 = document.getElementById("NNAPIImplementation");
+         }
+         else 
+         { 
+            API_1484_11 = document.getElementById("APIImplementation");
+         }
+         
+         window.setTimeout("API_1484_11.setIsBrowserNetscape(Netscape)", 20);
+
+         // Initialize the logWindow
+         logWindow = top.frames[2];
+
+         // initialize the sco name, sco version and
+         // vendor name in the Instructions form
+         document.getElementById("pname").value="";
+         document.getElementById("pversion").value = "";
+         document.getElementById("pvname").value = "";
+
+         testComplete = false;
+                  
+      }
+
+      /**
+       * Function: launchSCO()
+       * 
+       * @param scoLoc
+       *        The location of the sco
+       * 
+       * @param errors
+       *        Flag indicating if an error occured during the launching of SCOs
+       * 
+       * Description:
+       *    This functions opens up a new browser window with the appropriate
+       *    URL.   This function is called by the SCORTEDriver applet to
+       *    launch a SCO.
+       */  
+      function launchSCO(scoLoc,errors)
+      {
+         scosLaunched++;
+
+         if (scosLaunched > 1)
+         {
+            terminateTest(errors);
+         }
+
+
+         scoToTest = scoLoc;
+
+         writeLogEntry(_BOTH,_INFO,"Attempting to Launch SCO " + scoToTest);
+         
+         finishedCalled = false;
+
+         if (scoWin == null)
+         {
+            scoWin = window.open("SCOWrapper.htm");
+         }
+         else
+         {
+            writeLogEntry(_SLOG,_INFO,"Loading the Sharable Content Object");
+
+            scoWin = window.open("SCOWrapper.htm");
+         }
+
+      }
+
+      /**
+       * Function: fixString()
+       * 
+       * @param tmpSCOLoc
+       *        The original sco launch location prior escape characters being
+       *        added.
+       * 
+       * Description:
+       *      This function takes the string passed in and places the
+       *      appropriate escape characters in the string.  This method is
+       *      used only when a Netscape browser is being used
+       * 
+       */ 
+      function fixString(tmpSCOLoc)
+      {
+         var tmp = new String(tmpSCOLoc);
+         stringHolder = tmp.split("\\");
+         var tmp1 = "file:\\\\/";
+         var tmp2 = "/\\";
+         var newLocation = tmp1;
+         var size = stringHolder.length;
+
+         for (var i=0; i < stringHolder.length; i++)
+         {
+            if (i != size - 1)
+            {
+               newLocation += stringHolder[i] + tmp2;
+            }
+            else
+            {
+               newLocation += stringHolder[i];
+            }
+         }
+
+         return newLocation;
+      }
+
+      /**
+       * Function: abortTest()
+       * 
+       * Description:
+       *   This function is called when the Abort Test button is pressed on
+       *   the Instructions web page.  The function calls Terminate() to
+       *   close out the SCO
+       */
+      function abortTest()
+      {
+         isTestAborted = true;
+
+         document.getElementById("status_fail_4").style.visibility = "visible";
+
+         document.getElementById("finish").disabled = true;
+         document.getElementById("end").disabled = true;
+         document.getElementById("begin").disabled = true;
+         document.getElementById("comment1").disabled = true;
+         document.getElementById("objective1").disabled = true;
+		 document.getElementById("datamap1").disabled = true;
+
+         writeLogEntry(_BOTH,_TERMINATE,"SCO Test has been aborted");
+         writeLogEntry(_BOTH,_TERMINATE,"NON-CONFORMANT Sharable Content Object");
+
+
+
+         // Report to the driver that the SCO has been aborted
+         API_1484_11.abortSCOTest();
+         // Close the SCO window - if it's open
+         if (scoWin != null)
+         {
+            scoWin.close()
+         }
+         terminateTest("1");
+      }
+
+      /**
+       * Function: unloadTest()
+       * 
+       * Description:
+       *   Called when the Test Suite is closed.  This funciton is setup
+       *   to handle when this occurs unexpectedly (e.g. Test Suite is closed
+       *   in the middle of a test) and will make the call to write the end
+       *   tag to the Summary Log.
+       */
+      function unloadTest()
+      {
+        if ( isTestAborted == false )
+        { 
+            API_1484_11.abortSCOTest();
+        }
+      }
+      
+      /**
+       *  Function: validateInput()
+       * 
+       * Description:
+       *      This function goes through the process of validating all input
+       *      that was provided by the test conductor on the
+       *      SCORTEInstructions.htm web page.  The values that are checked
+       *      for validity are the time out period and the SCO
+       * 
+       */
+      function validateInput()
+      {
+         // validate user input
+
+         // is LMS Initialize timeout value numeric greater than zero?
+         var errMsg = "The following errors were encountered:\n";
+         var errors = 0;
+
+         // *****************************************************************
+         //              Set up and check the timeout value
+         // *****************************************************************
+
+         // set the timeoutValue
+         timeoutValue = document.getElementById("inittimeout").value;
+
+         // Check to see if the timeoutValue is a number
+         if (isNaN(timeoutValue) != false)
+         {
+            errMsg += "You must enter a numeric Initialize Timeout " +
+                      "value between 0 and 999.\n";
+            errors++;
+         }
+         else
+         {
+            // Now check to see if the timeoutValue is a number that is
+            // greater than 0
+            if (timeoutValue < 0)
+            {
+               errMsg += "The Initialize Timeout value must be between " +
+                          "0 and 999.\n";
+               errors++;
+            }
+         }
+
+         // *****************************************************************
+         //              Set up and check the SCO Location value
+         // *****************************************************************
+
+         // scoLocation = document.getElementById("fileLoc").value;
+         scoAddToList = document.getElementById("ListOfSCOs").value;
+
+         // If Multi-Test, ensure 'Add to List' box has an entry
+         if ((scoAddToList == "") )
+         {
+            errMsg+="There are no SCOs listed to test.\n";
+            errors++;            
+         }
+
+         if (errors != 0)
+         {
+            alert(errMsg);
+            return false;
+         }
+         else
+         {
+            return true;
+         }
+      }
+
+      /**
+       * Function: validateStep3Data()
+       * 
+       *  Description:
+       *      Validates the data entered in Step 3 of 4.
+       */
+      function validateStep3Data()
+      {
+         // validate user input from Step 3 of 4
+         var errMsg = "The following errors were encountered:\n";
+         var errors = 0;
+
+         // *****************************************************************
+         //              Check cmi.scaled_passing_score
+         // *****************************************************************
+         var iScaledScore = 0;
+         iScaledScore =
+            document.getElementById("f_scaledscore").value;
+
+         // Check to see if the iScaledScore is a number
+         if (isNaN(iScaledScore) != false)
+         {
+            errMsg += "Scaled Passing Score must be a numeric value between " +
+                        "-1.0 and 1.0\n";
+            errors++;
+         }
+         else
+         {
+            // Verify Range (-1.0 to 1.0 is valid for cmi.scaled_passing_score)
+            if ((iScaledScore < -1.0) || (iScaledScore > 1.0))
+            {
+               errMsg += "Scaled Passing Score must be a numeric value " +
+                           "between -1.0 and 1.0\n";
+               errors++;
+            }
+         }
+
+         // *****************************************************************
+         //              Check cmi.max_time_allowed
+         // *****************************************************************
+         var iMaxTimeAllowed = 0;
+         iMaxTimeAllowed =
+            document.getElementById("f_maxtimeallowed").value;
+
+         // Check to see if the iMaxTimeAllowed is a valid timeInterval by
+         // calling SCORTEDriver which calls the Data Model Duration Validator
+         if ((iMaxTimeAllowed != "") &&
+             (API_1484_11.checkDurationType(iMaxTimeAllowed) != true))
+         {
+            errMsg += "Max Time Allowed must be a Valid TimeInterval of the " +
+                        "form P[yY][mM][dD][T[hH][mM][s[.s]S]\n";
+            errors++;
+         }
+
+         // *****************************************************************
+         //              Check cmi.completion_threshold
+         // *****************************************************************
+         var iCompletionThreshold = 0;
+         iCompletionThreshold =
+            document.getElementById("f_completionthreshold").value;
+
+         // Check to see if the iCompletionThreshold is a number
+         if (isNaN(iCompletionThreshold) != false)
+         {
+            errMsg += "Completion Threshold must be a numeric value between " +
+                        "0.0 and 1.0\n";
+            errors++;
+         }
+         else
+         {
+            // Verify Range (0.0 to 1.0 is valid for cmi.completion_threshold)
+            if ((iCompletionThreshold < 0.0) || (iCompletionThreshold > 1.0))
+            {
+               errMsg += "Completion Threshold must be a numeric value " +
+                           "between 0.0 and 1.0\n";
+               errors++;
+            }
+         }
+
+         if (errors != 0)
+         {
+            alert(errMsg);
+            return false;
+         }
+         else
+         {
+            return true;
+         }
+      }
+
+      /**
+       * Function: validateDateTime()
+       * 
+       * @param checkTime 
+       *        Value to be date/time validated
+       * 
+       * Description:
+       *    Validates the data entered in Step 3 of 4.
+       * 
+       */
+      function validateDateTime(checkTime)
+      {
+         // validate timestamp as entered on the Objectives page
+
+         // *****************************************************************
+         //              Check cmi.comments_from_lms.n.timestamp
+         // *****************************************************************
+
+         // Check to see if checkTime is a valid time by calling SCORTEDriver
+         // which calls the Data Model Date Time Validator
+         if ((checkTime != "") &&
+             (API_1484_11.checkTimeSpanType(checkTime) != true))
+         {
+            return false;
+         }
+         else
+         {
+            return true;
+         }
+      }
+
+      /**
+       * Function: startTest()
+       * 
+       * Description:
+       *       This is the main function responsible for starting the test.
+       *       The function validates all form objects
+       * 
+       */ 
+      function startTest()
+      {
+         document.getElementById("begin").disabled = true;
+         document.getElementById("end").disabled = false;
+ 
+         var cDate = new Date;
+
+         API_1484_11.setTestIDInfo(cDate.toLocaleString(),
+                              document.getElementById("pname").value,
+                              document.getElementById("pversion").value,
+                              document.getElementById("pvname").value);
+         setupInitializationData();
+         
+         if ( !(currentSCO == totalNumberOfSCOs))
+         {                                  
+            var i=0;
+            var list = "";
+            var line = "";
+            for(i=0;i<scoArray.length;i++)
+            {
+               if(scoArray[i] != "")
+               {
+                  line = scoArray[i].replace(",","|");
+                  line = line.replace("\r", "");
+                  line = line.replace("\n", "");
+                  list+=line + ",";
+                }
+            }            
+
+            API_1484_11.startTest(list,
+                                  timeoutValue,
+                                  studentid,
+                                  studentname,
+                                  credit,
+                                  mode,
+                                  launchdata,
+                                  commentsFromLMS,
+                                  objectivesData,
+				  datamapData,
+                                  scaledscore,
+                                  maxtimeallowed,
+                                  timelimitaction,
+                                  completionthreshold);            
+            }  
+      }
+      
+      /**
+       * Function: setupInitializationData()
+       * 
+       * Description: This function sets up the Data Model initialization data.
+       * 
+       */
+      function setupInitializationData()
+      {
+         if ( document.getElementById("f_studentid").value != "" )
+         {
+            studentid = document.getElementById("f_studentid").value;
+         }
+
+         if ( document.getElementById("f_studentname").value != "" )
+         {
+            studentname =
+               document.getElementById("f_studentname").value;
+         }
+
+         if ( document.getElementById("f_creditflag").value != "" ) 
+         {
+            credit = document.getElementById("f_creditflag").value;
+         }
+
+         if ( document.getElementById("f_lessonmodeflag").value != "" )
+         {
+            mode = document.getElementById("f_lessonmodeflag").value;
+         }
+
+         if ( document.getElementById("f_launchdata").value != "" )
+         {
+            launchdata = document.getElementById("f_launchdata").value;
+         }
+         if ( document.getElementById("f_scaledscore").value != "" )
+         {
+            scaledscore = document.getElementById("f_scaledscore").value;
+         }
+
+         if ( document.getElementById("f_maxtimeallowed").value != "" )
+         {
+            maxtimeallowed = document.getElementById("f_maxtimeallowed").value;
+         }
+
+         if ( document.getElementById("f_timelimitaction").value != "" )
+         {
+            timelimitaction =
+               document.getElementById("f_timelimitaction").value;
+         }
+         if ( document.getElementById("f_completionthreshold").value != "" )
+         {
+            completionthreshold =
+                document.getElementById("f_completionthreshold").value;
+         }
+      }
+      /**
+       *  Function: terminateTest()
+       * 
+       * @param errors
+       *        Contains the errors that occurred during testing
+       * 
+       *  Description:
+       *     This function is called when the test is either completed
+       *     or an unrecoverable condition has been met.  Unrecoverable 
+       *     conditions may include fatal test software errors, 
+       *     test step failure, or test subject errors.
+       * 
+       */
+      function terminateTest(errors)
+      {
+         testComplete = true;
+         totalError = errors;
+         finishedCalled = true;
+         window.focus();
+      }
+
+     /**
+      * Function: showCheck()
+      *
+      * Description:
+      *    This function is called when the test completes.  It hides the
+      *    abort button and shows the green check box.
+      */
+      function showCheck()
+      {
+          document.getElementById("finish").disabled = true;
+          document.getElementById("status_ok_4").style.visibility = "visible";
+          document.getElementById("status_fail_4").style.visibility = "hidden";
+      }
+
+      /**
+       * Function: endTest()
+       * 
+       * @param reportConformance
+       *        true if reporting both Conformance and the "if terminate called"
+       *           messages
+       *
+       * Description:
+       *    This function is called when the Complete Test button is pushed.
+       *    The function closes the SCO window and launches the next
+       *    SCO if and only if the test suite is testing multiple SCOs.
+       * 
+       */
+       function endTest(reportConformance)
+       {
+         if (reportConformance == true)
+         {
+             window.setTimeout("API_1484_11.endTest(true, false, true)",100);
+         }
+         else
+         {
+             window.setTimeout("API_1484_11.endTest(false, false, false)",100);
+         }
+
+         scoWin.close()
+
+         currentSCO++;
+
+         if ( currentSCO == totalNumberOfSCOs )
+         {
+            document.getElementById("finish").disabled = true;
+            document.getElementById("end").disabled = true;            
+            document.getElementById("row_step_3").disabled = true;
+
+            if (finishedCalled)
+            {
+               showCheck();  
+            }
+            
+         }
+         else
+         {
+            step3();
+            document.getElementById("begin").disabled = true;
+            document.getElementById("finish").disabled = true;
+            document.getElementById("end").disabled = true;
+
+            if (finishedCalled)
+            {
+               showCheck();   
+            }
+         }
+      }
+
+      /**
+       * Function: writeLogEntry()
+       * 
+       * @param log
+       *    Log to be written to
+       * 
+       * @param type
+       *    Message Type
+       *    0 = informational (diagnostic, trace, etc.)
+       *    1 = warning
+       *    2 = conformance check passed
+       *    3 = conformance check failure
+       *    4 = test suite termination due to nonconformance or error
+       *    5 = subject is found to be conformant
+       *    other = display no icon and use default font.
+       * 
+       * @param msg
+       *    Message string
+       * 
+       * Description:
+       *    This funciton sends the type of log entry and the actual log
+       *    entry message to the log window.
+       * 
+       */
+      function writeLogEntry(log, type, msg)
+      {
+         API_1484_11.doWriteLogEntry(log,type,msg);    
+      }
+
+      /**
+       * Function: confirmQuit()
+       * 
+       * Description:
+       *     This function sends a message to the test operator informing
+       *     him/her the consequences of quitting the test.
+       * 
+       */
+      function confirmQuit()
+      {
+         if (testComplete == false)
+         {
+            var msg = "The test is not complete.  If you leave this " +
+                      "page, \nthe test will be terminated and you will " +
+                      "lose the test log.";
+            return msg;
+         }
+      }
+
+      /**
+       * Function: addComments1()
+       * 
+       * Description:
+       *    This function is used to configure the form after the user clicks on
+       *    the first continue button.
+       * 
+       */
+      function addComments1()
+      {
+         commentswin = window.open("CommentsFromLMS_UI.htm","CommentsLMS",
+                                 "HEIGHT=185,WIDTH=425");
+
+      }
+
+      /**
+       * Function: addObjectiveData1()
+       * 
+       * Description:
+       *    This function is used to opop open a window to fill in the Objective information.
+       * 
+       */
+      function addObjectiveData1()
+      {
+         objectivewin = window.open("Objectives_UI.htm","ObjectiveData",
+                                 "HEIGHT=185,WIDTH=425");
+
+      }
+      /**
+       * Function: addDataMap1()
+       * 
+       * Description:
+       *    This function is used to opop open a window to fill in the DataMap information.
+       * 
+       */
+      function addDataMap1()
+      {
+         datamapwin = window.open("ADL_Data_UI.htm","DataMap",
+                                 "HEIGHT=185,WIDTH=425");
+
+      }
+      /**
+       *  Function: doneAddingComments()
+       * 
+       *  Description:
+       *     This function is used to configure the form after the user clicks
+       *     on the first continue button.
+       * 
+       */
+      function doneAddingComments()
+      {
+         document.getElementById("comment1").disabled = true;
+         commentswin.close();
+      }
+      /**
+       * Function loadComplete()
+       * 
+       * Description
+       *    This function is called when the applets have been loaded for the
+       *    test. The continue button will then be made visable.
+       * 
+       */ 
+     function loadComplete()
+     {
+        document.getElementById("continue1").disabled = false;
+      
+     }
+
+      /**
+       * Function: doneAddingObjective()
+       * 
+       * Description:
+       *    Closes the frame for adding Objectives
+       * 
+       */  
+      function doneAddingObjective()
+      {
+         document.getElementById("objective1").disabled = true;
+         objectivewin.close();
+      }
+      
+	  /**
+       * Function: doneAddingDataMap()
+       * 
+       * Description:
+       *    Closes the frame for adding a Data Map
+       * 
+       */  
+	  function doneAddingDataMap()
+      {
+         document.getElementById("datamap1").disabled = true;
+         datamapwin.close();
+      }
+      /**
+       * Function: step1()
+       * 
+       * Description:
+       *    This function is used to configure the form after the user clicks on
+       *    the first continue button.
+       * 
+       */
+      function step1()
+      {      
+         document.getElementById("saveList").style.visibility="visible";
+         document.getElementById("clearList").style.visibility="visible";
+         
+         document.getElementById("ListOfSCOs").style.visibility = "visible";
+         document.getElementById("status_ok_1").style.visibility = "visible";
+         document.getElementById("row_step_2").style.visibility = "visible";
+         document.getElementById("continue1").disabled = true;
+         document.getElementById("pname").readOnly = true;
+         document.getElementById("pversion").readOnly = true;
+         document.getElementById("pvname").readOnly = true;
+         document.getElementById("row_step_2").scrollIntoView();
+      }
+
+      /**
+       * Function: step2()
+       * 
+       * Description:
+       *    This function is used to configure the form after the user clicks on
+       *    the second continue button.
+       * 
+       */
+      function step2()
+      {
+      if (document.getElementById('fileLoc').value != "")
+      {
+         buildList(); // to catch any straggler left in the input box
+      }
+      createArray();
+    
+         if (validateInput() == true)
+         {
+            document.getElementById("status_ok_2").style.visibility="visible";
+            document.getElementById("row_step_3").style.visibility="visible"; 
+            document.getElementById("status_fail_2").style.visibility="hidden";
+            
+            document.getElementById("clearList").disabled = true;
+            document.getElementById("inittimeout").disabled = true;                        
+            document.getElementById("continue2").disabled = true;           
+            document.getElementById("inittimeout").readOnly = true;           
+            document.getElementById("addToList").disabled = true;
+            document.getElementById("ListOfSCOs").disabled = true;
+            document.getElementById("row_step_3").scrollIntoView();            
+            }
+            else
+            {
+               document.getElementById("status_fail_2").style.visibility="visible";
+            }        
+      }
+
+      /**
+       * Function: step3()
+       * 
+       * Description:
+       *   This function is used to configure the form after the user clicks on
+       *   the third continue button.
+       * 
+       */
+      function step3()
+      {
+         if (validateStep3Data() == true)
+         {
+            document.getElementById("status_fail_3").style.visibility="hidden";
+            document.getElementById("status_ok_3").style.visibility="visible";
+            document.getElementById("row_step_4").style.visibility="visible";
+            document.getElementById("f_studentid").readOnly = true;
+            document.getElementById("f_studentname").readOnly = true;
+            document.getElementById("f_creditflag").disabled = true;
+            document.getElementById("f_lessonmodeflag").disabled = true;
+            document.getElementById("f_launchdata").readOnly = true;
+            document.getElementById("comment1").disabled = true;
+            document.getElementById("objective1").disabled = true;
+			document.getElementById("datamap1").disabled = true;
+            document.getElementById("f_scaledscore").readOnly = true;
+            document.getElementById("f_maxtimeallowed").readOnly = true;
+            document.getElementById("f_timelimitaction").disabled = true;
+            document.getElementById("f_completionthreshold").readOnly = true;
+            document.getElementById("continue3").disabled = true;
+            document.getElementById("row_step_4").scrollIntoView();
+            document.getElementById("end").disabled = true;
+
+            if(multipleSCOFirstSCO == 'true')
+            {
+               multipleSCOFirstSCO = "false";
+            }
+            else
+            {
+               document.getElementById("begin").disabled = false;
+            }
+         }
+         else
+         {
+            document.getElementById("status_fail_3").style.visibility =
+               "visible";
+         }
+      }
+
+      /**
+       * Function: step4()
+       * 
+       * Description:
+       *    This function is used to configure the form after the user clicks to
+       *    launch another sco.
+       * 
+       */ 
+      function step4()
+      {
+         document.getElementById("f_studentid").readOnly = false;
+         document.getElementById("f_studentname").readOnly = false;
+         document.getElementById("f_creditflag").disabled = false;
+         document.getElementById("f_lessonmodeflag").disabled = false;
+         document.getElementById("f_launchdata").readOnly = false;
+         document.getElementById("f_scaledscore").readOnly = false;
+         document.getElementById("f_maxtimeallowed").readOnly = false;
+         document.getElementById("f_timelimitaction").disabled = false;
+         document.getElementById("f_completionthreshold").readOnly = false;
+         document.getElementById("continue3").disabled = false;
+         document.getElementById("comment1").disabled = false;
+         document.getElementById("objective1").disabled = false;
+		 document.getElementById("datamap1").disabled = false;
+         document.getElementById("end").disabled = true;
+         document.getElementById("row_step_3").scrollIntoView();
+
+         // Re-initialize all data for the next SCO
+         studentid = "User01";
+         studentname="Joe Student";
+         credit = "credit";
+         mode = "normal";
+         launchdata = "";
+         commentsFromLMS = "";
+         objectivesData = "";
+	 datamapData = "";
+         scaledscore = "";
+         maxtimeallowed = "";
+         timelimitaction = "continue,no message";
+         completionthreshold = "";
+
+         document.getElementById("f_studentid").value = "";
+         document.getElementById("f_studentname").value = "";
+         document.getElementById("f_creditflag").value = "credit";
+         document.getElementById("f_lessonmodeflag").value = "normal";
+         document.getElementById("f_launchdata").value = "";
+         document.getElementById("f_scaledscore").value = "";
+         document.getElementById("f_maxtimeallowed").value = "";
+         document.getElementById("f_timelimitaction").value
+            = "continue,no message";
+         document.getElementById("f_completionthreshold").value = "";
+      }
+      
+      /**
+       * Function: buildList()
+       * 
+       * Description:
+       *    This function is used when testing multiple SCO.  The function
+       *    is used to build the list of SCO to test
+       * 
+       */
+      function buildList()
+      {
+         // If SCO Location is blank
+         var entry = document.getElementById("fileLoc").value;
+        
+         if (entry != "")
+         { 
+            // if entry is a txt file call the load function for it.       
+            if(entry.lastIndexOf(".txt", entry.length) == (entry.length-4))
+            {
+               loadTheList(entry)
+            }
+            else // if we were to verify .htm or .html scos we would do it here
+            {     
+               // add the entry into the textArea box
+               document.getElementById("ListOfSCOs").value += entry;
+               // prepare for the next line
+               document.getElementById("ListOfSCOs").value += "\n";  
+            }
+            // reset the file input box
+            document.getElementById("scoLocDiv").innerHTML = "<input size ='40' type='file' id='fileLoc' name='fileLoc' />";
+         }
+      }
+      
+      /**
+       * Function: createArray()
+       * 
+       * Description: This function is used to take the existing contents of 
+       *    the 'ListOfSCOs' text area and switch them to an Array rather 
+       *    than a String.
+       * 
+       */  
+      function createArray()
+      {
+      var i=0;
+      var offset=0;
+      var tempArray;
+      
+      var str="";
+      
+      var scoBox = document.getElementById("ListOfSCOs").value;
+      
+      
+      tempArray = scoBox.split("\n"); 
+      
+      // scoArray.length = 0;
+      // empty the scoArray
+      scoArray = new Array();
+      
+      for (i=0;i<tempArray.length;i+=1)
+      {
+         if (tempArray[i].indexOf('\r') != 0 && tempArray[i].indexOf('\n') != 0 && tempArray[i] != "")
+         {
+               // add it to the scoArray
+               scoArray[i-offset] = tempArray[i];            
+         }
+         else
+         {
+            // it's blank so dont add this to the final array and fix the index offset            
+            offset += 1;
+         }            
+      }        
+      
+         totalNumberOfSCOs = scoArray.length;
+         
+         
+         str="";
+         for (i=0;i<scoArray.length;i+=1)
+         {
+            str+= i + ": " + scoArray[i] + "\n";
+         }              
+      }
+      
+      /**
+      * Function:  saveTheList()
+      *
+      * Description: This function sends the list of SCO URIs to the SCORTEDRIVER to be saved in
+      * a text file specified.       
+      */
+      function saveTheList()
+      {  
+         createArray();
+         var i=0;
+         var str="";
+         var path = document.getElementById("fileLoc").value;
+            
+         if (scoArray.length > 0 && (path.lastIndexOf(".txt", path.length) == (path.length-4)))
+         {
+            if(confirm("This action will create or overwrite the file:\n" + path))
+            {
+               for(i=0;i<scoArray.length;i+=1)
+               {                          
+                  str += scoArray[i].replace(",", "|");
+                  str += ",";
+               }
+                           
+               // interface to the applet and send the String ',' delimited string(URIs)
+               API_1484_11.doFileOutput(path, str);
+            }
+         }
+         else
+         {
+            if(scoArray.length > 0)
+            {
+               alert("Choose a .txt file for saving to by entering the full path in the \n\"SCO Address or Filename\" section or by using the \"Browse\" button.");
+            }
+            else
+            {
+               // the list to save is empty 
+               alert("You must select at least one SCO to save a .txt file.");
+            }
+            
+         }
+         // reset the file input box
+         document.getElementById("scoLocDiv").innerHTML = "<input size ='40' type='file' id='fileLoc' name='fileLoc' />";         
+     }
+      
+      /**
+      * Function:  loadTheList()
+      *
+      * Description: This function loads the list of SCO URIs from the SCORTEdriver and file specified
+      * to be loaded into the textarea.       
+      */
+      function loadTheList(path)
+      {    
+            var str = API_1484_11.doFileInput(path);
+            var tempArray = str.split(',');            
+                         
+            for(var i=0; i<tempArray.length; i++)
+            {
+               if(tempArray[i] != "")
+               {            
+                  var tmpStr = tempArray[i] + ""; // this '+ ""' monkey business is for ff compatibility.                  
+                  tmpStr = tmpStr.replace("|", ",");                    
+                  document.getElementById('ListOfSCOs').value += tmpStr;
+                  // prepare for the next line
+                  document.getElementById("ListOfSCOs").value += "\n";                  
+               }
+            }          
+      }
+      //]]-->
+      </script>
+      <link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+   </head>
+
+   <body onload="initializeTest();" onunload="unloadTest();">
+   <p>
+   <!-- APIImplementation -->
+         <!--[if !IE]> Firefox and others will use outer object -->
+         <object classid="java:org/adl/testsuite/rte/sco/SCORTEDriver.class"
+            type="application/x-java-applet"
+            archive="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar"
+            codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+            height="0" width="0" 
+            name="NNAPIImplementation"
+            id="NNAPIImplementation"
+            data="org/adl/testsuite/rte/sco/">
+            <param name="archive" value="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar" />
+            <param name="MAYSCRIPT" value="true" />
+            <param name="java_codebase" value="../../lib/" />
+            <param name="scriptable" value="true" />
+            <param name="code" value ="org/adl/testsuite/rte/sco/SCORTEDriver.class" />
+            <param name="cache" value ="false" />
+                <param name="cache_option" value ="No" />
+                
+                <!--<![endif]-->
+            <!-- MSIE (Microsoft Internet Explorer) will use inner object -->
+            <object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"               
+               height="0" width="0" 
+               codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+               name="APIImplementation"
+               id = "APIImplementation">
+               <param name="code" value="org/adl/testsuite/rte/sco/SCORTEDriver.class" />
+               <param name="java_codebase" value="../../lib" />
+               <param name="archive" value="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar" />
+               <param name="name" value="APIImplementation" />
+               <param name="type" value="application/x-java-applet" />
+               <param name="cache" value ="false" />
+               <param name="cache_option" value ="No" />
+               
+                     <strong> This browser does not have a Java Plug-in. <br />
+                  <a href="http://java.sun.com/products/plugin/downloads/index.html">
+                     Get the latest Java Plug-in here. </a> </strong>
+            </object>
+            <!--[if !IE]> close outer object -->
+         </object>
+         <!--<![endif]-->
+
+   </p>
+
+      <form id="inst" action="">
+         <h2>Instructions</h2>
+
+         <p>Before beginning this test, verify that the test subject SCOs are
+            installed (or configured) and are accessible from the local file
+            system on this machine.
+         </p>
+
+         <p>
+            Use the step-by-step instructions below to complete the test.&nbsp; During
+            testing, messages indicating the test progress and status will be displayed
+            in the Test Suite Log to the right.&nbsp; You may print the log at any time
+            during or after the test.
+         </p>
+
+         <p>
+            Each test of a SCO may or may not exercise all possible paths
+            through the SCO. Any call to the API and/or tracking data
+            encountered through normal experience with the SCO will be recorded. 
+         </p>
+
+    <p>
+      Additional calls to the API and/or tracking data may not trigger via a
+         casual experience with a SCO.  Features of a SCO not typically
+         accessed through casual experience will be tested if 1) a conscious
+         effort is made during the testing process to access those portions of
+         the SCO; and 2) if said portions of the SCO exercise SCORM features.
+    </p>
+
+         <p>
+         <strong>NOTE: If testing multiple Sharable Content Objects, see the
+          <a onclick="window.open(this.href);return false"
+             href="scorteabout.htm">About
+         this Test</a> &nbsp;for additional instructions.</strong>
+         </p>
+         <hr />
+      </form>
+
+
+      <table width="550" border="1" cellspacing="0" cellpadding="12">
+         <thead>
+            <tr>
+               <th scope="col" class="adlHeader"><strong>&nbsp;Step&nbsp;
+                </strong></th>
+               <th scope="col" class="adlHeader"><strong>Instructions</strong>
+               </th>
+            </tr>
+         </thead>
+
+         <tbody>
+            <tr id = "row_step_1" style = "VISIBILITY: visible">
+               <td scope="row" class = "cellStep">
+                  <p class="stepCount">1 of 4</p>
+
+
+                  <div id="status_ok_1" style="VISIBILITY: hidden">
+                     <img src="../images/smallcheck.gif" alt="passed" />
+                  </div>
+
+                  <div id="status_fail_1" style="VISIBILITY: hidden">
+                     <img src="../images/smallstop.gif" alt="termination" />
+                  </div>
+               </td>
+
+               <td class = "cell">
+
+                  Please provide the following information to identify the
+                  SCO(s) being tested.
+                  <br /><br />
+
+                  SCO Test Subject:
+                  <br /><br />
+
+
+                  <table width="100%" border="0" cellspacing="0"
+                     cellpadding="2">
+                     <tr>
+                        <td class="cell">
+                           <label for="pname" class="products">SCO Title:
+                           </label>
+                        </td>
+                        <td class="cell">
+                           <input id="pname" name="pname" />
+                        </td>
+                     </tr>
+
+                     <tr>
+                        <td class="cell"><label for="pversion" class="products">
+                        SCO Version/Release Number:</label></td>
+                        <td class="cell">
+                           <input id="pversion" name="pversion" />
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="cell"><label for="pvname" class="products">
+                        SCO Vendor/Developer:
+                           </label></td>
+                        <td class="cell">
+                           <input id="pvname" name="pvname" />
+                        </td>
+                     </tr>
+                  </table>
+
+                  <p>
+                     <input type="button" value="Continue"
+                            id="continue1" name="continue1"
+                            onclick="step1();" disabled="disabled" />
+                  </p>
+
+               </td>
+            </tr>
+
+            <tr id="row_step_2" style="VISIBILITY: hidden">
+               <td scope="row" class="cellStep">
+                  <p class="stepCount">2 of 4</p>
+
+                  <div id="status_ok_2" style="VISIBILITY: hidden">
+                     <img src="../images/smallcheck.gif" alt="passed" />
+                  </div>
+
+                  <div id="status_fail_2" style="VISIBILITY: hidden">
+                     <img src="../images/smallstop.gif" alt="termination" />
+                  </div>
+               </td>
+
+               <td class="cell">
+                  <div id="step_2">
+
+                     <p>
+                        Please provide the following required
+                        information to start the test:
+                     </p>
+
+                     <table width="100%" border="0" cellspacing="0"
+                        cellpadding="2">
+                        <tr>
+                           <td class="cell" colspan="2">
+                           <label for="inittimeout">
+                           Indicate the maximum amount of time the Test
+                           Suite should wait for a SCO to call Initialize()
+                           </label>
+                              (default - 20 seconds)<br />
+                              <br />
+                           </td>
+                        
+                           <td class="cell">
+                              <label for="inittimeout" class="products">
+                                     &nbsp;Seconds <br />
+                                     <br /></label>
+                               <input type="text" id="inittimeout"
+                                    name="inittimeout"
+                                    size="5" 
+                                    maxlength="3" 
+                                    value="20" />
+                            
+                           </td>
+                        </tr> 
+                         <tr>
+                        <td colspan="3" class="cell">
+                              <label for="fileLoc" class="products">
+                                 SCO Address or Filename
+                              </label>
+                           </td>
+                           </tr>                       
+                        <tr>                           
+                           <td colspan="2" class="cell">
+                              <div id="scoLocDiv">
+                                 <input size ="40" type="file" id="fileLoc" name="fileLoc" />
+                              </div>
+                               
+                           </td>
+                           <td>
+                           <input type="button" id="addToList"
+                                           name="addToList"
+                                           value="Add to List"
+                                           onclick="buildList()" />
+                           </td>
+                        </tr>
+                       
+                     </table>
+
+                     <form id="mauinfo_id" action ="">
+                        <div id="mauinfoIE" style="visibility: hidden">
+                           <table border="0">
+                              <tr>
+                                 <td>
+                                    <span class="userInput">
+                                       <label for="ListOfSCOs" class="question">
+                                          List of SCOs to be tested:
+                                       </label>
+                                    </span>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="cell">
+                                    <textarea id = "ListOfSCOs"
+                                              name="ListOfSCOs"
+                                              rows="7" cols="55"
+                                              style="visibility: hidden"></textarea>
+                                              
+                                    <!-- wrap="off" removed, attribute for IE/Windows only moved to javascript for ff functionality-->
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="cell">           
+                                           <input type="button" id="saveList"
+                                           name="saveList"
+                                           value="Save The List"
+                                           onclick="saveTheList();" 
+                                           style="VISIBILITY: hidden" />
+                                           
+                                           <input type="button" id="clearList"
+                                           name="clearList"
+                                           value="Clear The List"
+                                           onclick="document.getElementById('ListOfSCOs').value=''; scoArray.length=0;" 
+                                           style="VISIBILITY: hidden" />                            
+                                 </td>
+                                 </tr> 
+                           </table>
+                        </div>
+                     </form>
+                     <p>
+                        <br />
+                     </p>
+                     <p>
+                        <input type="button" value="Continue"
+                               id="continue2" name="continue2"
+                               onclick="step2();" />
+                     </p>
+                  </div>
+               </td>
+            </tr>
+
+            <tr id="row_step_3" style="VISIBILITY: hidden">
+               <td scope="row" class="cellStep">
+                  <p class="stepCount">3 of 4</p>
+
+                  <div id="status_ok_3" style="VISIBILITY: hidden">
+                     <img src="../images/smallcheck.gif" alt="passed" />
+                  </div>
+
+                  <div id="status_fail_3" style="VISIBILITY: hidden">
+                     <img src="../images/smallstop.gif" alt="termination" />
+                  </div>
+               </td>
+               <td class="cell">
+                  <div id="step_3">
+
+                     <table width="100%" border="0" cellspacing="0"
+                        cellpadding="6">
+                        <tr>
+                           <td class="scodata" colspan="2">
+                           <b>Values Typically Provided by the LMS</b>
+                           <p><strong style = "font-size:12px">
+                           If your SCO requires the following data that would
+                           normally be provided by an LMS, please enter the data
+                           in the appropriate field.  If the following data is
+                           not needed for the execution of the SCO, leave the
+                           fields as is:</strong>
+                           </p>
+                           </td>
+                        </tr>
+
+                        <tr>
+                           <td class="scodata"><label for="f_studentid" 
+                     class="products">Learner ID</label>
+                              <strong style = "font-size:12px">
+                              (default - User01)
+                              </strong>
+                           </td>
+                           <td class="scodata">
+                              <input type="text" id="f_studentid"
+                               name="f_studentid"
+                                     size="20" maxlength="255" />
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="scodata"><label for="f_studentname"
+                     class="products">Learner Name </label>
+                              <strong style = "font-size:12px">(default -
+                              Joe Student)</strong></td>
+                           <td class="scodata">
+                              <input type="text" id="f_studentname"
+                              name="f_studentname"
+                                     size="20" maxlength="255" />
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="scodata"><label class="products">
+                           Credit or No Credit </label>
+                              <strong style = "font-size : 12px">(default
+                               - credit):</strong></td>
+                           <td class="scodata">
+                              <select id="f_creditflag" name="f_creditflag">
+                              <option value="credit" selected = "selected">
+                                 credit
+                              </option>
+                              <option value="no-credit">no-credit </option>
+                              </select>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="scodata"><label class="products">Mode
+                            </label>
+                              <strong style = "font-size : 12px">(default -
+                               normal)</strong></td>
+                           <td class="scodata">
+                              <select id="f_lessonmodeflag"
+                                 name="f_lessonmodeflag">
+                                 <option value="normal"
+                                 selected = "selected">normal
+                                 </option>
+                                 <option value="browse">browse </option>
+                                 <option value="review">review </option>
+                              </select>
+                           </td>
+                        </tr>
+
+                        <tr>
+                           <td class="scodata" colspan="2">
+                           <label class="products">Comments From LMS&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;
+                           </label>
+
+                           <input type="button" value="Add Comments From LMS"
+                                  id="comment1" name="comment1"
+                                  onclick="addComments1();" />
+                           </td>
+                        </tr>
+
+                        <tr>
+                           <td class="scodata" colspan="2">
+                           <b>Values Typically Provided in the Manifest</b>
+                           <p><strong style = "font-size:12px">
+                           If your SCO requires the following data that would
+                           normally be provided by the manifest, please enter
+                           the data in the appropriate field.  If the following
+                           data is not needed for the execution of the SCO,
+                           leave the fields as is:</strong></p>
+                           </td>
+                        </tr>
+
+                        <tr>
+                           <td class="scodata"><label for="f_launchdata"
+                     class="products">Launch Data </label>
+                           <strong style = "font-size:12px">(default -
+                           blank)</strong>
+                           </td>
+                           <td class="scodata">
+                              <input type="text" id="f_launchdata"
+                               name="f_launchdata"
+                                     size="30" maxlength="4096" />
+                           </td>
+                        </tr>
+
+                        <tr>
+                           <td class="scodata" colspan="2">
+                           <label class="products" >Objective Data&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           </label>
+
+                           <input type="button" value="Add Objective Data"
+                                  id="objective1" name="objective1"
+                                  onclick="addObjectiveData1();" />
+
+
+                           </td>
+                        </tr>
+						
+						<tr>
+                           <td class="scodata" colspan="2">
+                           <label class="products" >Data Map&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           </label>
+
+                           <input type="button" value="Add Data Map"
+                                  id="datamap1" name="datamap1"
+                                  onclick="addDataMap1();" />
+
+
+                           </td>
+                        </tr>
+
+                        <tr>
+                           <td class="scodata"><label for="f_scaledscore"
+                     class="products">Scaled Passing Score </label>
+                           <strong style = "font-size:12px">(default -
+                           blank)</strong>
+                           </td>
+                           <td class="scodata">
+                              <input type="text" id="f_scaledscore"
+                                     name="f_scaledscore"
+                                     size="5" maxlength="10" />
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="scodata"><label for="f_maxtimeallowed"
+                     class="products">Max Time Allowed in SCO </label>
+                           <strong style = "font-size:12px">(default
+                           - blank)</strong>
+                           </td>
+                           <td class="scodata">
+                              <input type="text" id="f_maxtimeallowed"
+                                     name="f_maxtimeallowed"
+                                     size="13" maxlength="20" />
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="scodata"><label class="products">
+                           Time Limit Action </label>
+                              <strong style = "font-size:12px">(default
+                              - continue,no message)</strong>
+                           </td>
+                           <td class="scodata">
+                              <select id="f_timelimitaction"
+                                  name="f_timelimitaction">
+                                 <option value="continue,no message"
+                                    selected =
+                                    "selected">continue,no message</option>
+                                 <option value="continue,message">
+                                 continue,message</option>
+                                 <option value="exit,no message">
+                                 exit,no message</option>
+                                 <option value="exit,message">
+                                 exit,message</option>
+                              </select>
+                           </td>
+                        </tr>
+
+
+                        <tr>
+                           <td class="scodata">
+                            <label for="f_completionthreshold"
+                     class="products">Completion Threshold:<br>  Minimum Progress Measure</label>
+                           <strong style = "font-size:12px">(default
+                           - blank)</strong>
+                           </td>
+                           <td class="scodata">
+                              <input type="text" id="f_completionthreshold"
+                                     name="f_completionthreshold"
+                                     size="13" maxlength="20" />
+                           </td>
+                        </tr>
+
+                        </table>
+
+                     <p>
+                        <input type="button" value="Continue"
+                               id="continue3" name="continue3"
+                               onclick="step3();" />
+                     </p>
+                  </div>
+               </td>
+            </tr>
+
+            <tr id="row_step_4" style="VISIBILITY: hidden">
+               <td scope="row" class="cellStep">
+                  <p class="stepCount">4 of 4</p>
+
+                  <div id="status_ok_4" style="VISIBILITY: hidden">
+                     <img src="../images/smallcheck.gif" alt="passed" />
+                  </div>
+
+                  <div id="status_fail_4" style="VISIBILITY: hidden">
+                     <img src="../images/smallstop.gif" alt="termination" />
+                  </div>
+               </td>
+               <td class="cell">
+
+                  <p>
+                     When SCO testing finishes  click <b>Complete Test</b> to
+                     end the test. Note: If Terminate("") is called upon an
+                     onunload or onbeforeunload event, ensure the SCO is closed
+                     before clicking <b>Complete Test.</b>
+                     <br /><br />
+                     The test suite will now attempt to complete the following
+                     actions:
+                  </p>
+                  <ul>
+                     <li>
+                        The Test Suite will simulate an LMS and
+                        attempt to launch the SCO.
+                     </li>
+                     <li>
+                        The Test Suite will monitor all API calls
+                        made by the launched SCO and report the results.
+                     </li>
+                  </ul>
+                  <hr />
+
+                  <p>
+                     <input type="button" value="Launch SCO" id="begin"
+                            name="begin" onclick="startTest();" />
+
+                     <input type="button" value="Complete Test" id="end"
+                            name="end" onclick="endTest(true);" />
+
+                  </p>
+                  <p>
+                     <label>You may abort the test at any time by
+                     clicking <b>Abort Test.</b>
+                      </label> <br />
+                        <br />
+                     <input type="button" value="Abort Test" id="finish"
+                            name="finish" onclick="abortTest();" />
+                        <br />
+                        <br />
+                  </p>
+               </td>
+            </tr>
+            
+         </tbody>
+      </table>      
+   </body>
+</html>

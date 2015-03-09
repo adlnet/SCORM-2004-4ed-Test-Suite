@@ -1,0 +1,1132 @@
+<?xml version="1.0"?>
+<project name="TestSuite Test Packages" default="buildTestPackages">
+   <description>Creates zip files for the TestCourses</description>
+
+   <property name="courses" location="${basedir}\TestSuite\LMSRTE\Courses" />
+   <property name="scripts" location="${basedir}\TestSuite\scripts" />
+   <property name="includes" location="${basedir}\TestSuite\LMSRTE\Courses\includes" />
+   <property name="jars" location="${basedir}\build\classes\temp" />
+   <property name="xsd.dir" location="${basedir}\xml\xsd" />
+
+   <property name="temp" location="${courses}\Temp" />
+   <property name="tempIncludes" location="${temp}\includes" />
+   <property name="tempCommon" location="${temp}\common" />
+   <property name="tempResources" location="${temp}\resources" />
+
+   <path id="coreXSDs.path">
+      <fileset dir="${xsd.dir}">
+         <include name="ims_xml.xsd" />
+         <include name="imscp_v1p1.xsd" />
+         <include name="adlcp_v1p3.xsd" />
+         <include name="adlnav_v1p3.xsd" />
+      </fileset>
+   </path>
+
+   <path id="sequencingXSDs.path">
+      <fileset dir="${xsd.dir}">
+         <include name="adlseq_v1p3.xsd" />
+         <include name="imsss_v1p0.xsd" />
+         <include name="imsss_v1p0auxresource.xsd" />
+         <include name="imsss_v1p0control.xsd" />
+         <include name="imsss_v1p0delivery.xsd" />
+         <include name="imsss_v1p0limit.xsd" />
+         <include name="imsss_v1p0objective.xsd" />
+         <include name="imsss_v1p0random.xsd" />
+         <include name="imsss_v1p0rollup.xsd" />
+         <include name="imsss_v1p0seqrule.xsd" />
+         <include name="imsss_v1p0util.xsd" />
+      </fileset>
+   </path>
+
+   <path id="none.path" />
+
+   <path id="common.default.path">
+      <fileset dir="${jars}">
+         <include name="LMSTest.jar" />
+      </fileset>
+
+      <fileset dir="${scripts}">
+         <include name="About.js" />
+         <include name="BrowserDetect.js" />
+         <include name="EmulationCode.js" />
+      </fileset>
+
+      <fileset dir="${basedir}\TestSuite\LMSRTE\Courses\scripts">
+         <include name="lmsrtefunctions.js" />
+      </fileset>
+   </path>
+
+   <path id="includes.default.path">
+      <fileset dir="${includes}" />
+   </path>
+
+   <macrodef name="buildTestPackage">
+      <attribute name="name" />
+      <element name="resources" optional="yes" />
+      <element name="schemas" optional="yes" />
+
+      <sequential>
+
+         <copy todir="${courses}\@{name}\common">
+            <path refid="common.default.path" />
+         </copy>
+
+         <copy todir="${courses}\@{name}\includes">
+            <path refid="includes.default.path" />
+         </copy>
+
+         <copy todir="${courses}\@{name}\resources">
+            <path refid="none.path" />
+            <resources />
+         </copy>
+
+         <copy todir="${courses}\@{name}">
+            <path refid="none.path" />
+            <schemas />
+         </copy>
+
+         <zip basedir="${courses}\@{name}" destfile="${courses}\@{name}.zip" />
+      </sequential>
+   </macrodef>
+
+   <macrodef name="buildTestPackageWithDefaults">
+      <attribute name="name" />
+      <sequential>
+         <buildTestPackage name="@{name}">
+            <resources>
+               <fileset file="${courses}\SCODepot\SequencingTest.htm" />
+            </resources>
+            <schemas>
+               <path refid="coreXSDs.path" />
+               <path refid="sequencingXSDs.path" />
+            </schemas>
+         </buildTestPackage>
+      </sequential>
+   </macrodef>
+
+   <target name="buildTestPackages" depends="API, DMI, DMB, CM, CO, CT, DDM, MS, OB, RU, SX, T" />
+
+   <target name="CM" depends="CM-01, CM-02, CM-03, CM-04, CM-05, CM-06, CM-07, CM-08, CM-09,
+      CM-10, CM-11, CM-13, CM-14, CM-15, CM-16, CM-17" />
+
+   <target name="CO" depends="CO-01, CO-02, CO-03, CO-04, CO-05, CO-06, CO-07, CO-08, CO-09, CO-10, CO-11,
+      CO-12, CO-13" />
+
+   <target name="CT" depends="CT-01, CT-02, CT-03, CT-04, CT-05, CT-06, CT-07" />
+
+   <target name="MS" depends="MS-01, MS-02, MS-03, MS-04, MS-05, MS-06, MS-07" />
+
+   <target name="OB" depends="OB-01, OB-02, OB-03, OB-04, OB-05, OB-06, OB-07, OB-08, OB-09, OB-10,
+      OB-11, OB-12, OB-13, OB-14, OB-15, OB-16, OB-17" />
+
+   <target name="RU" depends="RU-01, RU-02, RU-03, RU-04, RU-05, RU-06, RU-07, RU-08, RU-09, RU-10,
+      RU-11, RU-12, RU-13, RU-14, RU-15, RU-16, RU-17, RU-18, RU-19" />
+
+   <target name="SX" depends="SX-02, SX-03, SX-04, SX-05, SX-06, SX-07, SX-08, SX-09, SX-10,
+      SX-11, SX-12" />
+
+   <target name="T" depends="T-01" />
+
+   <target name="API">
+      <buildTestPackage name="LMSTestPackage_API">
+         <schemas>
+            <path refid="coreXSDs.path" />
+         </schemas>
+      </buildTestPackage>
+   </target>
+
+   <target name="DMI">
+      <buildTestPackage name="LMSTestPackage_DMI">
+         <schemas>
+            <path refid="coreXSDs.path" />
+            <path refid="sequencingXSDs.path" />
+         </schemas>
+      </buildTestPackage>
+   </target>
+
+   <target name="DMB">
+      <buildTestPackage name="LMSTestPackage_DMB">
+         <schemas>
+            <path refid="coreXSDs.path" />
+            <path refid="sequencingXSDs.path" />
+         </schemas>
+      </buildTestPackage>
+   </target>
+
+   <target name="CM-01">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-01" />
+   </target>
+
+   <target name="CM-02a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-02a" />
+   </target>
+
+   <target name="CM-02b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-02b" />
+   </target>
+
+   <target name="CM-02" depends="CM-02a, CM-02b" />
+
+   <target name="CM-03a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-03a" />
+   </target>
+
+   <target name="CM-03b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-03b" />
+   </target>
+
+   <target name="CM-03" depends="CM-03a, CM-03b" />
+
+   <target name="CM-04a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-04a" />
+   </target>
+
+   <target name="CM-04b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-04b" />
+   </target>
+
+   <target name="CM-04c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-04c" />
+   </target>
+
+   <target name="CM-04d">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-04d" />
+   </target>
+
+   <target name="CM-04" depends="CM-04a, CM-04b, CM-04c, CM-04d" />
+
+   <target name="CM-05">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-05" />
+   </target>
+
+   <target name="CM-06">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-06" />
+   </target>
+
+   <target name="CM-07a">
+      <buildTestPackage name="LMSTestPackage_CM-07a">
+         <resources>
+            <fileset file="${courses}\SCODepot\SequencingTest.htm" />
+            <fileset file="${courses}\SCODepot\SequencingTestFail.htm" />
+         </resources>
+         <schemas>
+            <path refid="coreXSDs.path" />
+            <path refid="sequencingXSDs.path" />
+         </schemas>
+      </buildTestPackage>
+   </target>
+
+   <target name="CM-07b">
+      <buildTestPackage name="LMSTestPackage_CM-07b">
+         <resources>
+            <fileset file="${courses}\SCODepot\SequencingTest.htm" />
+            <fileset file="${courses}\SCODepot\SequencingTestFail.htm" />
+         </resources>
+         <schemas>
+            <path refid="coreXSDs.path" />
+            <path refid="sequencingXSDs.path" />
+         </schemas>
+      </buildTestPackage>
+   </target>
+
+   <target name="CM-07c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-07c" />
+   </target>
+
+   <target name="CM-07d">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-07d" />
+   </target>
+
+   <target name="CM-07e">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-07e" />
+   </target>
+
+   <target name="CM-07f">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-07f" />
+   </target>
+
+   <target name="CM-07" depends="CM-07a, CM-07b, CM-07c, CM-07d, CM-07e, CM-07f" />
+
+   <target name="CM-08">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-08" />
+   </target>
+
+   <target name="CM-09aa">
+      <buildTestPackage name="LMSTestPackage_CM-09aa">
+         <resources>
+            <fileset file="${courses}\SCODepot\SequencingTest.htm" />
+            <fileset file="${courses}\SCODepot\SequencingTestSingleDoTerminate.htm" />
+         </resources>
+         <schemas>
+            <path refid="coreXSDs.path" />
+            <path refid="sequencingXSDs.path" />
+         </schemas>
+      </buildTestPackage>
+   </target>
+
+   <target name="CM-09ba">
+      <buildTestPackage name="LMSTestPackage_CM-09ba">
+         <resources>
+            <fileset file="${courses}\SCODepot\SequencingTestSingleDoTerminate.htm" />
+         </resources>
+         <schemas>
+            <path refid="coreXSDs.path" />
+            <path refid="sequencingXSDs.path" />
+         </schemas>
+      </buildTestPackage>
+   </target>
+
+   <target name="CM-09ca">
+      <buildTestPackage name="LMSTestPackage_CM-09ca">
+         <resources>
+            <fileset file="${courses}\SCODepot\SequencingTestSingleDoTerminate.htm" />
+         </resources>
+         <schemas>
+            <path refid="coreXSDs.path" />
+            <path refid="sequencingXSDs.path" />
+         </schemas>
+      </buildTestPackage>
+   </target>
+
+   <target name="CM-09ab">
+      <buildTestPackage name="LMSTestPackage_CM-09ab">
+         <resources>
+            <fileset file="${courses}\SCODepot\SequencingTest.htm" />
+            <fileset file="${courses}\SCODepot\tarAct4OnUnload.htm" />
+         </resources>
+         <schemas>
+            <path refid="coreXSDs.path" />
+            <path refid="sequencingXSDs.path" />
+         </schemas>
+      </buildTestPackage>
+   </target>
+
+   <target name="CM-09bb">
+      <buildTestPackage name="LMSTestPackage_CM-09bb">
+         <resources>
+            <fileset file="${courses}\SCODepot\SequencingTest.htm" />
+            <fileset file="${courses}\SCODepot\exitAllOnUnload.htm" />
+         </resources>
+         <schemas>
+            <path refid="coreXSDs.path" />
+            <path refid="sequencingXSDs.path" />
+         </schemas>
+      </buildTestPackage>
+   </target>
+
+   <target name="CM-09cb">
+      <buildTestPackage name="LMSTestPackage_CM-09cb">
+         <resources>
+            <fileset file="${courses}\SCODepot\SequencingTest.htm" />
+            <fileset file="${courses}\SCODepot\suspendAllOnUnload.htm" />
+         </resources>
+         <schemas>
+            <path refid="coreXSDs.path" />
+            <path refid="sequencingXSDs.path" />
+         </schemas>
+      </buildTestPackage>
+   </target>
+
+   <target name="CM-09" depends="CM-09aa, CM-09ba, CM-09ca, CM-09ab, CM-09bb, CM-09cb" />
+
+   <target name="CM-10">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-10" />
+   </target>
+
+   <target name="CM-11">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-11" />
+   </target>
+
+   <target name="CM-13">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-13" />
+   </target>
+
+   <target name="CM-14">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-14" />
+   </target>
+
+   <target name="CM-15">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-15" />
+   </target>
+
+   <target name="CM-16">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-16" />
+   </target>
+
+   <target name="CM-17a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-17a" />
+   </target>
+
+   <target name="CM-17b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CM-17b" />
+   </target>
+
+   <target name="CM-17" depends="CM-17a, CM-17b" />
+
+   <target name="CO-01">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-01" />
+   </target>
+
+   <target name="CO-02a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-02a" />
+   </target>
+
+   <target name="CO-02b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-02b" />
+   </target>
+
+   <target name="CO-02" depends="CO-02a, CO-02b" />
+
+   <target name="CO-03">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-03" />
+   </target>
+
+   <target name="CO-04a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-04a" />
+   </target>
+
+   <target name="CO-04b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-04b" />
+   </target>
+
+   <target name="CO-04c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-04c" />
+   </target>
+
+   <target name="CO-04" depends="CO-04a, CO-04b, CO-04c" />
+
+   <target name="CO-05a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-05a" />
+   </target>
+
+   <target name="CO-05b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-05b" />
+   </target>
+
+   <target name="CO-05" depends="CO-05a, CO-05b" />
+
+   <target name="CO-06">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-06" />
+   </target>
+
+   <target name="CO-07a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-07a" />
+   </target>
+
+   <target name="CO-07b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-07b" />
+   </target>
+
+   <target name="CO-07" depends="CO-07a, CO-07b" />
+
+   <target name="CO-08a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-08a" />
+   </target>
+
+   <target name="CO-08b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-08b" />
+   </target>
+
+   <target name="CO-08" depends="CO-08a, CO-08b" />
+
+   <target name="CO-09">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-09" />
+   </target>
+
+   <target name="CO-10">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-10" />
+   </target>
+
+   <target name="CO-11">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-11" />
+   </target>
+
+   <target name="CO-12a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-12a" />
+   </target>
+
+   <target name="CO-12b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-12b" />
+   </target>
+
+   <target name="CO-12c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-12c" />
+   </target>
+
+   <target name="CO-12d">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-12d" />
+   </target>
+
+   <target name="CO-12" depends="CO-12a, CO-12b, CO-12c, CO-12d" />
+
+   <target name="CO-13a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-13a" />
+   </target>
+
+   <target name="CO-13b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CO-13b" />
+   </target>
+
+   <target name="CO-13" depends="CO-13a, CO-13b" />
+
+   <target name="CT-01">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CT-01" />
+   </target>
+
+   <target name="CT-02">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CT-02" />
+   </target>
+
+   <target name="CT-03">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CT-03" />
+   </target>
+
+   <target name="CT-04">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CT-04" />
+   </target>
+
+   <target name="CT-05">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CT-05" />
+   </target>
+
+   <target name="CT-06">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CT-06" />
+   </target>
+
+   <target name="CT-07">
+      <buildTestPackageWithDefaults name="LMSTestPackage_CT-07" />
+   </target>
+
+   <target name="DDMa">
+      <buildTestPackageWithDefaults name="LMSTestPackage_DDMa" />
+   </target>
+
+   <target name="DDMb">
+      <buildTestPackageWithDefaults name="LMSTestPackage_DDMb" />
+   </target>
+
+   <target name="DDM" depends="DDMa, DDMb" />
+
+   <target name="RU-01aa">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-01aa" />
+   </target>
+
+   <target name="RU-01ab">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-01ab" />
+   </target>
+
+   <target name="RU-01ba">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-01ba" />
+   </target>
+
+   <target name="RU-01bb">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-01bb" />
+   </target>
+
+   <target name="RU-01" depends="RU-01aa, RU-01ab, RU-01ba, RU-01bb" />
+
+   <target name="RU-02a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-02a" />
+   </target>
+
+   <target name="RU-02b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-02b" />
+   </target>
+
+   <target name="RU-02" depends="RU-02a, RU-02b" />
+
+   <target name="RU-03a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-03a" />
+   </target>
+
+   <target name="RU-03b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-03b" />
+   </target>
+
+   <target name="RU-03" depends="RU-03a, RU-03b" />
+
+
+
+   <target name="RU-04aa">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-04aa" />
+   </target>
+
+   <target name="RU-04ab">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-04ab" />
+   </target>
+
+   <target name="RU-04ba">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-04ba" />
+   </target>
+
+   <target name="RU-04bb">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-04bb" />
+   </target>
+
+   <target name="RU-04bc">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-04bc" />
+   </target>
+
+   <target name="RU-04bd">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-04bd" />
+   </target>
+
+   <target name="RU-04" depends="RU-04aa, RU-04ab, RU-04ba, RU-04bb, RU-04bc, RU-04bd" />
+
+
+
+   <target name="RU-05a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-05a" />
+   </target>
+
+   <target name="RU-05b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-05b" />
+   </target>
+
+   <target name="RU-05" depends="RU-05a, RU-05b" />
+
+
+   <target name="RU-06a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-06a" />
+   </target>
+
+   <target name="RU-06b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-06b" />
+   </target>
+
+   <target name="RU-06" depends="RU-06a, RU-06b" />
+
+   <target name="RU-07a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-07a" />
+   </target>
+
+   <target name="RU-07b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-07b" />
+   </target>
+
+   <target name="RU-07c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-07c" />
+   </target>
+
+   <target name="RU-07" depends="RU-07a, RU-07b, RU-07c" />
+
+
+   <target name="RU-08a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-08a" />
+   </target>
+
+   <target name="RU-08b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-08b" />
+   </target>
+
+   <target name="RU-08" depends="RU-08a, RU-08b" />
+
+
+   <target name="RU-09">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-09" />
+   </target>
+
+   <target name="RU-10">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-10" />
+   </target>
+
+   <target name="RU-11">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-11" />
+   </target>
+
+   <target name="RU-12a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-12a" />
+   </target>
+
+   <target name="RU-12b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-12b" />
+   </target>
+
+   <target name="RU-12" depends="RU-12a, RU-12b" />
+
+
+   <target name="RU-13a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-13a" />
+   </target>
+
+   <target name="RU-13b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-13b" />
+   </target>
+
+   <target name="RU-13c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-13c" />
+   </target>
+
+   <target name="RU-13d">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-13d" />
+   </target>
+
+   <target name="RU-13e">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-13e" />
+   </target>
+
+   <target name="RU-13" depends="RU-13a, RU-13b, RU-13c, RU-13d, RU-13e" />
+
+
+   <target name="RU-14a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-14a" />
+   </target>
+
+   <target name="RU-14b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-14b" />
+   </target>
+
+   <target name="RU-14c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-14c" />
+   </target>
+
+   <target name="RU-14d">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-14d" />
+   </target>
+
+   <target name="RU-14" depends="RU-14a, RU-14b, RU-14c, RU-14d" />
+
+
+   <target name="RU-15a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-15a" />
+   </target>
+
+   <target name="RU-15b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-15b" />
+   </target>
+
+   <target name="RU-15c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-15c" />
+   </target>
+
+   <target name="RU-15d">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-15d" />
+   </target>
+
+   <target name="RU-15" depends="RU-15a, RU-15b, RU-15c, RU-15d" />
+
+   <target name="RU-16">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-16" />
+   </target>
+
+
+   <target name="RU-17a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-17a" />
+   </target>
+
+   <target name="RU-17b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-17b" />
+   </target>
+
+   <target name="RU-17" depends="RU-17a, RU-17b" />
+
+
+   <target name="RU-18a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-18a" />
+   </target>
+
+   <target name="RU-18b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-18b" />
+   </target>
+
+   <target name="RU-18" depends="RU-18a, RU-18b" />
+
+
+   <target name="RU-19a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-19a" />
+   </target>
+
+   <target name="RU-19b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_RU-19b" />
+   </target>
+
+   <target name="RU-19" depends="RU-19a, RU-19b" />
+
+   <target name="MS-01">
+      <buildTestPackageWithDefaults name="LMSTestPackage_MS-01" />
+   </target>
+
+   <target name="MS-02">
+      <buildTestPackageWithDefaults name="LMSTestPackage_MS-02" />
+   </target>
+
+   <target name="MS-03">
+      <buildTestPackageWithDefaults name="LMSTestPackage_MS-03" />
+   </target>
+
+   <target name="MS-04">
+      <buildTestPackageWithDefaults name="LMSTestPackage_MS-04" />
+   </target>
+
+   <target name="MS-05a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_MS-05a" />
+   </target>
+
+   <target name="MS-05b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_MS-05b" />
+   </target>
+
+   <target name="MS-05" depends="MS-05a, MS-05b" />
+
+   <target name="MS-06">
+      <buildTestPackageWithDefaults name="LMSTestPackage_MS-06" />
+   </target>
+
+   <target name="MS-07">
+      <buildTestPackageWithDefaults name="LMSTestPackage_MS-07" />
+   </target>
+
+   <target name="SX-02">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-02" />
+   </target>
+
+   <target name="SX-03">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-03" />
+   </target>
+
+   <target name="SX-04a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-04a" />
+   </target>
+
+   <target name="SX-04b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-04b" />
+   </target>
+
+   <target name="SX-04" depends="SX-04a, SX-04b" />
+
+   <target name="SX-05">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-05" />
+   </target>
+
+   <target name="SX-06">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-06" />
+   </target>
+
+
+
+   <target name="SX-07a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-07a" />
+   </target>
+
+   <target name="SX-07b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-07b" />
+   </target>
+
+   <target name="SX-07c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-07c" />
+   </target>
+
+   <target name="SX-07d">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-07d" />
+   </target>
+
+   <target name="SX-07e">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-07e" />
+   </target>
+
+   <target name="SX-07" depends="SX-07a, SX-07b, SX-07c, SX-07d, SX-07e" />
+
+
+   <target name="SX-08a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-08a" />
+   </target>
+
+   <target name="SX-08b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-08b" />
+   </target>
+
+   <target name="SX-08" depends="SX-08a, SX-08b" />
+
+   <target name="SX-09">
+      <buildTestPackage name="LMSTestPackage_SX-09">
+         <resources>
+            <fileset file="${courses}\SCODepot\SequencingTest.htm" />
+            <fileset file="${courses}\SCODepot\SequencingTest_SX09_exit.htm" />
+            <fileset file="${courses}\SCODepot\SequencingTest_SX09_exitall.htm" />
+         </resources>
+         <schemas>
+            <path refid="coreXSDs.path" />
+            <path refid="sequencingXSDs.path" />
+         </schemas>
+      </buildTestPackage>
+   </target>
+
+
+   <target name="SX-10a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-10a" />
+   </target>
+
+   <target name="SX-10b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-10b" />
+   </target>
+
+   <target name="SX-10c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-10c" />
+   </target>
+
+   <target name="SX-10d">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-10d" />
+   </target>
+
+   <target name="SX-10" depends="SX-10a, SX-10b, SX-10c, SX-10d" />
+
+
+   <target name="SX-11a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-11a" />
+   </target>
+
+   <target name="SX-11b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-11b" />
+   </target>
+
+   <target name="SX-11c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-11c" />
+   </target>
+
+   <target name="SX-11" depends="SX-11a, SX-11b, SX-11c" />
+
+
+   <target name="SX-12a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-12a" />
+   </target>
+
+   <target name="SX-12b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-12b" />
+   </target>
+
+   <target name="SX-12c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_SX-12c" />
+   </target>
+
+   <target name="SX-12" depends="SX-12a, SX-12b, SX-12c" />
+
+
+   <target name="OB-01a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-01a" />
+   </target>
+
+   <target name="OB-01b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-01b" />
+   </target>
+
+   <target name="OB-01c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-01c" />
+   </target>
+
+   <target name="OB-01" depends="OB-01a, OB-01b, OB-01c" />
+
+
+   <target name="OB-02a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-02a" />
+   </target>
+
+   <target name="OB-02b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-02b" />
+   </target>
+
+   <target name="OB-02" depends="OB-02a, OB-02b" />
+
+
+   <target name="OB-03a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-03a" />
+   </target>
+
+   <target name="OB-03b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-03b" />
+   </target>
+
+   <target name="OB-03c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-03c" />
+   </target>
+
+   <target name="OB-03" depends="OB-03a, OB-03b, OB-03c" />
+
+   <target name="OB-04">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-04" />
+   </target>
+
+
+   <target name="OB-05a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-05a" />
+   </target>
+
+   <target name="OB-05b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-05b" />
+   </target>
+
+   <target name="OB-05c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-05c" />
+   </target>
+
+   <target name="OB-05" depends="OB-05a, OB-05b, OB-05c" />
+
+   <target name="OB-06">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-06" />
+   </target>
+
+   <target name="OB-07a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-07a" />
+   </target>
+
+   <target name="OB-07b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-07b" />
+   </target>
+
+   <target name="OB-07" depends="OB-07a, OB-07b" />
+
+
+   <target name="OB-08a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-08a" />
+   </target>
+
+   <target name="OB-08b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-08b" />
+   </target>
+
+   <target name="OB-08" depends="OB-08a, OB-08b" />
+
+
+   <target name="OB-09a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-09a" />
+   </target>
+
+   <target name="OB-09b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-09b" />
+   </target>
+
+   <target name="OB-09" depends="OB-09a, OB-09b" />
+
+
+   <target name="OB-10a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-10a" />
+   </target>
+
+   <target name="OB-10b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-10b" />
+   </target>
+
+   <target name="OB-10c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-10c" />
+   </target>
+
+   <target name="OB-10d">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-10d" />
+   </target>
+
+   <target name="OB-10" depends="OB-10a, OB-10b, OB-10c, OB-10d" />
+
+
+   <target name="OB-11a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-11a" />
+   </target>
+
+   <target name="OB-11b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-11b" />
+   </target>
+
+   <target name="OB-11" depends="OB-11a, OB-11b" />
+
+
+   <target name="OB-12a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-12a" />
+   </target>
+
+   <target name="OB-12b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-12b" />
+   </target>
+
+   <target name="OB-12c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-12c" />
+   </target>
+
+   <target name="OB-12" depends="OB-12a, OB-12b, OB-12c" />
+
+
+   <target name="OB-13a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-13a" />
+   </target>
+
+   <target name="OB-13b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-13b" />
+   </target>
+
+   <target name="OB-13c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-13c" />
+   </target>
+
+   <target name="OB-13" depends="OB-13a, OB-13b, OB-13c" />
+
+
+   <target name="OB-14a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-14a" />
+   </target>
+
+   <target name="OB-14b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-14b" />
+   </target>
+
+   <target name="OB-14" depends="OB-14a, OB-14b" />
+
+   <target name="OB-15">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-15" />
+   </target>
+
+
+   <target name="OB-16a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-16a" />
+   </target>
+
+   <target name="OB-16b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-16b" />
+   </target>
+
+   <target name="OB-16c">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-16c" />
+   </target>
+
+   <target name="OB-16d">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-16d" />
+   </target>
+
+   <target name="OB-16" depends="OB-16a, OB-16b, OB-16c, OB-16d" />
+
+
+   <target name="OB-17a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-17a" />
+   </target>
+
+   <target name="OB-17b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_OB-17b" />
+   </target>
+
+   <target name="OB-17" depends="OB-17a, OB-17b" />
+
+
+   <target name="T-01a">
+      <buildTestPackageWithDefaults name="LMSTestPackage_T-01a" />
+   </target>
+
+   <target name="T-01b">
+      <buildTestPackageWithDefaults name="LMSTestPackage_T-01b" />
+   </target>
+
+   <target name="T-01" depends="T-01a, T-01b" />
+
+   <target name="cleanTestPackages">
+      <delete includeEmptyDirs="true" quiet="true">
+         <fileset dir="${basedir}\TestSuite\LMSRTE\Courses">
+            <exclude name="**\*.xml" />
+            <exclude name="*.bat" />
+            <exclude name="SCODepot\*.*" />
+            <exclude name="scripts\*.*" />
+            <exclude name="LMSTestPackage_API\resources\*.*" />
+            <exclude name="LMSTestPackage_DM*\resources\*.*" />
+            <exclude name="TestCases\*.*" />
+            <exclude name="includes\*.*" />
+         </fileset>
+      </delete>
+   </target>
+</project>
+
+
+

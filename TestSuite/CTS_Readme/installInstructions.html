@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+<link rel="stylesheet" href="README.css" type="text/css" />
+<title>SCORM 2004 4th Edition Test Suite Version 1.1.1 Readme</title>
+</head>
+<body class="bg">
+<div class="bg">
+<a name="installInstructions"></a>
+<a name="prereqs" />
+
+<table width="100%" cellpadding="3">
+   <tr>
+      <td class="stagebar">
+         Installation Instructions
+      </td>
+   </tr>
+</table>
+
+<table>
+   <tr>
+      <td> <p>    
+         <strong>Read the entire 
+         Test Suite Readme prior to beginning the installation.</strong></p>      
+      
+      <h5 class="title">Prerequisites</h5>
+        This release of the Test Suite requires
+        either the Java Development Kit (JDK) or the Java Runtime Environment (JRE)
+        from either of the following Java versions:
+        <ul>
+          <li>Java SE 6, Update 1 or later</li>      
+        </ul>
+        The latest version of this software is available for download free-of-charge at
+        <a href="http://java.sun.com/javase/downloads/index.jsp"
+        onclick="window.open(this.href);return false">
+        http://java.sun.com/javase/downloads/index.jsp</a>.
+        Archived versions are available at 
+         <a href="http://java.sun.com/products/archive"
+         onclick="window.open(this.href);return false">
+         http://java.sun.com/products/archive/</a>.   
+         Refer to this site for a list of specific Java versions verified.
+      <br />
+
+      <a name="constraints"></a>
+
+      <h5 class="title">Constraints</h5>
+      In addition to the preceding Java prerequisites, the Test Suite requires HTML and JavaScript<sup style="font-size:8pt">TM</sup>.<br />
+      <br /> As of this release, the Test Suite was tested on
+      Microsoft<sup>&reg;</sup> Windows<sup>&reg;</sup> Vista SP1 and XP SP3 on the Intel Pentium
+      Platform using Microsoft Internet Explorer 7 and Internet Explorer 8.
+      <br />
+      <br /> The Test Suite has not been tested formally with any
+      other browsers on any other platforms than those indicated above.
+      <br />
+      <br />
+      <a name="install"></a>
+
+      <h5 class="title">Installation</h5>
+      <p>
+      The Test Suite is available for download on 
+      the&nbsp;<a href="http://www.adlnet.gov"
+         onclick="window.open(this.href);return false">ADLNet.gov</a> 
+      Web site as a self-extracting executable install file. After you download the file:
+	  </p>
+      <ol>
+         <li>Double-click the downloaded self-extracting executable file to begin the installation process.</li>
+         <li>Click <strong>Next</strong> to continue from the &quot;Welcome&quot; page.</li>
+         <li>Read the &quot;License Agreement&quot; and
+
+         	<ul>
+  	          <li>Click <strong>Yes</strong> to agree with the terms of the license and continue with the install.</li>
+          	  <li>Click <strong>No</strong> if you do not agree with the terms of the license and want to exit the install.</li>
+         	</ul>
+	 </li>
+         <li>The recommended root installation directory is &quot;C:\ADL&quot;. You may
+         choose another root installation directory, but the Test
+         Suite install will always append the &quot;\SCORM_2004_4th_Ed_TS_V1.1.1&quot; 
+         sub-directory to the specified root installation
+         directory. The remainder of this Readme document assumes that the
+         Test Suite will be installed to &quot;C:\ADL\SCORM_2004_4th_Ed_TS_V1.1.1&quot;.
+         This is referred to as 
+         &quot;&lt;install_directory&gt;&quot;. If you override the default to use 
+         a different root installation directory, you must account for that
+         when reading the remainder of this Readme.
+	 </li>
+         <li>Click <strong>Next</strong>.</li>
+         <li>The install will add program icons to the Program Folder of your
+         Start menu. Type a new folder name, or select one from the
+         existing list of Start Menu folders. &quot;ADL&quot; is the recommended 
+         folder. Click <strong>Next</strong> to install the
+         Test Suite and the installation program will copy the necessary files to
+         the appropriate directories.
+         </li>
+         <li>Click <strong>Finish</strong> to complete the installation.<br /></li>
+      </ol>
+      
+      <p>The installation process adds a shortcut for running the
+      Test Suite to your desktop. It also adds the following
+      shortcuts to the &quot;Programs&quot; folder of your Start menu:
+      <br />
+      </p>
+      
+      <ul>
+         <li>Link to <a href="http://www.adlnet.gov/"
+            onclick="window.open(this.href);return false">ADLNet.gov</a></li>
+         <li>Shortcut to this Readme document</li>
+         <li>Shortcut to the Test Suite</li>	 
+         
+      </ul>
+     
+     
+      <p>The installation will not remove or un-install previous versions of the SCORM
+      Test Suite. If you want to remove a previous version:
+      </p>
+
+      <ol>
+         <li>Open the Windows &quot;Control Panel&quot;.</li>
+         <li>Open &quot;Add or Remove Programs&quot;.</li>
+         <li>Highlight the &quot;SCORM Test Suite &lt;version&gt;&quot;.</li>
+         <li>Click <strong>Change&#47;Remove</strong>; and follow the instructions.</li>
+         <!-- <li style="LIST-STYLE-TYPE: none">-->
+	  </ol>
+      
+      The LMS Test Content Packages are not included in the install
+      file. These files are needed to run the LMS Conformance Test.
+      You can download the LMS Test Content Packages separately at the 
+      <a href="http://www.adlnet.gov"
+         onclick="window.open(this.href);return false">ADLNet.gov</a> Web
+      site.
+      <br />
+      <br />
+      <a name="config"></a>
+
+      <h5 class="title">Configuration</h5>
+      <p>
+      To ensure that the Test Suite runs properly after it is installed:
+      </p>
+
+      <ul>
+         <li>
+         The Internet browser must be set to check for a new page every
+         visit to the page. To configure the browser:
+	 
+         <ul>
+            <li>For Microsoft Internet Explorer 6 Service Pack 2
+            <!-- <li style="LIST-STYLE-TYPE: none">-->
+               <ol>
+                  <li>Open a Microsoft Internet Explorer browser.</li>
+                  <li>Click &quot;Tools&quot; then &quot;Internet Options&quot;.</li>
+                  <li>
+                  On the &quot;General&quot; tab, within the &quot;Temporary Internet Files&quot;
+                  sub-section, click <strong>Settings</strong>.
+                  </li>
+                  <li>
+                  Ensure that the &quot;Every visit to the page&quot; radio button is
+                  selected.
+                  </li>
+                  <li>Click <strong>OK</strong> and then <strong>OK</strong> again.</li>
+               </ol>
+	        <br />
+            </li>
+                        
+            <li>For Microsoft Internet Explorer 7 and 8
+            <!--<li style="LIST-STYLE-TYPE: none">-->
+            	<ol>
+               		<li>Open a Microsoft Internet Explorer browser.</li>
+               		<li>Click &quot;Tools&quot; then &quot;Internet Options&quot;.</li>
+               		<li>On the &quot;General&quot; tab, within the &quot;Browsing history&quot;
+        	       sub-section, click <strong>Settings</strong>.</li>
+	       	       <li>Ensure that the &quot;Every time I visit the webpage&quot; radio button is
+	               selected.</li>
+              	   <li>Click <strong>OK</strong> and then <strong>OK</strong> again.</li>
+            	</ol>
+	    	<br />
+            </li>        
+         </ul>
+		 </li>
+
+     	 <li>
+     	 The Java Plug&#45;in must be configured to disable caching. To
+     	 disable the Java Plug&#45;in cache:	 
+	         <ul>	            
+	            <li>For Java SE 6<br />
+	            <!-- <li style="LIST-STYLE-TYPE: none">-->
+	                <ol>
+	                  <li>Open the Windows &quot;Control Panel&quot;.</li>
+	                  <li>Double-click the &quot;Java&quot; icon.</li>
+	                  <li>Select the &quot;General&quot; tab.</li>
+	                  <li>Under the &quot;Temporary Internet Files&quot; section, click <strong>Settings</strong>.</li>
+	                  <li>
+	                  Ensure the &quot;Keep temporary files on my computer.&quot; checkbox is 
+	                  unchecked.
+	                  <br />
+	                  </li>
+	            	</ol>
+	            <br />
+		   		</li>
+	         </ul>
+	         </li>
+	         <li>Ensure that the Sun Java Plug-in is selected as the default Java
+	         Environment for Internet Explorer.
+	         To set the default browser Java Environment:
+	
+	         <ol>
+	            <li>Open the &quot;Java Plug-in&quot; applet in the Control Panel.</li>
+	            <li>Select the &quot;Browser&quot; tab.</li>
+	            <li>
+	            Select the checkbox next to the browser that you are using to
+	            run the Test Suite.
+	            </li>
+	            <li>Click <strong>Apply</strong>.</li>
+	         </ol>
+	         <br />
+	         </li>	        
+	         <li>If you are using Microsoft<sup>&reg;</sup> Windows<sup>&reg;</sup> XP SP3 these 
+	         additional actions may be required:	
+	         <ul>
+	            <li>Allow JavaScript to run by:
+		            <ol>
+		               <li>Opening an Internet Explorer browser.</li>
+		               <li>Clicking &quot;Tools&quot; then &quot;Internet Options&quot;.</li>
+		               <li> Check the box that states &quot;Allow active content to run in files on My Computer&quot;
+		               on the &quot;Advanced&quot; tab, under the &quot;Security&quot; section.
+		               </li>
+		            </ol>
+	            </li>
+	            <li>
+	            Allow the Test Suite to pop-up windows by either
+	            disabling pop-up blocking or excluding the Test Suite from
+	            pop-up blocking.
+	            </li>
+	         </ul>
+	         </li>
+	      </ul>       
+      <p>
+      This completes the installation of the Test Suite
+      software. Review the 
+      &quot;Running the Conformance Tests&quot; and &quot;Known Issues&quot;
+      sections of this Readme prior to running the Test Suite.
+      This Readme is installed to the installation folder specified in step
+      #4 above. (e.g.
+      &quot;&lt;install_directory&gt;\SCORM_2004_4th_Ed_TS_V1.1.1\TestSuite&quot;)
+      </p>
+      
+      <a name="uninstall"></a>
+	  
+      <h5 class="title">Uninstalling the Test Suite</h5>
+      <p>
+      There are two methods that can be used for uninstalling the 
+      Test Suite:<br />
+      </p>
+      <ul>
+         <li>Uninstall the Test Suite using the Windows Control Panel.
+			 <ul>
+			 <li> 
+			 For Windows XP, the Windows Control Panel &quot;Add/Remove Programs&quot; feature can be used.
+		                 <ol>	                    
+		                    <li>Open the Windows &quot;Control Panel&quot;</li>
+		                    <li>Double-click &quot;Add or Remove Programs&quot;.</li>
+		                    <li>Highlight &quot;SCORM 2004 4<sup>th</sup> Edition Test 
+                              Suite Version 1.1.1&quot;.</li>
+		                    <li>Click <strong>Remove</strong> and follow the instructions</li>
+		                    
+		                 </ol>
+		     </li>
+		              <li>For Windows Vista, use the Windows Control Panel &quot;Programs and 
+		              Features&quot; feature.
+		                 <ol>	                    
+		                    <li>Open the Windows &quot;Control Panel&quot;</li>
+		                    <li>Double-click &quot;Programs and Features&quot;.</li>
+		                    <li>Highlight &quot;SCORM 2004 4<sup>th</sup> Edition Test Suite Version 1.1.1&quot;.</li>
+                          <li>Click <strong>Uninstall</strong> on the toolbar above the list and follow the instructions</li>		                    
+		                 </ol>
+		              </li>
+		         </ul>
+         </li>
+         <li>
+         If the Test Suite is already installed, running the
+         install again will uninstall the software. This method will not
+         re-install the Test Suite. You will need to run the install a third
+         time to accomplish a re-installation.
+         </li>
+      </ul>
+      <br />
+      
+      <strong>Note:</strong> Test Suite may not appear in the &quot;Add/Remove Programs&quot; menu. If
+      it does not appear, use the second method to uninstall.</td>
+      
+   </tr>
+</table>
+</div>
+</body>
+</html>

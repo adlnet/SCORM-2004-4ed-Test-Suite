@@ -1,0 +1,81 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<title>LMS Instructions - Test</title>
+        <script type="text/javascript" src="../scripts/BrowserDetect.js"></script>	  		
+        <script type="text/javascript" src="../scripts/LMSInstructionFunctions.js"></script>	       				
+		<script type="text/javascript">
+		//<!-- [CDATA[
+		    
+			/**
+		     * This method is called during 'onload' event of body. Sets the state for control buttons to be appropriate for testing.
+		     * 
+		     */		
+			function writeToInstruction()
+			{
+			    parent.controls.testingState();
+				var instructions = lmsApplet.getInstr();
+				var tcp = lmsApplet.getTCName();			
+				
+				displayInstructions(instructions, tcp);
+			}
+			
+		    /**
+		     * This method is called when the Continue control button is pressed. 
+		     * 
+		     */
+			function cont()
+			{
+  			 	var pass = lmsApplet.commit();
+								
+			    parent.controls.testingState();
+				
+				var instructions = lmsApplet.getInstr();
+				var tcp = lmsApplet.getTCName();			
+				
+				if (instructions == "")
+				{
+				   lmsApplet.lmsFinalize();
+				   parent.document.getElementById("instructions").src="FinalInstructions.htm";
+				}
+				else
+				{
+					displayInstructions(instructions, tcp);
+				}
+			}
+			
+			function displayInstructions(instructions, tcp)
+			{
+				document.getElementById("instr").innerHTML = instructions;
+				document.getElementById("tcName").innerHTML = tcp;
+			}
+			
+			/*function tempFix()
+			{
+				lmsApplet.callWaitingState();
+			}*/
+		//]]-->
+		</script>
+		<link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+	</head>
+	
+   <body style="width:400px" onload = "initializeApplet();writeToInstruction();">
+      <div style="width:400px">	
+      	<div style="width:400px" class="adlHeader">
+		    	LMS Test Content Package <br /><span id="tcName"></span>&nbsp;Information
+		 		</div>
+		 		<div style="width:400px" class="cell">
+					<br/>
+					<div style="width:400px" id="instr" class="stepText"></div>
+					<br/>
+        	<!--<input style="width:400px" type="button" id="temp" value="Temporary Button that assumes Test Complete status" onclick="tempFix();" />-->
+      	</div>
+      </div>
+   </body>
+</html>

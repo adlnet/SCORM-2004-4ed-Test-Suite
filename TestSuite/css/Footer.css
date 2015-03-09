@@ -1,0 +1,51 @@
+/******************************************************************************
+**
+** Filename:  Footer.css
+**
+** File Description: The Footer Cascading Style Sheet provides style
+**    properties for all Footer HTML pages of the Conformance Test.
+**                   
+**
+** Author:  ADLI Project
+**
+** Company Name: Concurrent Technologies Corporation (CTC)
+**
+** Module/Package Name:
+** Module/Package Description:
+**
+** Design Issues:
+**
+** Implementation Issues:
+** Known Problems:
+** Side Effects: Changes style settings on HTML tags.
+**
+***************************************************************************
+
+***************************************************************************
+**
+** Date Changed   Author of Change  Reason for Changes
+** ------------   ----------------  -------------------------------------------
+**
+******************************************************************************/
+
+body
+{
+	font-family : Verdana;
+	font-size : 10pt;
+	font-weight : normal;
+	font-style : normal;
+	background-color : #363C54;;
+
+}
+sup
+{
+	font-size:0.8em;
+}
+p.footTitle
+{
+   font-family : Verdana;
+   text-align : center;
+   font-size : 16px;
+   font-weight : bold;
+   color : #E7BC68;
+}

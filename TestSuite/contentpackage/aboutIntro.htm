@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+      <!-- 
+      /************************************************************************
+      **
+      ** Filename:  ContentPackageAbout.htm
+      **
+      ** File Description: The ContentPackageAbout describes information about the
+      ** Content Package conformance test.
+      **
+      ** Browser Compatibility:
+      **
+      ** Author:  ADLI Project
+      **
+      ** Module/Package Name:
+      ** Module/Package Description:
+      **
+      ** Design Issues:
+      **
+      ** Implementation Issues:
+      ** Known Problems:
+      ** Side Effects:
+      **
+      ** References:  SCORM
+      **
+      ***************************************************************************
+
+
+      **************************************************************************/
+      -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+   <head>
+      <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <title>About the Content Package Conformance Test</title>
+      <script type="text/javascript" src="../scripts/About.js"></script>
+      <link rel="stylesheet" href="../../css/README.css" type="text/css" />
+
+   </head>
+
+   <body>
+
+      <script type="text/javascript">
+         displayCertification();
+      </script>
+         
+       <p class="adlText"><br />
+         <em>
+            The following is an excerpt from the ADL SCORM<sup>&reg;</sup>
+            <script type="text/javascript">
+               displayScormVersion();
+            </script>
+            Conformance Matrix that is covered by the Content Package
+            Conformance Test:
+         </em>
+      </p>
+      
+	  
+      <!-- ****************************************** -->
+      <!-- Content Packaging Testing Requirements -->
+      <!-- ****************************************** -->
+      <table class="matrixTable" border="1" cellspacing="1" cellpadding="4">
+            <thead class="stagebar">
+               <tr>
+                  <th scope="col" colspan="4" align="center">
+                     <strong>Content Package</strong>
+                  </th>
+               </tr>
+            </thead>
+
+            <tbody class="matrixBody">
+
+               <tr class="matrixFont">
+                  <td class="matrixBodyComponent">
+                     <strong><em>Conformance Label:</em></strong>
+                     <br />
+                     <ul>
+                        <li>
+                            <strong>CP SCORM 2004 4<sup>th</sup> Edition Conformant</strong>
+                        </li>
+                     </ul>
+					 <p>
+                     The Content Package shall adhere to the Testing Requirements defined for the following Conformance Categories:
+                     </p>
+                     <ul>
+
+                        <li>
+                           <strong>Content Package Content Aggregation Model Version 1.1 (CP CAM 1.1)</strong>
+                        </li>
+                     </ul>                     
+                     <br />                     
+                     <ul> 
+                        
+                        <li>
+                           <strong>Content Package Run-Time Environment Version 1.1 (CP RTE 1.1)</strong>
+                        </li>
+                     </ul>
+
+                  </td>
+               </tr>
+               <tr class="matrixFont">
+                  <td class="matrixBodyComponent">
+                     <strong><em>Conformance Category:</em></strong>
+                     <br />
+                     <ul>
+                        <li>
+                            <strong>CP CAM 1.1</strong>
+                        </li>
+                     </ul>
+
+                     <em>Requirements Summary</em>
+                     <ul>
+
+                        <li>
+                           The content package shall conform with the requirements defined for the content 
+                           package, and if the content package is a SCORM 2004 4<sup>th</sup> 
+                           Edition Content Aggregation Content Package Application Profile
+                        </li>
+                        <ul>
+                           <li>
+                              The manifest shall conform with the Content Aggregation Content Package 
+                              Application Profile Manifest requirements.
+                           </li>
+                           <li>
+                              If the manifest contains SCORM 2004 4<sup>th</sup> Edition sequencing 
+                              information, then the sequencing extensions in the manifest shall 
+                              conform with the SCORM 2004 4<sup>th</sup> Edition Sequencing Extension 
+                              requirements.
+                           </li>
+                           <li>
+                              If the manifest contains SCORM 2004 4<sup>th</sup> Edition 
+                              navigation/presentation information, then the navigation/presentation 
+                              extensions in the manifest shall conform with the SCORM 2004 4<sup>th</sup> 
+                              Edition Navigation/Presentation Extension requirements.
+                           </li>
+                        </ul>
+                        <li>
+                           If the content package is a SCORM 2004 4<sup>th</sup> Edition Resource 
+                           Content Package Application Profile, then the manifest shall conform to 
+                           the Resource Content Package Application Profile Manifest requirements, 
+                           and
+                        </li>
+                        <li>
+                           If the content package manifest contains metadata, then the metadata 
+                           instance shall be well-formed and valid according to the corresponding
+                           provided Controlling Document (e.g., XSD, DTD).
+                        </li>
+                     </ul>
+                  </td>
+               </tr>
+               <tr class="matrixFont">
+                  <td class="matrixBodyComponent">
+                     <strong><em>Conformance Category:</em></strong>
+                     <br />
+                     <ul>
+                        <li>
+                            <strong>CP RTE 1.1</strong>
+                        </li>
+                     </ul>
+
+                     <em>Requirements Summary</em>
+                     <ul>
+
+                        <li>
+                          The content package shall contain at least one SCO resource or asset resource.
+                        </li>
+                        <li>
+                          All SCO resources identified in the manifest shall conform with the SCO 
+                          Testing Requirements.
+                        </li>
+                     </ul>
+
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+		
+        <div> <br /><br />
+
+            <a href="../ConformanceMatrix.htm" onclick="window.open(this.href);return false">
+                 Complete Conformance Matrix
+            </a>
+         </div>
+   </body>
+</html>

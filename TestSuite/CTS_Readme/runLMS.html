@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+   <link rel="stylesheet" href="README.css" type="text/css" />
+   <title>SCORM 2004 4th Edition Test Suite Version 1.1.1 Readme</title>
+   
+</head>
+<body class="bg">
+<div class="bg">
+
+<a name="runLMS" ></a>
+
+<table width="100%" cellpadding="3">
+   <tr>
+      <td class="stagebar">Running the LMS Conformance Test</td>
+   </tr>
+</table>
+
+   <table>
+      <tr>
+         <td>
+            To run the LMS Conformance Test, click
+            the corresponding link from the main Test Suite menu. 
+            Java Plug-in Security Warning dialog boxes will be displayed. This is 
+            because the Test Suite is reading and writing 
+            files from/to the local file system via Java Applets.  Click 
+            <strong>Grant this Session</strong> or <strong>Grant Always</strong> to allow 
+            the Test Suite applet to run. Note that clicking <strong>Deny</strong> 
+            will cause the Test Suite software to not function properly.
+            <br />
+            <br />
+            If this is not the first time the LMS Conformance Test is run, 
+            prior to beginning the LMS Conformance Test ensure that the LMS
+            Test Content Packages are fully removed from the LMS system and
+            all global objectives associated with these content packages are removed.
+            <br />
+            <br />
+            <strong>Note:</strong> Check the Java Console after starting 
+            the LMS Conformance Test. If there are any Java exceptions 
+            reported, close all browser windows and start the test again.
+            <br />
+            <br />
+            
+            <a name="LMSOverview"> </a>
+            <h5 class="title">LMS Overview</h5>
+            The LMS Conformance Test verifies that a test subject LMS is conformant
+            with SCORM according to the SCORM 2004 4<sup>th</sup> Ed. Testing Requirements.
+            This test will verify that the LMS is able to:
+            <ul>
+               <li>
+                  Import a known SCORM 2004 4<sup>th</sup> Ed.-Conformant Content Package
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  Launch an Asset
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  Launch SCORM 2004 4<sup>th</sup> Ed.-Conformant SCOs
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  Support the Run-Time Environment Application Program Interface
+                  (API) defined in SCORM  
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  Support all the data model elements defined in the 
+                    SCORM 2004 4<sup>th</sup> Ed. Run-Time Environment Data Model.  
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  Support Sequencing and Navigation as defined in SCORM 2004 4<sup>th</sup> Ed.
+                  Sequencing and Navigation book.
+               </li>
+            </ul>
+            
+            <a name="opInstr"> </a>
+            <h5 class="title">Operational Instructions</h5>
+            <em>Running a new LMS Conformance Test</em>
+            <ol>
+               <li>
+                  Click the <strong>New LMS Conformance Test</strong> button in the Testing
+                  Options frame.
+                  <br/>
+                  <br/>
+               </li>
+               <li>
+                  Provide the LMS Name, LMS Version/Release Number and
+                  LMS Vendor/Developer information in the Test Identification 
+                  Information frame. This information is purely
+                  informative and only used as part of the log.
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  Click <strong>Continue</strong>.
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  Add a fictitious learner to the LMS. 
+                  Enter the Learner Name and Learner ID assigned to this fictitious
+                  learner by the LMS into the Learner Name 1 and Learner ID 1 
+                  fields in the Add Learner Information frame.
+                  <br/><br/>
+               </li>
+               <li>
+                  Add a different fictitious learner to the LMS.
+                  Enter the Learner Name and Learner ID assigned to this fictitious
+                  learner by the LMS into the Learner Name 2 and Learner ID 2 
+                  fields in the Add Learner Information frame.
+                  <br/><br/>
+               </li>
+               <li>
+                  Click <strong>Continue</strong>.
+                  <br />
+                  <br />
+               </li>
+               <li>
+                   Select the associated LMS Test Content Package names from the selection box containing 
+                   the available test packages and click <strong>Add</strong> to add to the list 
+                   of courses being tested. If all of the LMS Test Content 
+                   Packages are not selected, the Test Suite cannot 
+                   determine conformance and will not issue Conformance Labels. 
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  Click <strong>Continue</strong>.
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  If LMS Test Content Package API was imported then 
+                  enroll the fictitious learner that was entered as Learner 
+                  Name 1 and Learner ID 1 in LMS Test Content Package API.
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  If any of the LMS Test Content Packages between DMI and T-01b
+                  were imported then enroll the fictitious learner that 
+                  was entered as Learner Name 2 and Learner ID 2 in all of the 
+                  remaining LMS Test Content Packages.
+                  <br />
+                  <br />
+                  The remaining steps will give specific instructions on running
+                  each LMS Test Content Package.  
+                  <br/>
+                  <br/>
+               </li>
+                <li>
+                  As the test progresses through each SCO, information about the actions being 
+                  performed and their outcomes will be written to the test log. 
+                  You will be able to view any errors that were encountered, 
+                  as well as the step-by-step progression of the test. When the final SCO  
+                  terminates, an indication of conformance or non-conformance will be displayed in the 
+                  log frame. 
+                  <br />
+                  <br />
+               </li>
+               <li> 
+                  If the test completes successfully, the &quot;Testing Instructions&quot;  
+                  box in the LMS Test Content Package SCO will provide further   
+                  instructions. These instructions will indicate 
+                  how the LMS exits the current LMS Test Content Package. 
+                  These instructions will also appear in the Test 
+                  Suite &quot;Instructions&quot; frame.
+                  <br />
+                  <br />
+               </li>
+               <li>
+                 If the test fails, an error message will be displayed in the Test
+                 Suite Log. If you want to retry the current LMS Test Content Package,
+                 click <strong>Retry</strong> or stop testing by clicking <strong>Abort</strong>. 
+                 For detailed information about why the test failed, click the <strong>View
+                 Detailed Log</strong> button.
+                 <br />
+                 <br />
+               </li>
+               <li>
+                 Upon completion of each LMS Test Content Package, exit from the
+                 package/course in the LMS. Return to the Test Suite
+                 and click <strong>Continue</strong>. You may also save the current testing
+                 session by clicking <strong>Save</strong> before clicking <strong>Continue</strong>. 
+                 If you want to stop testing at any time click <strong>Abort</strong>. 
+                 <br />
+                 <br />
+               </li>
+               <li>
+                If a SCO encounters a problem communicating with the LMS, or an unexpected fatal error 
+                occurs and the Test Suite is not able to continue, the test will stop.
+                Whenever possible, the Test Suite will attempt to continue when it encounters 
+                conformance errors.
+                <br />
+                <br />
+              </li>
+
+            </ol>
+            <em>Loading a saved LMS Conformance Test Session</em>
+            <ol>
+              <li>
+                Click the <strong>Load Saved LMS Conformance Test</strong> button in the Testing
+                Options frame.
+                <br/>
+                <br/>
+              </li>
+              <li>
+                The Load LMS Conformance Test frame will display a list of saved LMS Conformance
+                Test Sessions.  From this list select the session 
+                to load by clicking the session name. If you have any doubt 
+                as to which session to load, use the information in
+                the Date Last Saved column.<br />&nbsp;
+                <ul>
+                    
+                  <li>
+                    <b>Note:</b> If you do not want to continue a previous LMS 
+                    Conformance Test, select the New LMS Conformance 
+                    Test button at the bottom of the page. This will direct 
+                    you to begin a new LMS Conformance Test.<br/><br/>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                Click the <strong>OK</strong> button in the message box that indicates that the 
+                Saved Session has loaded.<br/> <br />
+                <ul>
+                  <li>
+                    <b>Note:</b>
+
+                  If the log folder was moved from its original location, the
+                  session will not be able to load. If this happens, a popup will 
+                  display to indicate that the Summary Log cannot be found. 
+                  Select another saved session, or begin a new session. 
+                  </li>
+                </ul>
+              <br />
+              </li>
+                
+              <li>
+                When the Test Suite Log from the saved LMS Conformance Test appears,
+                click <strong>Continue</strong> to proceed with the LMS Conformance Test.
+              </li>
+              
+            </ol>
+
+            <a name="UITests" ></a>
+            <h5 class="title">User Interface (UI) Tests</h5>
+            The SCORM 2004 4<sup>th</sup> Ed. Test Suite includes 
+            several new tests in the LMS Conformance Test for testing LMS 
+            provided UI Controls. These tests can be categorized as:
+            <br />
+            
+            <p>
+            <em>User Interface Inspection Tests</em><br />
+               A number of LMS Test Content Packages were added or modified 
+               to include UI Inspection Tests. The content packages ask  
+               a series of questions about the LMS provided UI. 
+               When one of these packages is encountered, respond to the questions
+               based on the current state of the LMS UI. Use the following terms
+               to answer the questions:
+            </p>
+               <ul>
+               <li>
+                  <b>Visible</b> - A UI device exists and is either
+                  Enabled or Disabled:
+                  <ul>
+                  <li>
+                     <b>Enabled</b> - a UI device can be triggered by the 
+                     learner to invoke a given navigation event. In context of 
+                     the TOC, &quot;Enabled&quot; is analogous to 
+                     &quot;Selectable&quot;.
+                  </li>
+                  <li>
+                     <b>Disabled</b> - a UI device cannot be triggered by the 
+                     learner to invoke a given navigation event. A non-existent  
+                     (<b>Hidden</b>) UI device is also considered 
+                     &quot;Disabled&quot;.
+                  </li>
+                  </ul>
+               </li>
+               <li>
+                  <b>Hidden</b> - No UI device exists. The learner 
+                  shall not be able to invoke the navigation event corresponding 
+                  to the hidden UI device.
+               </li>
+               </ul>
+            
+            <br />
+            <p>
+            <em>User Interface Behavior Tests</em><br />
+               A number of LMS Test Content Packages were added or modified 
+               to include a number of manually navigated LMS Test Content 
+               Packages. You will be prompted to sequence through the LMS 
+               Test Content Package manually using the LMS provided UI. 
+               When one of these packages is encountered, the LMS 
+               Test Content Package will indicate the expected navigation event 
+               by both popping-up an alert with the instructions and by writing 
+               the instructions in the test SCO. If at any time, it is not 
+               possible to trigger the specified Navigation Event from the LMS 
+               provided UI, then it will not be possible to continue with the 
+               LMS Conformance Test. At that time, abort the LMS Conformance Test
+               by clicking <strong>Abort</strong>. The LMS is not 
+               SCORM conformant due to navigation limitations in its provided UI.
+            </p>
+
+            <a name="addFun" ></a>
+            <h5 class="title">Additional Functionality</h5>
+            <p>When the LMS Conformance Test starts, two new buttons will appear, <b>New
+            LMS Conformance Test</b>, and <b>Load Saved LMS Conformance Test</b>.</p>
+            <ul>
+                <li>
+                    <b>New LMS Conformance Test:</b> Allows you
+                    to start a brand new LMS test session.
+                    <br />
+                    <br />
+                </li>
+                <li>
+                    <b>Load Saved LMS Conformance Test:</b> Presents you with a list
+                    of saved LMS Test sessions. Clicking the session name will load
+                    that saved session and allow you to resume a previously saved test
+                    session.  If no sessions were saved you will be presented with an
+                    empty list and an option to start a new LMS test.
+                    <br /><br/>
+                    <ul>
+                      <li>
+                    <b>Note:</b> If the log folder was moved from its 
+                  original location the session will not be able to load. If 
+                  this happens, a popup will appear indicating that the 
+                  Summary Log cannot be found. Select another saved 
+                  session, or begin a new session.
+                      </li>
+                   </ul>
+                </li>
+            </ul>
+            <p>The User Interface was redesigned and new functionality
+               was added to simplify testing. The following buttons
+               were added: <b>Continue, Retry, Save, Abort,</b> and
+               <b>View Detailed Log</b>.
+            </p>
+
+               <ul>
+                  <li>
+                     <b>Continue:</b> Used to continue from one LMS Test Content
+                     Package to the next. When an LMS Test Content Package is
+                     finished "Continue" will be enabled so you can proceed to
+                     the next LMS Test Content Package.
+                     <br/>
+                     <br/>
+                  </li>
+                  <li>
+                     <b>Retry:</b> Allows an LMS Test Content Package to be run
+                      again.
+                     <br/><br/>
+                     <ul>
+                         <li>
+                             <b>Note:</b> The current LMS Test Content Package must be exited
+                              before clicking <strong>Retry</strong>. If <strong>Retry</strong> is 
+                              clicked while the LMS Test Content Package is still running, 
+                              there could be problems when attempting to restart.
+                     <br />
+                        </li>
+                     </ul>
+                     <br />
+                  </li>
+                  <li>
+                     <b>Save:</b> Allows you to save a test
+                      session and restart it at a later time. Saving the same session
+                      more than once will overwrite the old session information.
+                     <br />
+                     <br />
+                  </li>
+                  <li>
+                     <b>Abort:</b> Ends the test. An error will be written to the log 
+                     files expressing that the test was aborted.
+                     <br />
+                     <br />
+                  </li>
+                  <li>
+                     <b>View Detailed Log:</b> Allows you to view the detailed log for the
+                     current LMS Test Content Package at any time during the execution of 
+                     that LMS Test Content Package.
+                     <br />
+                     <br />
+                  </li>
+                  <li>
+                     <strong>Log Legend:</strong> Opens a window describing the meaning of
+                     the colors and symbols used in the Test Suite log.
+                  <br />
+                  <br />
+                 </li>
+               </ul>
+<!--
+               <strong>Log Legend:</strong> Clicking on this link will cause 
+                     a window to appear describing the meaning of the colors and 
+                     symbols used in the Test Suite log.
+   -->
+            <a name="opNotes"> </a>
+            <h5 class="title">Operational Notes</h5>
+            
+                     Both Summary and Detailed Logs are automatically saved in the
+                     folder:
+                     <br />
+                        &lt;install_directory&gt;\SCORM_2004_4th_Ed_TS_V1.1.1\TestSuite\Logs\LMS\&lt;timestamp-test subject name&gt;\  
+                     <br />
+                     <br />
+                     <strong>Note:</strong> Logs are saved in this folder as a 
+                     result of a portability enhancement. If you need to move logs,
+                     move the entire folder and its contents since they are required
+                     to properly render the logs in the browser.
+            
+            <p>
+                  If the LMS Test Content Packages or SCOs encounter a problem 
+                  communicating with the LMS, or an unexpected fatal error 
+                  occurs and the testing software is not able to continue, the 
+                  test will stop. Whenever possible the test software will 
+                  attempt to continue when conformance errors are encountered.
+                  <br />
+                  <br />
+            </p>            
+         </td>
+      </tr>
+   </table>
+   </div>
+</body>
+</html>

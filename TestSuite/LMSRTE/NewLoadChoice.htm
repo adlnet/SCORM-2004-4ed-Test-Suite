@@ -1,0 +1,62 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <title>Load/New Test</title>
+      <script type="text/javascript">
+      //<!-- [CDATA[
+      function initPage()
+      {
+      	parent.currentInstructions.document.getElementById("userInstruction").innerHTML = 
+      	"<div class='cell'><p class='stepText'>Please choose to begin a new LMS Conformance " +
+      	"Test or to load a previously saved LMS Conformance Test.<br /><br />Choosing " +
+      	"<b>New LMS Conformance Test</b> will initiate the first step of the LMS Conformance Testing " + 
+      	"procedure. This option assumes that you do not want to resume a previously saved LMS Conformance Test." +
+      	"<br /><br />Choosing <b>Load Saved LMS Conformance Test</b> will resume " +
+      	"that LMS test beginning at the last step it completed. " +
+      	"This option will direct you to a page that lists all of the LMS Conformance " +
+      	"Tests saved from previous Tests.</p></div>";
+      }
+
+		 /**
+		  * This method loads the TestIdentificationStep page because it is starting a new test.
+		  * 
+		  */
+         function newTest()
+         {
+            parent.document.getElementById("instructions").src="TestIdentificationStep.htm";
+         }
+		 
+		 /**
+		  * This method loads the LoadData page because it is loading a previously saved test.
+		  * 
+		  */
+         function loadTest()
+         {
+            parent.document.getElementById("instructions").src="LoadData.htm";
+         }
+	   //]]-->
+      </script>
+      <link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+   </head>
+   <body style="width:400px" onload = "initPage();">
+      <div style="width:400px">
+   	     <div class="adlHeader">
+	       Testing Options
+         </div>
+	     <br /><br /><br /><br /><br /><br />
+	     <div class="userInteraction">
+		    <input type="button" title="New LMS Conformance Test" id="New" 
+		    value="New LMS Conformance Test" onclick="newTest();" disabled="disabled" />
+		    <br /><br /><br /><br /><br /><br />
+		    <input type="button" title="Load Saved LMS Conformance Test" id="Load" 
+		    value="Load Saved LMS Conformance Test" onclick="loadTest();" disabled="disabled" />
+	     </div>
+      </div>
+   </body>
+</html>
+                      

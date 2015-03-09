@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<project name="ADL" default="CTS">
+<description>Compiles code for the Utilities.jarl</description>
+
+    <!--creates directories if they don&apos;t already exist -->
+    <target name="init">
+
+    </target>
+
+    <target name="compile" depends="init">
+        <javac destdir="${buildDir}" srcdir="${src}" includes="org/adl/parsers/dom/">
+            <classpath>
+                <pathelement location="${lib}/saxon8.jar"/>
+                <pathelement location="${lib}/jdom.jar"/>                
+                <pathelement location="${lib}/jaxen-1.1.1.jar"/>                
+                <pathelement location="${lib}/util.jar"/>
+                <pathelement location="${buildDir}/util.jar"/>
+            </classpath>
+        </javac>
+
+        <javac destdir="${buildDir}" srcdir="${src}" includes="org/adl/validator/, org/adl/validator/properties/packageCheckers.properties,          
+        	org/adl/validator/properties/knownSchemas.properties, 
+        	org/adl/validator/packagechecker/parsers/xsd/iso_svrl.xsl,         
+        	org/adl/validator/packagechecker/parsers/xsd/iso_schematron_skeleton.xsl, 
+        	org/adl/validator/packagechecker/parsers/schematron/ADLSchematron.xml,         
+        	org/adl/validator/packagechecker/parsers/schematron/ContentAggregationSchematron.xml,          
+        	org/adl/validator/packagechecker/parsers/schematron/ResourceSchematron.xml">
+            <classpath>
+                <pathelement location="${lib}/saxon8.jar"/>
+                <pathelement location="${lib}/jdom.jar"/>                
+                <pathelement location="${lib}/jaxen-1.1.1.jar"/>   
+                <pathelement location="${lib}/xercesImpl.jar"/>
+                <pathelement location="${lib}/xml-apis.jar"/>
+                <pathelement location="${lib}/xmlParserAPIs.jar"/>
+                <pathelement location="${lib}/xalan.jar"/>   
+                <pathelement location="${lib}/util.jar"/>
+                <pathelement location="${buildDir}/util.jar"/><!-- This is here because the RTE doesnt sign the jars and therefore they dont get moved to the lib folder...this may change in the future -->
+                <pathelement location="${lib}/ant.jar"/>       
+            </classpath>
+        </javac>
+
+
+    </target>
+
+    <target name="testfiles" depends="compile">                  
+    
+    </target>
+
+    <target name="moveFiles" depends="testfiles">
+        <echo message="moving XML rules to Jar"/>
+
+        <copy todir="${buildDir}/org/adl/validator/properties">
+            <fileset dir="${adlDir}/validator/properties/"/>
+        </copy>
+
+        <copy todir="${buildDir}/org/adl/validator/packagechecker/parsers/xsd">
+            <fileset dir="${adlDir}/validator/packagechecker/parsers/xsd/"/>
+        </copy>
+
+        <copy todir="${buildDir}/org/adl/validator/packagechecker/parsers/schematron">
+            <fileset dir="${adlDir}/validator/packagechecker/parsers/schematron/"/>
+        </copy>
+
+        <copy todir="${buildDir}/org/adl/util/resources">
+            <fileset dir="${resources}/org/adl/util/resources">
+                <include name="*.properties"/>
+            </fileset>
+        </copy>
+       
+        <copy todir="${buildDir}/org/adl/validator/util/resources">
+           <fileset dir="${resources}/org/adl/validator/util/resources">
+              <include name="*.properties"/>
+           </fileset>
+        </copy>
+       
+    </target>
+
+    <target name="buildAdlValidatorJar" depends="moveFiles">
+        <echo message="**building ADLValidator jar file from class files**"/>
+        <jar destfile="${buildDir}/${adlvalidatorJar}" basedir="${buildDir}" includes="org/adl/validator/**, org/adl/util/Resources.class">
+            <manifest>
+                <attribute name="Main-Class" value="org.adl.validator.ManifestTester"/>
+                <attribute name="Class-Path" value="saxon8.jar jdom.jar jaxen-1.1.1.jar ant.jar xalan.jar xercesImpl.jar xml-apis.jar xmlParserAPIs.jar"/>
+            </manifest>
+        </jar>	
+    </target>
+
+    <target name="signAdlValidatorJar" depends="buildAdlValidatorJar">
+        <echo message="signing jar file"/>
+        <signjar jar="${buildDir}/${adlvalidatorJar}" alias="${keystoreAlias}" storepass="${keystorePassword}" keystore="${keystore}" signedjar="${lib}/${adlvalidatorJar}"/>
+    </target>
+
+    <!--If the TestSuite is being built this is the call that will be made -->
+    <target name="CTS" depends="signAdlValidatorJar">
+    </target>
+
+
+
+</project>

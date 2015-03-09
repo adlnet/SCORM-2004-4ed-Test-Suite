@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+      /*************************************************************************
+      **
+      ** Filename:  ContentPackageMain.htm
+      **
+      ** File Description:
+      **
+      ** Browser Compatibility:
+      **
+      ** Author:  ADLI Project
+      **
+      ** Module/Package Name:
+      ** Module/Package Description:
+      **
+      ** Design Issues:
+      **
+      ** Implementation Issues:
+      ** Known Problems:
+      ** Side Effects:
+      **
+      ** References:  SCORM
+      **
+      ***************************************************************************
+           
+
+
+      **************************************************************************/
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-fameset.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <title>Content Package Conformance Test</title>
+   </head>
+
+   <frameset onload="parent.instructions.location.href='ContentPackageInstructions.htm'"
+      rows="88px, *">
+      <frame id="main" name="main" title="main frame" scrolling="no" src="ContentPackageTopframe.htm" />
+
+      <frameset cols="55%, *">
+         <frame name="instructions" title="content package instructions frame" 
+         											id="instructions" src="about:blank" />
+         <frame name="log" title="log frame" id="log" src="../Log.htm" />
+      </frameset>
+
+      <noframes>
+         <body>
+         </body>
+      </noframes>
+   </frameset>
+</html>

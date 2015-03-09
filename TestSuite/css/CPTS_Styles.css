@@ -1,0 +1,225 @@
+/******************************************************************************
+**
+** Filename:  CPTS_Styles.css
+**
+** File Description: The Content Package Test Suite (CPTS) Cascading Style Sheet
+**                   provides style properties for all HTML pages of the
+**                   Content Packaging Conformance Test
+**
+** Author:  ADLI Project
+**
+** Company Name: Concurrent Technologies Corporation (CTC)
+**
+** Module/Package Name:
+** Module/Package Description:
+**
+** Design Issues:
+**
+** Implementation Issues:
+** Known Problems:
+** Side Effects: Changes style settings on HTML tags.
+**
+***************************************************************************
+
+
+***************************************************************************
+**
+** Date Changed   Author of Change  Reason for Changes
+** ------------   ----------------  -------------------------------------------
+**
+******************************************************************************/
+
+body
+{
+	font-family : Verdana;
+	font-size : 10pt;
+	font-weight : normal;
+	font-style : normal;
+	background-color : #FBFAF4;
+	width : 500px;
+}
+sup
+{
+	font-size:0.8em;
+}
+a:link 
+{ 
+	font-weight: bold; 
+	text-decoration: underline; 
+	color: #363C54;
+}
+
+a:visited 
+{ 
+	font-weight: bold; 
+	text-decoration: underline; 
+	color: #566B87;
+}
+
+a:hover, a:active 
+{ 
+	text-decoration: underline; 
+	color: #E7BC68;
+}
+
+
+label.note
+{
+   font-size: 10pt;
+   font-weight: bold;
+   font-family: Verdana;
+   color: #890C08;
+}
+
+label.products
+{
+   font-family : Arial, Helvetica, sans-serif;
+   font-size: 10pt;
+   font-weight: bold;
+   color:#890C08;
+}
+
+label.scodata
+{
+   font-family : Verdana;
+   font-size: 10pt;
+   font-weight: bold;
+   color:  #363C54;
+}
+
+td.centered
+{
+   font-family : Verdana;
+   color: #fff;
+   font-weight : normal;
+   font-style : normal;
+   border:1px solid #FBFAF4;
+   text-align :center;	
+}
+
+td.scotestcell
+{
+   font-family : Verdana;
+   color: #fff;
+   font-weight : normal;
+   font-style : normal;
+   border:1px solid #F7C555;
+   background-color: #363C54;   
+}
+
+th.ulBold
+{
+   text-decoration : underline; 
+   font-family : Verdana;
+   font-size: small;
+   font-weight : bold;	
+}
+
+p.scotestbegin
+{
+   font-size : small;
+   font-family : Verdana;
+   font-size: 11pt;
+   color: White;
+}
+
+div.scodefault
+{
+    font-family : Verdana;
+    font-size: 10px;
+    color: #890C08;
+}
+
+div.question
+{
+   font-size : small;
+   font-family : Verdana;
+   font-size: 10pt;
+   color: #363C54;
+   font-weight : bold;
+}
+
+span.userInput
+{
+   font-family : Arial, Helvetica, sans-serif;
+   font-size: 10pt;
+   font-weight: bold;
+   color:#890C08;
+}
+
+.cell
+{
+   font-family : Verdana;
+   font-size: 10pt;
+   color: #363C54;
+   background-color: #FBFAF4;
+}
+
+.cellStep
+{
+   font-family : Verdana;
+   font-size: 10pt;
+   background-color: #FFFFFF;
+   text-align: center;
+}
+
+.adlHeader
+{
+	font-family : Verdana;
+	font-size : 11pt;
+	color: #FFF;
+	font-weight : bold;
+	font-style : normal;
+	background-color: #363C54;
+	text-align :center;
+}
+
+/* ********* */
+.stepCount
+{
+   font-family : Verdana;
+   font-size: 12px;
+   font-weight: bold;
+   color: #363C54;
+}
+
+.stepText
+{
+    font-family : Verdana;
+    font-size: 12px;
+     
+}
+
+.stepTextImportant
+{
+   font-family : Verdana;
+   font-size: 12px;
+   color: #890C08;    
+}
+
+.userInteraction
+{
+   font-family : Verdana;
+   text-align: center;
+   font-size: 14px;
+   font-weight: bold;
+   color: #890C08;
+}   
+
+.stepTitle
+{
+   font-family : Verdana;
+   text-align: center;
+   font-size: 14px;
+   font-weight: bold;
+}
+
+/********************************************************************** -->
+<!---Classes --->
+<!--- *********************************************************************/
+
+.blueTxt
+{
+	 font-family : Verdana;
+     color: #363C54;
+}

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <title>Objectives User Interface</title>
+      <script type="text/javascript" src="../scripts/EmulationCode.js"></script>
+      <script type = "text/javascript">
+      //<!-- [CDATA[
+   /***************************************************************************
+   **
+   ** Filename:  Objectives_UI.htm
+   **
+   ** File Description:  This file is the user interface for the SCO Test Suite
+   **                    used for collecting objective information that is
+   **                    typcially found in the in the imsmanifest.xml.  The
+   **                    user interface is being provided to allow the SCO Test
+   **                    Suite to collect this information without having a
+   **                    manifest available.  The data collected will be used by
+   **                    the Test Suite to initialize the cmi.objectives data
+   **                    model element
+   **
+   ** Browser Compatibility:
+   **
+   ** Author: ADLI Project
+   **
+   ** Module/Package Name:  none
+   ** Module/Package Description: none
+   **
+   ** Design Issues:
+   **
+   ** Implementation Issues:
+   ** Known Problems:
+   ** Side Effects:
+   **
+   ** References: ADL SCORM
+   **
+   ***************************************************************************
+
+ 
+   **************************************************************************/
+
+   var myObjectives = "";
+
+   //*********************************************************************
+   // Function: addToCollectionOfObjectives()
+   //
+   // Description: This function collects the data entered by the user and
+   //              builds the final result to be sent back to the Test Suite
+   //              Instructions.
+   //
+   //*********************************************************************
+   function addToCollectionOfObjectives()
+   {
+      var identifier = document.getElementById("obj_id").value;
+
+      var errMsg = "The following errors were encountered:\n";
+      var errors = 0;
+
+      // Check for errors first before
+      if ( identifier == "" )
+      {
+         errors++;
+         errMsg += "The Objectives Identifier is required\n";
+      }
+
+      var scaled_score = document.getElementById("obj_scaled_score").value;
+      if (((scaled_score < -1.0) || (scaled_score > 1.0)) ||
+           (isNaN(scaled_score) != false))
+      {
+         errors++;
+         errMsg += "Scaled Score must be a numeric value between -1.0 and 1.0";
+      }
+
+      if (errors != 0)
+      {
+         alert(errMsg);
+      }
+      else
+      {
+         myObjectives += "[4i]" + identifier;
+         myObjectives += "[5c]" + scaled_score;
+         var success_status =
+            document.getElementById("obj_success_status").value;
+         myObjectives += "[6u]" + success_status;
+
+         myObjectives += "[EOO]";
+      }
+
+      if (!errors)
+      {
+         clearForm();
+      }
+   }
+
+   //*********************************************************************
+   // Function: clearForm()
+   //
+   // Description: This function clears the objectives form.
+   //
+   //*********************************************************************
+   function clearForm()
+   {
+      document.getElementById("obj_id").value="";
+      document.getElementById("obj_scaled_score").value = "";
+      document.getElementById("obj_success_status").value = "";
+   }
+
+   //*********************************************************************
+   // Function: done()
+   //
+   // Description: This function reports the objectives collected back to
+   //              the opener window (Instructions page of the SCO Test
+   //              Suite)
+   //
+   //*********************************************************************
+   function done()
+   {
+      window.opener.objectivesData = myObjectives;
+      window.opener.doneAddingObjective();
+   }
+//]]-->
+      </script>
+      <link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+   </head>
+
+   <body>
+
+<!-- One of these "objectives_data" id attributes will need to be changed to meet xhtml w3c conformance, id attributes must be unique.-->
+      <form id="objectives_data" action ="">
+         <div id="objectives_data2">
+         <!-- ID changed for conformance - duplicate ID not allowed  -->
+            <table border="1">
+               <tr>
+                  <td class="cell">
+                     <label class="products">Objective ID (required): </label>
+                  </td>
+                  <td class="cell">
+                     <input id="obj_id" name="obj_id" />
+                  </td>
+               </tr>
+
+               <tr>
+                  <td class="cell">
+                 <label class="products">Scaled Score:</label>
+              </td>
+               <td class="cell">
+                     <input id="obj_scaled_score" name="obj_scaled_score" />
+                  </td>
+               </tr>
+
+               <tr>
+                  <td class="cell">
+                 <label class="products">Success Status:</label>
+               </td>
+                  <td class="cell">
+                 <select name="obj_success_status" id="obj_success_status">
+                   <option value="" selected="selected"></option>
+                   <option value="unknown">unknown</option>
+                   <option value="passed">passed</option>
+                   <option value="failed">failed</option>
+                </select>
+                  </td>
+               </tr>
+
+            <tr>
+                  <td class="cell">
+                     <input type="button" id="addObjectiveData"
+                            name="addObjectiveData"
+                            value="Set Objective Data"
+                            onclick="addToCollectionOfObjectives()" />
+                  </td>
+                  <td class="cell">
+                     <input type="button" id="doneAddingObjectiveData"
+                            name="doneAddingObjectiveData"
+                            value="Done"
+                            onclick="done()" />
+                  </td>
+            </tr>
+             </table>
+         </div>
+      </form>
+      
+   </body>
+</html>

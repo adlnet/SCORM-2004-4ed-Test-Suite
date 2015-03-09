@@ -1,0 +1,197 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<title>User Identification Step</title>
+		<script type="text/javascript" src="../scripts/BrowserDetect.js"></script>
+		<script type="text/javascript" src="../scripts/EmulationCode.js"></script>
+		<script type="text/javascript"
+			src="../scripts/LMSInstructionFunctions.js"></script>
+		<script type="text/javascript">
+//<!-- [CDATA[
+			var message;
+			var pass;
+			var userInputs = "";
+			
+			var nameL1 = "";
+			var idL1 = "";
+			var nameL2 = "";
+			var idL2 = "";
+			
+			function writeToInstruction()
+			{
+			    parent.controls.initState();
+				
+					var msg = "The LMS Conformance Test requires the LMS to establish two test learners.<br/><br/>" + 
+					          " Enter the specific Learner Names and their corresponding " + 
+					          "IDs below.<br/><br/>Before continuing the test, verify " + 
+					          "that the test learners identified have been created and " + 
+					          "configured within the test subject Learning Management System (LMS).";
+					 
+            nameL1 = document.getElementById('learner1Name').name;
+            idL1 = document.getElementById('learner1ID').name;
+            nameL2 = document.getElementById('learner2Name').name;
+            idL2 = document.getElementById('learner2ID').name;
+				
+
+				parent.currentInstructions.document.getElementById('userInstruction').innerHTML =
+				    '<p class="stepText">' + msg + '</p>';
+			}
+			
+			/**
+			 * This method checks the user-defined learner information to make sure that all fields have 
+		     * something entered.
+			 * 
+			 */
+			function checkUserInfo()
+			{
+			   message = "";
+			   pass = true;
+			   
+			   if (document.getElementById('learner1Name').value == "")
+			   {
+				   message += nameL1 + " missing.\n";
+				   pass = false;
+			   }
+			   if (document.getElementById('learner1ID').value == "")
+			   {
+			      message += idL1 + " missing.\n";
+			      pass = false;
+			   }
+	       if (document.getElementById('learner2Name').value == "")
+	       {
+	          message += nameL2 + " missing.\n";
+	          pass = false;
+	       }
+				 if (document.getElementById('learner2ID').value == "")
+				 {
+				    message += idL2 + " missing.\n";
+				    pass = false;
+				 }
+			}
+			
+			/**
+			 * This method checks the user-defined learner information to make sure that none of the fields
+			 * contain the same value.
+			 * 
+			 */
+			function checkDuplicateInfo()
+			{
+			      if ( (document.getElementById('learner1Name').value == document.getElementById('learner2Name').value) && 
+				       (document.getElementById('learner1Name').value != "") && 
+					   (document.getElementById('learner2Name').value != "") )
+			      {
+			         message += "Learner Names must be unique.\n";
+				     pass = false;
+			      }
+			      if ( (document.getElementById('learner1ID').value == document.getElementById('learner2ID').value) && 
+				       (document.getElementById('learner1ID').value != "") && 
+					   (document.getElementById('learner2ID').value != "") )
+			      {
+			         message += "Learner IDs must be unique.\n";
+				     pass = false;
+			      }
+			}
+			
+		    /**
+		     * This method is called when the Continue control button is pressed. 
+		     * 
+		     */
+			function cont()
+			{
+		        // Test to make sure that User information is entered		
+				checkUserInfo();
+				
+				// Test to make sure that User information is correct
+				checkDuplicateInfo();
+				
+				if (pass)
+				{
+				       lmsApplet.setLearnerInfo(document.getElementById('learner1Name').value,
+											    document.getElementById('learner1ID').value,
+											    document.getElementById('learner2Name').value,
+											    document.getElementById('learner2ID').value);
+																					
+					   parent.document.getElementById('instructions').src='CPImportStep.htm';
+				}
+				else
+				{
+					alert("The following problems have been detected:\n" + message);
+				}
+			}
+		//]]-->
+		</script>
+
+		<link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+	</head>
+
+	<body style="width: 400px"
+		onload="initializeApplet();writeToInstruction();"
+		onunload="parent.currentInstructions.document.getElementById('userInstruction').innerHTML ='';">
+		<div style="width: 400px">
+			<div class="adlHeader">
+				
+					Add Learner Information
+				
+			</div>
+			<div class="cell">
+				<form id="userFields" class="stepText" action="">
+					
+					<div class="cell">
+					<br />
+					<br />
+						<table title="Add Learner Information" width="100%" border="0"
+							cellspacing="0" cellpadding="2">
+							<tr>
+								<td class="cell">
+									<label for="learner1Name" class="products">
+										Learner Name 1:
+									</label>
+								</td>
+								<td class="cell">
+									<input id="learner1Name" name="Learner Name 1" />
+								</td>
+							</tr>
+							<tr>
+								<td class="cell">
+									<label for="learner1ID" class="products">
+										Learner ID 1:
+									</label>
+								</td>
+								<td class="cell">
+									<input id="learner1ID" name="Learner ID 1" />
+								</td>
+							</tr>
+							<tr>
+								<td class="cell">
+									<label for="learner2Name" class="products">
+										Learner Name 2:
+									</label>
+								</td>
+								<td class="cell">
+									<input id="learner2Name" name="Learner Name 2" />
+								</td>
+							</tr>
+							<tr>
+								<td class="cell">
+									<label for="learner2ID" class="products">
+										Learner ID 2:
+									</label>
+								</td>
+								<td class="cell">
+									<input id="learner2ID" name="Learner ID 2" />
+								</td>
+							</tr>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

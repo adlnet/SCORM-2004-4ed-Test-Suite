@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://purl.oclc.org/dsdl/schematron"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   queryBinding="xslt2">
+
+   <title>ResourceSchematron</title>
+   
+   <ns prefix="imscp" uri="http://www.imsglobal.org/xsd/imscp_v1p1" />
+   <ns prefix="adlcp" uri="http://www.adlnet.org/xsd/adlcp_v1p3" />
+   <ns prefix="URIHandler" uri="org.adl.validator.util.processor.URIHandler" />
+   <ns prefix="ParameterHandler" uri="org.adl.validator.util.processor.ParameterHandler" />
+   <ns prefix="parser" uri="org.adl.validator.packagechecker.parsers.SchematronValidationDOMParser" />
+   
+   <pattern name="main">
+   	 
+     <!-- Manifest attribute and element checks -->   
+     <rule id="manifest" context="imscp:manifest"> 
+           
+        <assert test="count(.) &gt; 0">info~Testing the &lt;manifest&gt; element for conformance</assert>        
+        
+     	<!-- REQ_29 -->
+        <!--  1 and only 1 root manifest element  -->
+        <assert test="count(.) &gt; 0">info~Testing multiplicity of the &lt;manifest&gt; element</assert>
+        <assert test="count(.) = 1">passed~The imsmanifest.xml file contains 1 and only 1 &lt;manifest&gt; element</assert>        
+        
+        <!-- REQ_29.1 -->
+        <!-- 1 and only 1 identifier attribute -->  
+        <assert test="count(@identifier) &gt; 0">info~Testing multiplicity of the "identifier" attribute</assert>
+        <assert test="(count(@identifier) &lt; 1) or (count(@identifier) &gt; 1)">failed~The &lt;manifest&gt; element shall contain 1 and only 1 "identifier" attribute </assert>
+        <assert test="count(@identifier) = 1">passed~The &lt;manifest&gt; element contains 1 "identifier" attribute</assert>
+        
+        <!-- REQ_29.1.1 -->
+        <!-- identifier is type xs:ID -->
+        <!-- Validated by IMSCP schema -->
+        
+        <!-- REQ_29.1.2 -->
+        <!-- manifest:identfier is unique -->
+        <let name="uniqueIdentifier" value="parser:isIdentifierUnique(@identifier)"/>
+        <assert test="count(@identifier) &gt; 0">info~Testing the "identifier" attribute for conformance</assert>
+        <assert test="(count(@identifier) &gt; 0) and not($uniqueIdentifier)">failed~The "identifier" attribute [<value-of select="@identifier"/>] of the &lt;manifest&gt; element is not unique within the manifest</assert>
+		<assert test="(count(@identifier) &gt; 0) and $uniqueIdentifier">passed~The "identifier" of manifest is unique within the manifest</assert>        
+		
+		<!-- REQ_29.2 -->
+		<!-- manifest element shall contain 0 or 1 version attributes -->
+		<assert test="count(@version) &gt; 0">info~Testing multiplicity of the "version" attribute</assert>
+		<assert test="count(@version) = 1">passed~The &lt;manifest&gt; element contains 1 "version" attribute</assert>
+		
+		<!-- REQ_30.2.1 , REQ_29.2.1 -->
+        <!-- version is type xs:string -->
+        <!-- Validated by IMSCP schema -->
+
+		<!-- REQ_29.3 -->
+		<!-- manifest element shall contain 0 or 1 xml:base attributes -->
+		<assert test="count(@xml:base) &gt; 0">info~Testing multiplicity of the "xml:base" attribute</assert>
+		<assert test="count(@xml:base) = 1">passed~The &lt;manifest&gt; element contains 1 "xml:base" attribute</assert>
+		
+        <!-- REQ_29.3.1 -->
+        <!-- xml:base is type xs:anyURI -->
+        <!-- Validated by IMSCP schema -->
+
+        <assert test="count(@xml:base) &gt; 0">info~Testing the "xml:base" attribute for conformance</assert>
+        
+		<!-- REQ_29.3.2 -->
+		<!-- xml:base can contain no backward slashes ("\") -->
+		<assert test="(count(@xml:base) = 1) and (contains(@xml:base, '\'))">failed~The "xml:base" attribute shall not contain any backward slashes</assert>
+		
+		<!-- REQ_29.3.3 -->
+		<!-- xml:base shall not begin with a leading slash ("/") -->
+		<assert test="(count(@xml:base) = 1) and (starts-with(@xml:base, '/'))">failed~The "xml:base" attribute shall not begin with a leading slash</assert>
+		
+		<!-- REQ_29.3.4 -->
+		<!-- xml:base shall end with a trailing slash ("/") -->
+		<assert test="(count(@xml:base) = 1) and (not(ends-with(@xml:base, '/')))">failed~The "xml:base" attribute shall end with a trailing slash</assert>
+		
+		<!-- xml:base is correctly formatted -->
+		<assert test="(count(@xml:base) = 1) and ((not(contains(@xml:base, '\'))) and (not(starts-with(@xml:base, '/'))) and (ends-with(@xml:base, '/')))">passed~The "xml:base" attribute is correctly formatted</assert>		
+
+		<!-- REQ_PENDING -->
+		<!-- xml:base SPM 2000 -->
+		<assert test="count(@xml:base) &gt; 0">info~Testing the character length of the "xml:base" attribute value</assert>
+		<assert test="(count(@xml:base) &gt; 0) and (string-length(@xml:base) &gt; 2000)">warning~The value contained in the "xml:base" attribute is greater than the SPM of 2000 characters</assert>
+		<assert test="(count(@xml:base) &gt; 0) and (string-length(@xml:base) &lt;= 2000)">passed~The character length for the value of the "xml:base" attribute has passed conformance</assert>
+
+		<!-- REQ_29.4 -->
+		<!-- manifest element shall contain 1 and only 1 metadata child element -->
+		<assert test="true()">info~Testing multiplicity of the &lt;metadata&gt; element</assert>
+		<assert test="(count(imscp:metadata) &lt; 1) or (count(imscp:metadata) &gt; 1)">failed~The &lt;manifest&gt; element shall contain 1 and only 1 &lt;metadata&gt; element</assert>
+        <assert test="count(imscp:metadata) = 1">passed~The &lt;manifest&gt; element contains 1 and only 1 &lt;metadata&gt; element</assert>		
+        
+        <!-- REQ_29.5 -->
+		<!-- manifest element shall contain 1 and only 1 organizations child element -->
+		<assert test="true()">info~Testing multiplicity of the &lt;organizations&gt; element</assert>
+		<assert test="(count(imscp:organizations) &lt; 1) or (count(imscp:organizations) &gt; 1)">failed~The &lt;manifest&gt; element shall contain 1 and only 1 &lt;organizations&gt; element</assert>
+        <assert test="count(imscp:organizations) = 1">passed~The &lt;manifest&gt; element contains 1 and only 1 &lt;organizations&gt; element</assert>		
+        
+        <!-- REQ_29.6 -->
+		<!-- manifest element shall contain 1 and only 1 resources child element -->
+		<assert test="true()">info~Testing multiplicity of the &lt;resources&gt; element</assert>
+		<assert test="(count(imscp:resources) &lt; 1) or (count(imscp:resources) &gt; 1)">failed~The &lt;manifest&gt; element shall contain 1 and only 1 &lt;resources&gt; element</assert>
+        <assert test="count(imscp:resources) = 1">passed~The &lt;manifest&gt; element contains 1 and only 1 &lt;resources&gt; element</assert>		
+        
+        <!-- REQ_PENDING -->
+		<!-- version SPM 20 -->
+		<assert test="count(@version) &gt; 0">info~Testing the character length of the "version" attribute value</assert>
+		<assert test="(count(@version) &gt; 0) and (string-length(@version) &gt; 20)">warning~The value contained in the "version" attribute is greater than the SPM of 20 characters</assert>
+		<assert test="(count(@version) &gt; 0) and (string-length(@version) &lt;= 20)">passed~The character length for the value of the "version" attribute has passed conformance</assert>
+
+      <!-- REQ_29.6.3.4.2 -->
+		<!-- adlcp:scormType can only appear as an attribute on <resource> -->
+		<assert test="count(@adlcp:scormType) &gt; 0">info~Testing the location of the "adlcp:scormType" attribute</assert>
+		<assert test="count(@adlcp:scormType) &gt; 0">failed~The "adlcp:scormType" attribute must exist on a &lt;resource&gt; element</assert>
+        
+	</rule>   
+
+	<!-- metadata child of manifest -->
+	<rule id="metadata" context="imscp:manifest/imscp:metadata">
+	
+		<assert test="count(.) &gt; 0">info~Testing the &lt;metadata&gt; element for conformance</assert>        
+		
+		<!-- REQ_29.4.1 -->
+		<!-- the required children of metadata shall be schema, schemaversion, and then extensions if applicable -->
+		<!-- schema is the first child -->
+		<assert test="local-name(child::*[1]) != 'schema'">failed~The first child of the &lt;metadata&gt; element shall be the &lt;schema&gt; element</assert>
+		<assert test="local-name(child::*[1]) = 'schema'">passed~The first child of the &lt;metadata&gt; element is the &lt;schema&gt; element</assert>
+		<!-- schemaversion is the second child -->
+		<assert test="local-name(child::*[2]) != 'schemaversion'">failed~The second child of the &lt;metadata&gt; element shall be the &lt;schemaversion&gt; element</assert>
+		<assert test="local-name(child::*[2]) = 'schemaversion'">passed~The second child of the &lt;metadata&gt; element is the &lt;schemaversion&gt; element</assert>
+		
+		<!-- REQ_29.4.2 -->
+        <!-- 1 and only 1 schema element -->  
+        <assert test="true()">info~Testing multiplicity of the &lt;schema&gt; element</assert>
+        <assert test="(count(imscp:schema) &lt; 1) or (count(imscp:schema) &gt; 1)">failed~The &lt;metadata&gt; element shall contain 1 and only 1 &lt;schema&gt; element</assert>
+        <assert test="count(imscp:schema) = 1">passed~The &lt;metadata&gt; element contains 1 and only 1 &lt;schema&gt; element</assert>
+		
+		<!-- REQ_29.4.3 -->
+        <!-- 1 and only 1 schemaversion element -->  
+        <assert test="true()">info~Testing multiplicity of the &lt;schemaversion&gt; element</assert>
+        <assert test="(count(imscp:schemaversion) &lt; 1) or (count(imscp:schemaversion) &gt; 1)">failed~The &lt;metadata&gt; element shall contain 1 and only 1 &lt;schemaversion&gt; element</assert>
+        <assert test="count(imscp:schemaversion) = 1">passed~The &lt;metadata&gt; element contains 1 and only 1 &lt;schemaversion&gt; element</assert>
+
+   	    <!-- REQ_29.4.4.1.2 -->
+        <!-- The <metadata> element shall contain 0 or More <adlcp:location> child elements to define the location (URL) of the {Metadata} describing the content aggregation. --> 
+        <!-- This is "inline" metadata and handled by ContentPackageTester -->
+        <assert test="count(adlcp:location) &gt; 0">info~Testing multiplicity of the &lt;adlcp:location&gt; element</assert> 
+        <assert test="count(adlcp:location) &gt; 0">passed~The &lt;metadata&gt; element contains <value-of select="count(adlcp:location)"/> &lt;adlcp:location&gt; element(s)</assert>
+        
+        <!-- REQ_29.4.4.1.2.1 -->
+        <!-- The value of this element shall be a characterstring that represents the URL. -->
+        <!-- Tested by the IMSCP schema -->
+        	    
+	    <!-- REQ_29.4.4 -->
+        <!-- The metadata element shall be the container for 0 or more {Metadata} -->
+        <!-- This is a high level requirement covered by all sub-level requirements (30.5.4.x) -->
+        
+   	    <!-- REQ_29.4.1 -->
+        <!-- If providing Metadata, the {Metadata} shall be well-formed and valid according to the cooresponding Controlling Document (e.g., XSD) -->
+        <!-- This is tested in ContentPackageTester and RequiredFilesChecker -->
+	    	    
+   	    <!-- REQ_29.4.1.1 -->
+        <!-- The <metadata> element shall contain 0 or More XML extensions to the IMS Content Packaging namespace. --> 
+        <!-- These inline extensions shall define the  {Metadata} describing the content aggregation. -->
+        <!-- This is "inline" metadata and handled by ContentPackageTester, log it when it is found -->
+
+		<!-- REQ_29.6.3.4.2 -->
+		<!-- adlcp:scormType can only appear as an attribute on <resource> -->
+		<assert test="count(@adlcp:scormType) &gt; 0">info~Testing the location of the "adlcp:scormType" attribute</assert>
+		<assert test="count(@adlcp:scormType) &gt; 0">failed~The "adlcp:scormType" attribute must exist on a &lt;resource&gt; element</assert>
+        
+	</rule>
+     
+    <!-- adlcp:location child of manifest/metadata -->
+	<rule id="adlcp:location" context="adlcp:location">
+
+		<assert test="count(.) &gt; 0">info~Testing the &lt;adlcp:location&gt; element for conformance</assert>        
+		        
+        <!-- REQ_PENDING -->
+		<!-- adlcp:location SPM 2000 -->
+		<assert test="count(.) &gt; 0">info~Testing the character length of the &lt;adlcp:location&gt; element value</assert>
+		<assert test="string-length(.) &gt; 2000">warning~The value contained in the &lt;adlcp:location&gt; element is greater than the SPM of 2000 characters</assert>
+		<assert test="string-length(.) &lt;= 2000">passed~The character length for the value of the &lt;adlcp:location&gt; element has passed conformance</assert>
+	
+		<!-- REQ_PENDING -->
+		<!-- Parent must be imscp:metadata -->
+		<assert test="local-name(parent::node()) != 'metadata'">failed~adlcp:location must be a child of the metadata element</assert>
+		<assert test="local-name(parent::node()) = 'metadata'">passed~adlcp:location is a child of the metadata element</assert>
+	
+		<!-- REQ_29.6.3.4.2 -->
+		<!-- adlcp:scormType can only appear as an attribute on <resource> -->
+		<assert test="count(@adlcp:scormType) &gt; 0">info~Testing the location of the "adlcp:scormType" attribute</assert>
+		<assert test="count(@adlcp:scormType) &gt; 0">failed~The "adlcp:scormType" attribute must exist on a &lt;resource&gt; element</assert>
+        
+	</rule>
+     
+	<!-- schema child of manifest/metadata -->
+	<rule id="schema" context="imscp:metadata/imscp:schema">
+
+		<!-- REQ_29.4.2.1 -->
+		<!-- schema element shall have the value 'ADL SCORM' -->
+		<assert test="true()">info~Testing the &lt;schema&gt; element for conformance to the Vocabulary Data Type</assert>
+		<assert test=". != 'ADL SCORM'">failed~[<value-of select="."/>] is not a valid value for the &lt;schema&gt; element</assert>
+		<assert test=". = 'ADL SCORM'">passed~[ADL SCORM] is a valid value for the &lt;schema&gt; element</assert>
+	
+		<!-- REQ_29.6.3.4.2 -->
+		<!-- adlcp:scormType can only appear as an attribute on <resource> -->
+		<assert test="count(@adlcp:scormType) &gt; 0">info~Testing the location of the "adlcp:scormType" attribute</assert>
+		<assert test="count(@adlcp:scormType) &gt; 0">failed~The "adlcp:scormType" attribute must exist on a &lt;resource&gt; element</assert>
+        
+	</rule>
+	
+	<!-- schemaversion child of manifest/metadata -->
+	<rule id="schemaversion" context="imscp:metadata/imscp:schemaversion">
+
+		<!-- REQ_29.4.3.1 -->		
+		<!-- schemaversion element shall have the value '2004 4th Edition' -->
+		<assert test="true()">info~Testing the &lt;schemaversion&gt; element for conformance to the Vocabulary Data Type</assert>
+		<assert test="(normalize-space(.) != '2004 3rd Edition') and (normalize-space(.) != 'CAM 1.3') and (normalize-space(.) != '2004 4th Edition') ">failed~[<value-of select="normalize-space(.)"/>] is not a valid value for the &lt;schemaversion&gt; element</assert>
+	    <assert test="normalize-space(.) = 'CAM 1.3'">warning~The value for the &lt;schemaversion&gt; element was [CAM 1.3] and is expected to be [2004 4th Edition]. Some systems may rely on this value for processing of the content package. ADL Recommends that this value be updated to be [2004 4th Edition]</assert>		
+	    <assert test="normalize-space(.) = '2004 3rd Edition'">warning~The value for the &lt;schemaversion&gt; element was [2004 3rd Edition] and is expected to be [2004 4th Edition]. Some systems may rely on this value for processing of the content package. ADL Recommends that this value be updated to be [2004 4th Edition]</assert>
+	    <assert test="(normalize-space(.) = '2004 3rd Edition') or (normalize-space(.) = 'CAM 1.3') or (normalize-space(.) = '2004 4th Edition')">passed~[<value-of select="normalize-space(.)"/>] is a valid value for the &lt;schemaversion&gt; element</assert>
+	
+		<!-- REQ_29.6.3.4.2 -->
+		<!-- adlcp:scormType can only appear as an attribute on <resource> -->
+		<assert test="count(@adlcp:scormType) &gt; 0">info~Testing the location of the "adlcp:scormType" attribute</assert>
+		<assert test="count(@adlcp:scormType) &gt; 0">failed~The "adlcp:scormType" attribute must exist on a &lt;resource&gt; element</assert>
+        
+	</rule>
+	
+	<rule id="organizations" context="imscp:organizations">
+     
+        <assert test="count(.) &gt; 0">info~Testing the &lt;organizations&gt; element for conformance</assert>     
+     
+     	<!-- REQ_29.5.1 -->
+     	<!-- The organizations element shall be an empty XML element -->
+     	<assert test="(count(child::*) &gt; 0) or (. != '')">failed~The &lt;organizations&gt; element shall be empty in a Resource Content Package</assert>
+        <assert test="(count(child::*) = 0) or (. = '')">passed~The &lt;organizations&gt; element was found to be empty in the Resource Content Package</assert>
+     
+     	<!-- REQ_29.6.3.4.2 -->
+		<!-- adlcp:scormType can only appear as an attribute on <resource> -->
+		<assert test="count(@adlcp:scormType) &gt; 0">info~Testing the location of the "adlcp:scormType" attribute</assert>
+		<assert test="count(@adlcp:scormType) &gt; 0">failed~The "adlcp:scormType" attribute must exist on a &lt;resource&gt; element</assert>
+        
+	</rule>
+     
+	<!-- resources child of manifest -->
+	<rule id="resources" context="imscp:manifest/imscp:resources">
+	
+		<assert test="count(.) &gt; 0">info~Testing the &lt;resources&gt; element for conformance</assert>        
+		
+		<!-- REQ_29.6.1 -->
+		<!-- The resources element shall contain 0 or 1 xml:base attribute -->
+		<assert test="count(@xml:base) &gt; 0">info~Testing multiplicity of the "xml:base" attribute</assert>
+		<assert test="count(@xml:base) = 1">passed~The &lt;resources&gt; element contains 1 "xml:base" attribute</assert>
+		
+		<!-- REQ_29.6.1.1 -->
+		<!-- The xml:base attribute's value shall be represented as an xs:anyURI datatype. -->
+		<!-- Tested by the IMSCP schema -->
+		
+		<assert test="count(@xml:base) &gt; 0">info~Testing the "xml:base" attribute for conformance</assert>
+		
+		<!-- REQ_29.6.1.2 -->
+		<!-- xml:base can contain no backward slashes ("\") -->
+		<assert test="(count(@xml:base) = 1) and (contains(@xml:base, '\'))">failed~The "xml:base" attribute shall not contain any backward slashes</assert>
+		
+		<!-- REQ_29.6.1.3 -->
+		<!-- xml:base shall not begin with a leading slash ("/") -->
+		<assert test="(count(@xml:base) = 1) and (starts-with(@xml:base, '/'))">failed~The "xml:base" attribute shall not begin with a leading slash</assert>
+		
+		<!-- REQ_29.6.1.4 -->
+		<!-- xml:base shall end with a trailing slash ("/") -->
+		<assert test="(count(@xml:base) = 1) and (not(ends-with(@xml:base, '/')))">failed~The "xml:base" attribute shall end with a trailing slash</assert>
+		
+		<!-- xml:base is correctly formatted -->
+		<assert test="(count(@xml:base) = 1) and ((not(contains(@xml:base, '\'))) and (not(starts-with(@xml:base, '/'))) and (ends-with(@xml:base, '/')))">passed~The "xml:base" attribute is correctly formatted</assert>		
+			
+		<!-- REQ_PENDING -->
+		<!-- xml:base SPM 2000 -->
+		<assert test="count(@xml:base) &gt; 0">info~Testing the character length of the "xml:base" attribute value</assert>
+		<assert test="(count(@xml:base) &gt; 0) and (string-length(@xml:base) &gt; 2000)">warning~The value contained in the "xml:base" attribute is greater than the SPM of 2000 characters</assert>
+		<assert test="(count(@xml:base) &gt; 0) and (string-length(@xml:base) &lt;= 2000)">passed~The character length for the value of the "xml:base" attribute has passed conformance</assert>	
+
+		<!-- REQ_29.6.3 -->
+		<!-- The resources element shall contain 0 or more resource elements -->
+		<assert test="count(imscp:resource) &gt; 0">info~Testing multiplicity of the &lt;resource&gt; element</assert>
+		<assert test="count(imscp:resource) &gt; 0">passed~The &lt;resources&gt; element contains <value-of select="count(imscp:resource)"/> &lt;resource&gt; element(s)</assert>
+		
+		<!-- REQ_29.6.2 -->
+		<!-- The child elements of a resources element shall contain in the order: -->
+		<!-- resource, extension elements  -->
+		<!-- Tested by IMSCP schema -->
+	
+		<!-- REQ_29.6.3.4.2 -->
+		<!-- adlcp:scormType can only appear as an attribute on <resource> -->
+		<assert test="count(@adlcp:scormType) &gt; 0">info~Testing the location of the "adlcp:scormType" attribute</assert>
+		<assert test="count(@adlcp:scormType) &gt; 0">failed~The "adlcp:scormType" attribute must exist on a &lt;resource&gt; element</assert>
+        
+	</rule>
+
+	<!-- resource child of resources -->
+	<rule id="resource" context="imscp:manifest/imscp:resources/imscp:resource">
+        
+        <assert test="count(.) &gt; 0">info~Testing the &lt;resource&gt; element with the identifier value of [<value-of select="@identifier"/>] for conformance</assert> 
+        
+        <!-- REQ_PENDING -->
+		<!-- adlcp:persistState has been deprecated -->
+		<assert test="count(@adlcp:persistState) &gt; 0">failed~The "adlcp:persistState" attribute has been deprecated and should no longer be used</assert>
+        
+	    <!-- REQ_29.6.3.1 -->
+        <!-- 1 and only 1 identifier attribute -->  
+        <assert test="true()">info~Testing multiplicity of the "identifier" attribute</assert>	
+        <assert test="(count(@identifier) &lt; 1) or (count(@identifier) &gt; 1)">failed~The &lt;resource&gt; element shall contain 1 and only 1 "identifier" attribute</assert>
+        <assert test="count(@identifier) = 1">passed~The &lt;resource&gt; element contains 1 and only 1 "identifier" attribute</assert>
+	
+		<!-- REQ_29.6.3.1.1 -->
+		<!-- The identifier attribute's value shall be a valid xs:id -->
+		<!-- Tested by IMSCP schema -->
+	
+		<!-- REQ_29.6.3.1.2 -->
+        <!-- resource:identfier is unique -->
+        <let name="uniqueIdentifier" value="parser:isIdentifierUnique(@identifier)"/>
+        <assert test="count(@identifier) &gt; 0">info~Testing the "identifier" attribute for conformance</assert>
+        <assert test="(count(@identifier) &gt; 0) and not($uniqueIdentifier)">failed~The "identifier" attribute [<value-of select="@identifier"/>] of the &lt;resource&gt; element is not unique within the manifest</assert>
+		<assert test="(count(@identifier) &gt; 0) and $uniqueIdentifier">passed~The "identifier" of resource is unique within the manifest</assert>
+		
+		<!-- REQ_29.6.3.2 -->
+        <!-- 1 and only 1 type attribute --> 
+        <assert test="true()">info~Testing multiplicity of the "type" attribute</assert>	 
+        <assert test="(count(@type) &lt; 1) or (count(@type) &gt; 1)">failed~The &lt;resource&gt; element shall contain 1 and only 1 "type" attribute</assert>
+        <assert test="count(@type) = 1">passed~The &lt;resource&gt; element contains 1 and only 1 "type" attribute</assert>
+        
+   		<!-- REQ_PENDING -->
+	    <!-- type SPM 1000 -->
+	    <assert test="count(@type) &gt; 0">info~Testing the character length of the "type" attribute value</assert>
+	    <assert test="(count(@type) &gt; 0) and (string-length(@type) &gt; 1000)">warning~The value contained in the "type" attribute is greater than the SPM of 1000 characters</assert>
+        <assert test="(count(@type) &gt; 0) and (string-length(@type) &lt;= 1000)">passed~The character length for the value of the "type" attribute has passed conformance</assert>
+        
+        <!-- REQ_29.6.3.2.1 -->
+        <!-- The type attribute's value shall be represented as an xs:string type -->
+		<!-- Tested by IMSCP schema -->
+        
+        <!-- REQ_29.6.3.3 -->
+		<!-- resource element shall contain 0 or 1 href attributes -->
+		<assert test="count(@href) &gt; 0">info~Testing multiplicity of the "href" attribute</assert> 
+		<assert test="count(@href) = 1">passed~The &lt;resource&gt; element contains 1 "href" attribute</assert>
+		
+		<!-- REQ_29.6.3.3.1 -->
+		<!-- The href attribute shall be a characterstring that represents a URL -->
+		<!-- Tested by IMSCP schema -->
+		
+		<assert test="count(@href) &gt; 0">info~Testing the "href" attribute with value [<value-of select="@href" />] for conformance</assert> 
+		
+		<!-- REQ_29.6.3.3.2-->
+		<!-- href can contain no backward slashes ("\") -->
+		<assert test="(count(@href) = 1 ) and (contains(@href, '\'))">failed~The "href" attribute shall not contain any backward slashes</assert>
+		
+		<!-- REQ_29.6.3.3.3 -->
+		<!-- href shall not begin with a leading slash ("/") -->
+		<assert test="(count(@href) = 1 ) and (starts-with(@href, '/'))">failed~The "href" attribute shall not begin with a leading slash</assert>
+				
+		<!-- href is correctly formatted -->
+		<assert test="(count(@href) = 1 ) and ((not(contains(@href, '\'))) and (not(starts-with(@href, '/'))))">passed~The "href" attribute is correctly formatted</assert>
+				
+		<!-- REQ_PENDING -->
+		<!-- href can not reference local file system -->
+		<assert test="(count(@href) = 1 ) and (starts-with(@href, 'file:'))">failed~The file [<value-of select="@href"/>] is referenced to the local file system.  The "href" attribute must reference a file that is local to the content package or reference an external file</assert>
+		
+        <!-- REQ_PENDING -->
+        <!-- The "href" attribute must contain a reference to a file which has a valid file extension -->
+        <assert test="(count(@href) &gt; 0) and not(URIHandler:isValidExtension(@href))">info~Testing the file extension of the "href" attribute value</assert>
+        <assert test="(count(@href) &gt; 0) and not(URIHandler:isValidExtension(@href))">failed~The file extension of the "href" attribute value is invalid or missing</assert>
+      
+		<!-- REQ_PENDING -->
+		<!-- href SPM 2000 -->
+		<assert test="count(@href) &gt; 0">info~Testing the character length of the "href" attribute value</assert>
+		<assert test="(count(@href) &gt; 0) and (string-length(@href) &gt; 2000)">warning~The value contained in the "href" attribute is greater than the SPM of 2000 characters</assert>
+		<assert test="(count(@href) &gt; 0) and (string-length(@href) &lt;= 2000)">passed~The character length for the value of the "href" attribute has passed conformance</assert>
+		
+		<!-- REQ_PENDING -->
+		<!-- Any launch parameters on the href attribute must be valid parameters -->
+		<!--<let name="param" value="ParameterHandler:checkHrefParameters(@href)"/>
+		<assert test="contains(@href,'?') or contains(@href,'#')">info~Testing the launch parameters of the "href" for conformance</assert>
+		<assert test="(contains(@href,'?') or contains(@href,'#')) and ($param)">passed~[<value-of select="@href"/>] adheres to the syntax defined by IMS CP 1.1.4 and SCORM for the "href" attribute launch parameters</assert>			
+		<assert test="(contains(@href,'?') or contains(@href,'#')) and not ($param)">failed~[<value-of select="@href"/>] does not adhere to the syntax defined by IMS CP 1.1.4 and SCORM for the "href" attribute launch parameters</assert>
+		-->
+		
+		<!-- REQ_29.6.3.4 -->
+        <!-- 1 and only 1 adlcp:scormType attribute -->  
+        <assert test="true()">info~Testing multiplicity of the "adlcp:scormType" attribute</assert>
+        <assert test="(count(@adlcp:scormType) &lt; 1) or (count(@adlcp:scormType) &gt; 1)">failed~The &lt;resource&gt; element shall contain 1 and only 1 "adlcp:scormType" attribute</assert>
+        <assert test="count(@adlcp:scormType) = 1">passed~The &lt;resource&gt; element contains 1 and only 1 "adlcp:scormType" attribute</assert>		
+	
+		<!-- REQ_29.6.3.4.1 -->
+		<!-- The adlcp:scormType value shall be sco or asset -->
+		<assert test="count(@adlcp:scormType) &gt; 0">info~Testing the "adlcp:scormType" attribute for conformance to the Vocabulary Data Type</assert>
+		<assert test="(@adlcp:scormType != 'sco') and (@adlcp:scormType != 'asset')">failed~[<value-of select="@adlcp:scormType"/>] is not a valid value for the "adlcp:scormType" attribute</assert>
+		<assert test="(@adlcp:scormType = 'sco') or (@adlcp:scormType = 'asset')">passed~[<value-of select="@adlcp:scormType"/>] is a valid value for the "adlcp:scormType" attribute</assert>
+		
+		<!-- REQ_29.6.3.5 -->
+		<!-- resource element shall contain 0 or 1 xml:base attributes -->
+		<assert test="count(@xml:base) &gt; 0">info~Testing multiplicity of the "xml:base" attribute</assert>
+		<assert test="count(@xml:base) = 1">passed~The &lt;resource&gt; element contains 1 "xml:base" attribute</assert>
+		
+		<!-- REQ_29.6.3.5.1 -->
+		<!-- The xml:base attribute's value shall be represented as an xs:anyURI Datatype -->
+		<!-- Tested by IMSCP schema -->
+		
+		<assert test="count(@xml:base) &gt; 0">info~Testing the "xml:base" attribute for conformance</assert>
+		
+		<!-- REQ_29.6.3.5.2 -->
+		<!-- xml:base can contain no backward slashes ("\") -->
+		<assert test="(count(@xml:base) = 1) and (contains(@xml:base, '\'))">failed~The "xml:base" attribute shall not contain any backward slashes</assert>
+		
+		<!-- REQ_29.6.3.5.3 -->
+		<!-- xml:base shall not begin with a leading slash ("/") -->
+		<assert test="(count(@xml:base) = 1) and (starts-with(@xml:base, '/'))">failed~The "xml:base" attribute shall not begin with a leading slash</assert>
+		
+		<!-- REQ_29.6.3.5.4 -->
+		<!-- xml:base shall end with a trailing slash ("/") -->
+		<assert test="(count(@xml:base) = 1) and (not(ends-with(@xml:base, '/')))">failed~The "xml:base" attribute shall end with a trailing slash</assert>
+		
+		<!-- xml:base is correctly formatted -->
+		<assert test="(count(@xml:base) = 1) and ((not(contains(@xml:base, '\'))) and (not(starts-with(@xml:base, '/'))) and (ends-with(@xml:base, '/')))">passed~The "xml:base" attribute is correctly formatted</assert>		
+		
+		<!-- REQ_PENDING -->
+		<!-- xml:base SPM 2000 -->
+		<assert test="count(@xml:base) &gt; 0">info~Testing the character length of the "xml:base" attribute value</assert>
+		<assert test="(count(@xml:base) &gt; 0) and (string-length(@xml:base) &gt; 2000)">warning~The value contained in the "xml:base" attribute is greater than the SPM of 2000 characters</assert>
+		<assert test="(count(@xml:base) &gt; 0) and (string-length(@xml:base) &lt;= 2000)">passed~The character length for the value of the "xml:base" attribute has passed conformance</assert>
+		
+        <!-- REQ_PENDING -->
+		<assert test="not(((count(@href) &gt; 0) and (string-length(@href) &gt; 2000)) or 
+					  ((count(../../@xml:base) &gt; 0) and (string-length(../../@xml:base) &gt; 2000)) or
+					  ((count(../@xml:base) &gt; 0) and (string-length(../@xml:base) &gt; 2000)) or
+					  ((count(@xml:base) &gt; 0) and (string-length(@xml:base) &gt; 2000))) and
+					  (string-length(concat(../../@xml:base,../@xml:base,@xml:base,@href)) &gt; 2000)">warning~The total length of the text contained in the "xml:base" and "href" attributes when they are concatenated is greater than the SPM of 2000 characters</assert>
+
+		
+		<!-- REQ_29.6.3.7 -->
+		<!-- The child elements of an resource element shall contain in the following order: -->
+		<!-- metadata, file, dependency, extension elements -->
+		<!-- Tested by IMSCP schema -->
+		
+		<!-- REQ_29.6.3.8 -->
+		<!-- resource element shall contain 0 or 1 metadata elements -->
+		<assert test="count(imscp:metadata) &gt; 0">info~Testing multiplicity of the &lt;metadata&gt; element</assert>
+		<assert test="count(imscp:metadata) &gt; 1">failed~The &lt;resource&gt; element shall contain 0 or 1 &lt;metadata&gt; element</assert>
+		<assert test="count(imscp:metadata) = 1">passed~The &lt;resource&gt; element contains 1 &lt;metadata&gt; element</assert>
+		
+		<!-- REQ_29.6.3.9 -->
+		<!-- The resource element shall contain 0 or More file child elements. -->
+		<assert test="count(imscp:file) &gt; 0">info~Testing multiplicity of the &lt;file&gt; element</assert>
+		<assert test="count(imscp:file) &gt; 0">passed~The &lt;resource&gt; element contains <value-of select="count(imscp:file)"/> &lt;file&gt; element(s)</assert>
+		
+		<!-- REQ_29.6.3.10 -->
+		<!-- The resource element shall contain 0 or More dependency child elements. -->
+		<assert test="count(imscp:dependency) &gt; 0">info~Testing multiplicity of the &lt;dependency&gt; element</assert>
+		<assert test="count(imscp:dependency) &gt; 0">passed~The &lt;resource&gt; element contains <value-of select="count(imscp:dependency)"/> &lt;dependency&gt; element(s)</assert>
+		
+		<!-- REQ_29.6.3.8.1 -->
+		<!-- The metadata element shall be the container for 0 or more {metadata} -->
+		<!-- Tested by IMSCP schema -->
+				
+		<!-- REQ_29.6.3.8.1.1 -->
+		<!-- If providing metadata, the metadata shall be well-formed and valid according -->
+		<!-- to the controlling documents -->
+		<!-- Tested in RequiredFilesChecker -->
+		
+		<!-- REQ_29.6.3.8.1.1.1 -->
+		<!-- The metadata element shall contain 0 or more XML extensions to the IMS Content Packaging namespace. -->
+		<!-- Tested by IMSCP schema -->
+
+		<!-- REQ_29.6.3.8.1.1.2 -->
+		<!-- The metadata element shall contain 0 or more adlcp:location child elements. -->
+		<!-- Tested by IMSCP schema -->
+		
+		<!-- REQ_29.6.3.8.1.1.2.1 -->
+		<!-- The metadata element shall be a characterstring that represents the URL. -->
+		<!-- Tested by IMSCP schema -->
+		
+		<!-- REQ_29.6.3.8.2.1 -->
+		<!-- If providing metadata, the metadata shall be well-formed and valid according -->
+		<!-- to the controlling documents -->
+		<!-- Tested in RequiredFilesChecker -->
+		
+		<!-- REQ_29.6.3.8.1.2.1 -->
+		<!-- The metadata element shall contain 0 or more XML extensions to the IMS Content Packaging namespace. -->
+		<!-- Tested by IMSCP schema -->
+
+		<!-- REQ_29.6.3.8.1.2.2.1 -->
+		<!-- The metadata element shall be a characterstring that represents the URL. -->
+		<!-- Tested by IMSCP schema -->
+		
+		<!-- REQ_29.6.3.9.1.1 -->     
+        <!-- If the <resource> is local to the content package, then a <file> element must contain as a child of -->
+        <!-- the defined <resource> element and the <file> element’s href attribute shall be identical to the -->
+        <!-- <resource> element’s href attribute, exclusive of any URL parameters that may be specified in the -->
+        <!-- href attribute of the <resource> element. -->
+        <let name="isURLRes" value="URIHandler:isURL(@href)"/>
+        <let name="checkRes" value="parser:checkHref(@identifier)"/>
+        <assert test="not($checkRes='null') and (count(@href) &gt; 0) and not($isURLRes)">info~Testing to ensure that &lt;resource&gt; element's "href" attribute is equivalent to one of its &lt;file&gt; elements</assert>
+        <assert test="not($checkRes='null') and (count(@href) &gt; 0) and (count(@identifier) &gt; 0 ) and not($isURLRes) and (not($checkRes='true'))">failed~The &lt;resource&gt; <value-of select="@identifier"/> shall contain a &lt;file&gt; element that shares an identical "href" as the &lt;resource&gt; element</assert>
+        <assert test="not($checkRes='null') and (count(@href) &gt; 0) and (count(@identifier) &gt; 0 ) and not($isURLRes) and ($checkRes='true')">passed~The &lt;resource&gt; <value-of select="@identifier"/> contains a &lt;file&gt; element that shares an identical "href" as the &lt;resource&gt; element</assert>
+
+     
+     	<!-- REQ_29.6.3.10.1.1 -->
+     	<!-- The identifierref attribute's value shall be an xs:string -->
+     	<!-- Tested by IMSCP schema -->
+				
+		<!-- REQ_29.6.3.4.2 -->
+		<!-- adlcp:scormType can only appear as an attribute on <resource> -->
+		<assert test="count(@adlcp:scormType) &gt; 0">info~Testing the location of the "adlcp:scormType" attribute</assert>
+		<assert test="count(@adlcp:scormType) &gt; 0">passed~The "adlcp:scormType" attribute must exist on a &lt;resource&gt; element</assert>
+        
+	</rule>
+	
+	<rule id="resource-metadata" context="imscp:resource/imscp:metadata">
+	
+	    <assert test="(count(.) &gt; 0) and (count(adlcp:location) &gt; 0)">info~Testing the &lt;metadata&gt; element for conformance</assert>
+	    <!-- REQ_29.6.3.8.1.2.2 -->
+		<!-- The metadata element shall contain 0 or more adlcp:location child elements. -->
+        <assert test="count(adlcp:location) &gt; 0">info~Testing multiplicity of the &lt;adlcp:location&gt; element</assert> 
+        <assert test="count(adlcp:location) &gt; 0">passed~The &lt;metadata&gt; element contains <value-of select="count(adlcp:location)"/> &lt;adlcp:location&gt; element(s)</assert>
+        
+		<!-- REQ_29.6.3.4.2 -->
+		<!-- adlcp:scormType can only appear as an attribute on <resource> -->
+		<assert test="count(@adlcp:scormType) &gt; 0">info~Testing the location of the "adlcp:scormType" attribute</assert>
+		<assert test="count(@adlcp:scormType) &gt; 0">failed~The "adlcp:scormType" attribute must exist on a &lt;resource&gt; element</assert>
+        
+	</rule>
+	
+	<!-- file child of resource -->
+	<rule id="file" context="imscp:manifest/imscp:resources/imscp:resource/imscp:file">
+	
+		<assert test="count(.) &gt; 0">info~Testing the &lt;file&gt; element for conformance</assert>   
+		     
+		<!-- REQ_29.6.3.9.3 -->
+		<!-- The metadata element shall be the first child of file followed by extensions if applicable -->
+		<assert test="(count(imscp:metadata) &gt; 0) and (local-name(child::*[1]) != 'metadata')">failed~The first child of the &lt;file&gt; element shall be the &lt;metadata&gt; element</assert>
+		<assert test="local-name(child::*[1]) = 'metadata'">passed~The first child of the &lt;file&gt; element is the &lt;metadata&gt; element</assert>
+		
+		<!-- REQ_29.6.3.9.1 -->		
+		<!-- The file element shall identify 0 or More local files that this resource is dependent on. -->
+		<!-- Tested by ResourceHrefChecker -->
+	
+		<!-- REQ_29.6.3.9.2 -->
+		<!-- 1 and only 1 href attribute -->  
+		<assert test="true()">info~Testing multiplicity of the "href" attribute</assert>
+        <assert test="(count(@href) &lt; 1) or (count(@href) &gt; 1)">failed~The &lt;file&gt; element shall contain 1 and only 1 "href" attribute</assert>
+        <assert test="count(@href) = 1">passed~The &lt;file&gt; element contains 1 and only 1 "href" attribute</assert>
+
+		<!-- REQ_29.6.3.9.2.1 -->
+		<!-- The href attribute's value shall be a characterstring that represents the URL. --> 
+		<!-- Tested by IMSCP schema -->
+        
+        <assert test="count(@href) &gt; 0">info~Testing the "href" attribute with value [<value-of select="@href" />] for conformance</assert>	
+        
+        <!-- REQ_29.6.3.9.2.2 -->
+		<!-- href can contain no backward slashes ("\") -->
+		<assert test="(count(@href) = 1 ) and (contains(@href, '\'))">failed~The "href" attribute shall not contain any backward slashes</assert>
+		
+		<!-- REQ_29.6.3.9.2.3 -->
+		<!-- href shall not begin with a leading slash ("/") -->
+		<assert test="(count(@href) = 1 ) and (starts-with(@href, '/'))">failed~The "href" attribute shall not begin with a leading slash</assert>
+				
+		<!-- href is correctly formatted -->
+		<assert test="(count(@href) = 1 ) and ((not(contains(@href, '\'))) and (not(starts-with(@href, '/'))))">passed~The "href" attribute is correctly formatted</assert>
+        		
+		<!-- REQ_PENDING -->
+		<!-- href can not reference local file system -->
+		<assert test="(count(@href) = 1 ) and (starts-with(@href, 'file:'))">failed~The file [<value-of select="@href"/>] is referenced to the local file system.  The "href" attribute must reference a file that is local to the content package or reference an external file</assert>
+        
+        <!-- REQ_PENDING -->
+        <!-- The "href" attribute must contain a reference to a file which has a valid file extension -->
+        <assert test="(count(@href) &gt; 0) and not(URIHandler:isValidExtension(@href))">info~Testing the file extension of the "href" attribute value</assert>
+        <assert test="(count(@href) &gt; 0) and not(URIHandler:isValidExtension(@href))">failed~The file extension of the "href" attribute value is invalid or missing</assert>
+        
+        <!-- REQ_PENDING -->
+		<!-- href SPM 2000 -->
+		<assert test="count(@href) &gt; 0">info~Testing the character length of the "href" attribute value</assert>
+		<assert test="(count(@href) &gt; 0) and (string-length(@href) &gt; 2000)">warning~The value contained in the "href" attribute is greater than the SPM of 2000 characters</assert>
+		<assert test="(count(@href) &gt; 0) and (string-length(@href) &lt;= 2000)">passed~The character length for the value of the "href" attribute has passed conformance</assert>
+        
+        <!-- REQ_PENDING -->
+		<assert test="not(((count(@href) &gt; 0) and (string-length(@href) &gt; 2000)) or 
+					  ((count(../../../@xml:base) &gt; 0) and (string-length(../../../@xml:base) &gt; 2000)) or
+					  ((count(../../@xml:base) &gt; 0) and (string-length(../../@xml:base) &gt; 2000)) or
+					  ((count(../@xml:base) &gt; 0) and (string-length(../@xml:base) &gt; 2000))) and
+					  (string-length(concat(../../../@xml:base,../../@xml:base,../@xml:base,@href)) &gt; 2000)">warning~The total length of the text contained in the "xml:base" and "href" attributes when they are concatenated is greater than the SPM of 2000 characters</assert>        
+        
+        <!-- REQ_29.6.3.9.4 -->
+		<!-- file element shall contain 0 or 1 metadata elements -->
+		<assert test="count(imscp:metadata) &gt; 0">info~Testing multiplicity of the &lt;metadata&gt; element</assert>
+		<assert test="count(imscp:metadata) &gt; 1">failed~The &lt;file&gt; element shall contain 0 or 1 &lt;metadata&gt; elements</assert>
+		<assert test="count(imscp:metadata) = 1">passed~The &lt;file&gt; element contains 1 &lt;metadata&gt; element</assert>
+        
+		<!-- REQ_29.6.3.9.4.1 -->
+		<!-- The metadata element shall be the container for 0 or more {metadata} -->
+		<!-- Tested by IMSCP schema -->
+				
+		<!-- REQ_29.6.3.9.4.1.1 -->
+		<!-- If providing metadata, the metadata shall be well-formed and valid according -->
+		<!-- to the controlling documents -->
+		<!-- Tested in RequiredFilesChecker -->
+		
+		<!-- REQ_29.6.3.9.4.1.1.1 -->
+		<!-- The metadata element shall contain 0 or more XML extensions to the IMS Content Packaging namespace. -->
+		<!-- Tested by IMSCP schema -->
+
+		<!-- REQ_29.6.3.9.4.1.1.2.1 -->
+		<!-- The metadata element shall be a characterstring that represents the URL. -->
+		<!-- Tested by IMSCP schema -->
+        
+		<!-- REQ_29.6.3.4.2 -->
+		<!-- adlcp:scormType can only appear as an attribute on <resource> -->
+		<assert test="count(@adlcp:scormType) &gt; 0">info~Testing the location of the "adlcp:scormType" attribute</assert>
+		<assert test="count(@adlcp:scormType) &gt; 0">failed~The "adlcp:scormType" attribute must exist on a &lt;resource&gt; element</assert>
+        
+	</rule>
+
+	<rule id="file-metadata" context="imscp:file/imscp:metadata">
+	
+	    <assert test="(count(.) &gt; 0) and (count(adlcp:location) &gt; 0)">info~Testing the &lt;metadata&gt; element for conformance</assert>
+		<!-- REQ_29.6.3.9.4.1.1.2 -->
+		<!-- The metadata element shall contain 0 or more adlcp:location child elements. -->
+        <assert test="count(adlcp:location) &gt; 0">info~Testing multiplicity of the &lt;adlcp:location&gt; element</assert> 
+        <assert test="count(adlcp:location) &gt; 0">passed~The &lt;metadata&gt; element contains <value-of select="count(adlcp:location)"/> &lt;adlcp:location&gt; element(s)</assert>
+        
+		<!-- REQ_29.6.3.4.2 -->
+		<!-- adlcp:scormType can only appear as an attribute on <resource> -->
+		<assert test="count(@adlcp:scormType) &gt; 0">info~Testing the location of the "adlcp:scormType" attribute</assert>
+		<assert test="count(@adlcp:scormType) &gt; 0">failed~The "adlcp:scormType" attribute must exist on a &lt;resource&gt; element</assert>
+        
+	</rule>
+
+	<!-- dependency child of resource -->
+	<rule id="dependency" context="imscp:manifest/imscp:resources/imscp:resource/imscp:dependency">
+		        
+        <!-- REQ_29.6.3.10.2 was removed in the SCORM 2004 4th Edition Testing Requirments version 1.1-->
+        <!-- the dependency element shall be an empty xml element -->
+        <!-- <assert test="count(.) &gt; 0">info~Testing the &lt;dependency&gt; element for conformance</assert>
+        <assert test="(count(child::*) &gt; 0) or (. != '')">failed~The &lt;dependency&gt; element shall be an empty xml element</assert>
+        <assert test="(count(child::*) = 0) and (. = '')">passed~The &lt;dependency&gt; element is an empty xml element</assert> -->
+		
+		<!-- REQ_29.6.3.10.1 -->
+		<!-- 1 and only 1 identifierref attribute -->  
+		<assert test="true()">info~Testing multiplicity of the "identifierref" attribute</assert>
+        <assert test="(count(@identifierref) &lt; 1) or (count(@identifierref) &gt; 1)">failed~The &lt;dependency&gt; element shall contain 1 and only 1 "identifierref" attribute</assert>
+        <assert test="count(@identifierref) = 1">passed~The &lt;dependency&gt; element contains 1 and only 1 "identifierref" attribute</assert>
+	
+	    <!-- REQ_29.6.3.10.1.2 -->
+        <!-- The identifierref attribute’s value shall reference an identifier attribute of a <resource>. -->
+        <let name="idref" value="@identifierref" />
+        <assert test="count($idref) &gt; 0">info~Testing the "identifierref" value of [<value-of select="$idref" />] for valid referencing of a valid "identifier" attribute value</assert>
+        <assert test="( count(@identifierref) &gt; 0 ) and ( count(//imscp:resource[@identifier=$idref]) &gt; 0 )">passed~The "identifierref" value of [<value-of select="$idref" />] references a valid "identifier" attribute of a &lt;resource&gt; element</assert>
+        <assert test="( count(@identifierref) &gt; 0 ) and ( count(//imscp:resource[@identifier=$idref]) = 0 )">failed~The "identifierref" value of [<value-of select="$idref" />] does not reference a valid "identifier" attribute value</assert>
+
+		<!-- REQ_PENDING -->
+		<!-- identifierref SPM 2000 -->
+		<assert test="count(@identifierref) &gt; 0">info~Testing the character length of the "identifierref" attribute value</assert>
+		<assert test="(count(@identifierref) &gt; 0) and (string-length(@identifierref) &gt; 2000)">warning~The value contained in the "identifierref" attribute is greater than the SPM of 2000 characters</assert>
+		<assert test="(count(@identifierref) &gt; 0) and (string-length(@identifierref) &lt;= 2000)">passed~The character length for the value of the "identifierref" attribute has passed conformance</assert>
+
+		<!-- REQ_29.6.3.4.2 -->
+		<!-- adlcp:scormType can only appear as an attribute on <resource> -->
+		<assert test="count(@adlcp:scormType) &gt; 0">info~Testing the location of the "adlcp:scormType" attribute</assert>
+		<assert test="count(@adlcp:scormType) &gt; 0">failed~The "adlcp:scormType" attribute must exist on a &lt;resource&gt; element</assert>
+        
+	</rule>
+	
+		<!-- REQ_29.7 -->
+		<!-- The manifest element (root) shall contain 0 or More manifest child elements. -->
+		<!-- i.e. submanifests -->
+		<!-- Tested by IMSCP schema -->
+     
+   </pattern>
+</schema>

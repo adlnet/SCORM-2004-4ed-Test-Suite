@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
+                      "DTD/xhtml1-frameset.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+
+      <title>SCO Launch Stage</title>
+
+      <script language="JavaScript" src="../css/API_13.js"
+         type="text/javascript"></script>
+      <script type="text/javascript">
+      /*************************************************************************
+      **
+      ** Filename:  CP_SCOWrapper.htm
+      **
+      ** File Description:
+      **
+      ** Browser Compatibility:
+      **
+      ** Author: ADLI Project
+      **
+      ** Module/Package Name:  none
+      ** Module/Package Description: none
+      **
+      ** Design Issues:
+      **
+      ** Implementation Issues:
+      ** Known Problems:
+      ** Side Effects:
+      **
+      ** References: ADL SCORM
+      **
+      ***************************************************************************
+
+      
+      **************************************************************************/
+      var API_1484_11 = opener.API_1484_11;
+
+      //************************************************************************
+      // Function: launchSCO()
+      //
+      // Description:
+      //************************************************************************
+      function launchSCO()
+      {
+
+         // JavaScript API object defined
+         API_1484_11 = new APIObject2004();
+
+         // JavaScript API object defined
+         API = new APIObject12();
+
+         // is there an opener?
+         if (typeof(top.opener) != "undefined")
+         {
+            if (top.opener.location.href != "")
+            {
+               // is there a SCO to test?
+               // scoToTest is a variable that is set in SCORTEInstructions.htm
+               if (top.opener.scoToTest != "")
+               {
+                  //Adds the required "file" prefix
+                  this.frames[0].location = "file:///" + top.opener.scoToTest.replace("\\", "/");
+               }
+               else
+               {
+                  alert("There is no SCO selected to test");
+               }
+           }
+           else
+            {
+               alert("This page must be launched from the Content Package Instructions Page!");
+            }
+         }
+         else
+         {
+            alert("This page must be launched from the Content Package Instructions Page!");
+         }
+         return;
+      }
+
+
+      /**************************************************************************
+      **
+      ** Function: API Object
+      ** Inputs:  Catch all for 1.3 SCO calls
+      ** Return:  none
+      **
+      ** Description:
+      ** APIObject is a JavaScript Object used to catch all the 1.2 calls
+      **
+      **************************************************************************/
+      function APIObject2004()
+      {
+         this.Initialize = Initialize;
+         this.Terminate = Terminate;
+         this.GetValue = GetValue;
+         this.SetValue = SetValue;
+         this.Commit = Commit;
+         this.GetLastError = GetLastError;
+         this.GetErrorString = GetErrorString;
+         this.GetDiagnostic = GetDiagnostic;
+      }
+
+      /**************************************************************************
+      **
+      ** Function: API Object
+      ** Inputs:  Catch all for 1.3 SCO calls
+      ** Return:  none
+      **
+      ** Description:
+      ** APIObject is a JavaScript Object used to catch all the 1.2 calls
+      **
+      **************************************************************************/
+      function APIObject12()
+      {
+         this.LMSInitialize = version12APICP;
+         this.LMSFinish = version12APICP;
+         this.LMSGetValue = version12APICP;
+         this.LMSSetValue = version12APICP;
+         this.LMSCommit = version12APICP;
+         this.LMSGetLastError = version12APICP;
+         this.LMSGetErrorString = version12APICP;
+         this.LMSGetDiagnostic = version12APICP;
+      }
+
+      </script>
+
+   </head>
+
+   <frameset id="stage" rows="*,10%" onload="Javascript:launchSCO();">
+      <frame title="stage area" id="stagearea" name="stagearea" src="about:blank"/>
+      <frame title="footer" id="stagearea1" name="stagearea1" src="CP_SCORTEFooter.htm"/>
+   </frameset>
+</html>

@@ -1,0 +1,38 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<title>Final Instruction</title>
+		<link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+		 <script type="text/javascript">
+		 //<!-- [CDATA[
+		 function writeToInstruction()
+		 {
+		 		parent.currentInstructions.document.getElementById("userInstruction").innerHTML=
+		 		"<p class='stepText'>The right hand frame contains the Summary Log of the test "+
+		 		"just completed. For each LMS Test Content Package completed, there is a link "+
+		 		"in the Summary Log that goes to the Detailed Log for that LMS Test Content Package.</p>";
+		 }
+		 //]]-->
+		 </script>
+	</head>
+	<body style="width:400px" onload="writeToInstruction();parent.controls.blankState();">
+		<div style="width:400px">
+			<form id="inst" action="">
+				<div class="adlHeader">
+					Final Instructions
+				</div>
+				<div class="cell">
+					<p class="stepTextImportant">
+						The LMS Conformance Test has ended. 
+					</p>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

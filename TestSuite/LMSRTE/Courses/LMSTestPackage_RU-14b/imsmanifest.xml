@@ -1,0 +1,144 @@
+<?xml version = "1.0" standalone = "no"?>
+<manifest identifier="LMSTestPackage_RU-14b" version="1.1.1"
+	xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3"
+	xmlns:adlnav="http://www.adlnet.org/xsd/adlnav_v1p3" xmlns:adlseq="http://www.adlnet.org/xsd/adlseq_v1p3"
+	xmlns:imsss="http://www.imsglobal.org/xsd/imsss" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd
+                                           http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd
+                                           http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd
+                                           http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd
+                                           http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd">
+	<metadata>
+		<schema>ADL SCORM</schema>
+		<schemaversion>2004 4th Edition</schemaversion>
+	</metadata>
+	<organizations default="RU-14b">
+		<organization identifier="RU-14b">
+			<title>LMS Test Content Package RU-14b</title>
+			<item identifier="activity_1">
+				<title>Activity 1</title>
+				<item identifier="activity_2" identifierref="SEQ01"
+					parameters="?tc=RU-14b&amp;act=2">
+					<title>Activity 2</title>
+					<adlnav:presentation>
+						<adlnav:navigationInterface>
+							<adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+							<adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+							<adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+						</adlnav:navigationInterface>
+					</adlnav:presentation>
+				</item>
+				<item identifier="activity_3" identifierref="SEQ01"
+					parameters="?tc=RU-14b&amp;act=3">
+					<title>Activity 3</title>
+					<imsss:sequencing>
+						<imsss:objectives>
+							<imsss:primaryObjective />
+							<imsss:objective objectiveID="obj1">
+								<imsss:mapInfo targetObjectiveID="gObj-RU14b"
+									writeSatisfiedStatus="true" />
+							</imsss:objective>
+						</imsss:objectives>
+					</imsss:sequencing>
+					<adlnav:presentation>
+						<adlnav:navigationInterface>
+							<adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+							<adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+							<adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+						</adlnav:navigationInterface>
+					</adlnav:presentation>
+				</item>
+				<imsss:sequencing>
+					<imsss:controlMode choice="false" flow="true" />
+					<imsss:sequencingRules>
+						<imsss:preConditionRule>
+							<imsss:ruleConditions>
+								<imsss:ruleCondition condition="satisfied" />
+							</imsss:ruleConditions>
+							<imsss:ruleAction action="skip" />
+						</imsss:preConditionRule>
+						<imsss:exitConditionRule>
+							<imsss:ruleConditions>
+								<imsss:ruleCondition referencedObjective="obj1"
+									condition="satisfied" />
+							</imsss:ruleConditions>
+							<imsss:ruleAction action="exit" />
+						</imsss:exitConditionRule>
+						<imsss:postConditionRule>
+							<imsss:ruleConditions>
+								<imsss:ruleCondition referencedObjective="obj1"
+									condition="satisfied" />
+							</imsss:ruleConditions>
+							<imsss:ruleAction action="exitAll" />
+						</imsss:postConditionRule>
+					</imsss:sequencingRules>
+					<imsss:rollupRules>
+						<imsss:rollupRule childActivitySet="any">
+							<imsss:rollupConditions>
+								<imsss:rollupCondition operator="not"
+									condition="completed" />
+							</imsss:rollupConditions>
+							<imsss:rollupAction action="satisfied" />
+						</imsss:rollupRule>
+					</imsss:rollupRules>
+					<imsss:objectives>
+						<imsss:primaryObjective />
+						<imsss:objective objectiveID="obj1">
+							<imsss:mapInfo targetObjectiveID="gObj-RU14b" />
+						</imsss:objective>
+					</imsss:objectives>
+				</imsss:sequencing>
+			</item>
+			<item identifier="activity_4" identifierref="SEQ01"
+				parameters="?tc=RU-14b&amp;act=4">
+				<title>Activity 4</title>
+				<adlnav:presentation>
+					<adlnav:navigationInterface>
+						<adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+						<adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+						<adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+					</adlnav:navigationInterface>
+				</adlnav:presentation>
+			</item>
+			<imsss:sequencing>
+				<imsss:controlMode choice="false" flow="true" />
+			</imsss:sequencing>
+		</organization>
+	</organizations>
+	<resources>
+		<resource identifier="SEQ01" type="webcontent"
+			adlcp:scormType="sco" href="SequencingTest.htm" xml:base="resources/">
+			<file href="SequencingTest.htm" />
+			<dependency identifierref="LMSFNCTS01" />
+			<dependency identifierref="JAR01" />
+			<dependency identifierref="ABOUT01" />
+			<dependency identifierref="EMULATION01" />
+			<dependency identifierref="LMSINCLUDE" />
+		</resource>
+		<resource identifier="LMSFNCTS01" type="webcontent"
+			adlcp:scormType="asset">
+			<file href="common/lmsrtefunctions.js" />
+		</resource>
+		<resource identifier="JAR01" type="webcontent"
+			adlcp:scormType="asset" xml:base="common/">
+			<file href="LMSTest.jar" />
+		</resource>
+		<resource identifier="ABOUT01" type="webcontent"
+			adlcp:scormType="asset">
+			<file href="common/About.js" />
+		</resource>
+		<resource identifier="EMULATION01" type="webcontent"
+			adlcp:scormType="asset">
+			<file href="common/EmulationCode.js" />
+			<dependency identifierref="BROWSERDETECT01" />
+		</resource>
+		<resource identifier="BROWSERDETECT01" type="webcontent"
+			adlcp:scormType="asset">
+			<file href="common/BrowserDetect.js" />
+		</resource>
+		<resource identifier="LMSINCLUDE" type="webcontent"
+			adlcp:scormType="asset">
+			<file href="includes/LMSTestContentPackages_style.css" />
+		</resource>
+	</resources>
+</manifest>

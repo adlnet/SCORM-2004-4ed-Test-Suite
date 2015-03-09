@@ -1,0 +1,148 @@
+/******************************************************************************
+**
+** Filename: README.css 
+**
+** File Description: Style sheet used for the Sample Run Time Environment and
+**                   Test Suite readmes.
+**
+** Author:  ADL Technical Team
+**
+**
+***************************************************************************
+
+******************************************************************************/
+
+body
+{
+    font-family : Serif;
+	font-size : 12pt;
+	font-weight : normal;
+	font-style : normal;
+	background-color : #FBFAF4;	
+}
+
+tr, td
+{
+    font-family : Arial, Helvetica, sans-serif;
+	font-size : 10pt;
+	font-weight : normal;
+	font-style : normal;
+	background-color : #FBFAF4;
+	width : 700px;	
+}
+
+li,ul,ol
+{
+	margin-top:4px;		
+}
+/* Classes */
+
+.agreement
+{
+	margin-top:8px;
+}
+.bg
+{
+	font-family : Arial, Helvetica, sans-serif;
+	font-size : 10pt;
+	font-weight : normal;
+	font-style : normal;
+	background-color : #FBFAF4;
+	width : 700px;
+}
+	
+.stagebar
+{
+	font-family : Verdana;
+	font-size : 12pt;
+	color: #FFF;
+	font-weight : bold;
+	font-style : normal;
+	background-color: #363C54;
+	width : 700px;
+}
+
+.navbar
+{
+   font-family : Arial, Helvetica, sans-serif;
+   color : #000000;
+   font-size: 10pt;
+}
+
+.title
+{
+   background-color : #566B87;
+   font-family : Arial, Helvetica, sans-serif;
+   color : #FFF; 
+}
+
+.MainTitle
+{
+   color: #000000;
+   font-family : Arial, Helvetica, sans-serif;
+   font-size: 18pt;
+   font-weight: bold;
+   text-align : left;
+}
+
+.SubTitle
+{
+   color: #000000;
+   font-family : Arial, Helvetica, sans-serif;
+   font-size: 14pt;
+   font-weight: bold;
+}
+
+.SubTitleSmall
+{
+   color: #000000;
+   font-family : Arial, Helvetica, sans-serif;
+   font-size: 10pt;
+}
+
+.matrixTable
+{
+	background-color : #fff;
+}
+
+/* For SuperScripting the *th* in 4th */
+sup
+{
+   font-size: .8em;
+}
+
+/* Pseudo-Class definitions */
+a:link
+{ 
+    font-weight: bold;
+	text-decoration: underline;
+	color: #363C54;
+}
+
+a:visited 
+{ 
+  	font-weight: bold;
+	text-decoration: underline;
+	color: #566B87;
+}
+
+a:active,
+a:hover
+{
+    text-decoration: underline;
+	color: #E7BC68;
+}
+
+/*-- IDs -->
+<!-- ********************************************************************** -->*/
+
+#tableColor
+{
+	font-family : Verdana;
+	font-size : 10pt;
+	color: #fff;
+	font-weight : normal;
+	font-style : normal;
+	border:1px solid #F7C555;
+	background-color: #363C54;
+}

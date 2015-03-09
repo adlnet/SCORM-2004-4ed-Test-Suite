@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <title>Test Log Legend</title>
+
+      <style type = "text/css">
+         body
+         {
+            font-family : Arial;
+			background-color: #FBFAF4;
+         }
+
+         p
+         {
+            background-color: #FBFAF4;
+            color : #363C54;
+            font-size : medium;
+            font-weight : bold;
+            text-align : center;
+         }
+
+         tr.trSubTitle
+         {
+            background-color: #363C54;
+            color : White;
+            font-size : small;
+            font-weight : bold;
+         }
+
+         img.imgConformance
+         {
+            height : 14px;
+            width : 24px
+         }
+
+         td.tdInfo
+         {
+            color : Blue;
+         }
+
+         td.tdWarning
+         {
+            color : darkorange;
+         }
+
+         td.tdPassed
+         {
+            color : green;
+         }
+
+         td.tdFailed
+         {
+            color : red;
+         }
+
+         td.tdConformance
+         {
+            color : purple;
+         }
+
+         td.tdOther
+         {
+            color : black;
+         }
+      </style>
+   </head>
+
+   <body>
+      <p>Test Log Legend</p>
+
+      <table border="0" cellpadding="5">
+         <tr class="trSubTitle">
+            <th scope="col">Icon</th>
+            <th scope="col">Color</th>
+            <th scope="col">Defined Use</th>
+         </tr>
+         <tr>
+            <td scope="row">
+               <img src="images/smallinfo.gif" alt = "info" />
+            </td>
+            <td class="tdInfo">Blue</td>
+            <td class="tdInfo">Informational Message</td>
+         </tr>
+         <tr>
+            <td scope="row">
+               <img src="images/smallwarning.gif" alt = "warning" />
+            </td>
+            <td class="tdWarning">Orange</td>
+            <td class="tdWarning">Warning Message</td>
+         </tr>
+         <tr>
+            <td scope="row">
+               <img src="images/smallcheck.gif" alt = "passed" />
+            </td>
+            <td class="tdPassed">Green</td>
+            <td class="tdPassed">Conformance Check Passed Message</td>
+         </tr>
+         <tr>
+            <td scope="row">
+               <img src="images/smallxuser.gif" alt = "failed" />
+            </td>
+            <td class="tdFailed">Red</td>
+            <td class="tdFailed">Conformance Check Failed Message</td>
+         </tr>
+         <tr>
+            <td scope="row">
+               <img src="images/smallstop.gif" alt = "termination" />
+            </td>
+            <td class="tdFailed">Red</td>
+            <td class="tdFailed">
+               Test Suite Termination due to Non-Conformance or Error Message
+            </td>
+         </tr>
+         <tr>
+            <td scope="row">
+               <img src="images/adl_tm_small.jpg" class="imgConformance" 
+                alt = "ADL" />
+            </td>
+             <td class="tdConformance">Purple</td>
+            <td class="tdConformance">Conformance Level</td>
+         </tr>
+         <tr>
+            <td scope="row" />
+            <td>Black</td>
+            <td class="tdOther">Other</td>
+         </tr>
+      </table>
+   </body>
+</html>

@@ -1,0 +1,54 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+	  <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+	  <title>Generic Log</title>
+	  <script type="text/javascript" src="../scripts/EmulationCode.js"></script>
+	  <script type="text/javascript">
+	  //<!-- [CDATA[
+        /*************************************************************************
+        **
+        ** Method:  appendHTML()
+        ** Input:   logInfo
+        ** Output:  none
+        **
+        ** Description:
+        **    This function writes log information to the HTML Log page, 
+		**    regardless of browser.
+        **
+        *************************************************************************/ 
+		function appendHTML(logInfo)
+		{
+           if (logInfo.search("4&lt;sup style=&quot;font-size:0.8em;&quot;&gt;th&lt;/sup&gt;") != -1)
+           {            
+              logInfo = logInfo.replace(/4&lt;sup style=&quot;font-size:0.8em;&quot;&gt;th&lt;\/sup&gt;/g,"4<sup>th</sup>");            
+           }
+		   document.getElementById("logTitle").insertAdjacentHTML('BeforeEnd', logInfo);
+		}
+		//]]-->
+	  </script>
+	  <link rel="stylesheet" href="../css/LogFrame.css" type="text/css" />
+	  <link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+   </head>
+	
+   <body style="width:500px">
+      <div style="width:500px">
+         <div class="adlHeader">
+            Test Suite Log
+         </div>
+          <p class="other">
+             <a href="..\LogLegend.htm" title="Click here for the Log Legend"
+                onclick="window.open(this.href, 'LogLegend', 'height=325,width=420');return false">
+                Log Legend</a>
+          </p>
+	     <div id="logTitle" >
+	     </div>
+      </div>
+     
+   </body>
+</html>

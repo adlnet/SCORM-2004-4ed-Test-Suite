@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>SCORM 2004 4th Edition Test Suite Version 1.1.1 Readme</title>
+<link rel="stylesheet" href="README.css" type="text/css" />
+</head>
+<body class="bg">
+<div class="bg">
+<a name="runSCO"></a>
+<table width="100%" cellpadding="3">
+   <tr>
+      <td class="stagebar">Running the SCO RTE Conformance Utility Test</td>
+   </tr>
+</table>
+<br />
+<table>
+   <tr>
+      <td>
+      To run the SCO RTE Conformance Utility Test, click the corresponding link from the
+      main Test Suite menu. A Java Plug-in Security Warning
+      dialog box will appear because the Test Suite is reading and writing
+      files from&#47;to the local
+      file system via a Java Applet. Click <strong>Grant this Session</strong> or
+      <strong>Grant Always</strong> to allow the Test Suite applet to
+      run. Clicking <strong>Deny</strong> will cause the
+      Test Suite software to not function properly. <br />
+      <br />
+      
+      <a name="SCOOverview"> </a>
+      <h5 class="title">SCO Utility Overview</h5>
+      The SCO RTE Conformance Utility Test verifies that the test subject
+      SCO is conformant with the SCORM 2004 4<sup>th</sup> Ed. Testing Requirements. 
+      This test will verify that the test subject:
+      <ul>
+         <li>Can be launched by a known conformant LMS <br />
+         <br />
+         </li>
+         <li>Supports the Run-Time Environment Application Program Interface
+         (API) functions defined in SCORM 2004 4<sup>th</sup> Ed. <br />
+         <br />
+         <strong>Required</strong>
+         <ul>
+            <li>Initialize("")</li>
+            <li>Terminate("")</li>
+         </ul>
+         <strong>Optional</strong>
+         <ul>
+            <li>Commit(&quot;&quot;)</li>
+            <li>GetValue(&quot;parameter&quot;)</li>
+            <li>SetValue(&quot;parameter_1&quot;,&quot;parameter_2&quot;)</li>
+            <li>GetLastError()</li>
+            <li>GetErrorString(&quot;parameter&quot;)</li>
+            <li>GetDiagnostics()<br />            
+            </li>
+         </ul>
+         </li>
+      </ul>
+      In addition to verification of the above requirements, this test will
+      also audit which Run-Time Environment Data Model
+      elements the SCO used in the content implementation, and verify
+      that data elements are used in the correct manner with regard to the data
+      type requirements associated with the data model elements.
+      
+      <a name="opInstr"></a>
+      <h5 class="title">Operational Instructions</h5>
+      <ul>
+         <li>The test can be run on a Single SCO or Multiple SCOs. You can also save
+         or load a list of SCO file paths to and from a text (.txt) file.         
+         <ol>
+            <li>Provide the SCO Title, SCO Version/Release Number and SCO
+            Vendor/Developer.
+            </li>
+            <li>Click <strong>Continue</strong>.
+            </li>
+            <li>Enter a timeout period (default is 20 seconds). This is the
+            number of seconds the Test Suite will wait for the API
+            method Initialize(&quot;&quot;) to be called. If the call is not made within
+            this time, the Test Suite will end and the SCO will be
+            given a conformance label. 
+            <br />
+            <br />
+            <strong> Note:</strong> If there is a possibility that the SCO may not call
+            API method Initialize(&quot;&quot;) in the first 20 seconds, change this default
+            value. No warning or error will be logged for changing this value.
+            <br />           
+            </li>
+            <li>Click <strong>Browse</strong>&nbsp;to select the SCO
+            that will be tested or a saved .txt file containing a list of SCO file paths.
+            </li>
+            <li>
+               You may click <strong>Add to List</strong> to add another SCO or .txt 
+               file to the list. 
+            </li>
+            <li>
+               Click <strong>Continue</strong> after adding SCOs to the list.<br /><br /> 
+               <strong>Note:</strong> If a file remains in the file input box, it will be
+                appended to the list after you click <strong>Continue</strong>. <br /><br />
+            </li>
+            <li>
+               Optionally, you may enter initialization values for any of the
+               following elements: Learner ID, Learner Name, Credit/No-Credit,
+               Mode, Comments From LMS, Launch Data, Objective Data, Scaled Passing
+               Score, Max Time Allowed, Time Limit Action or Completion Threshold.
+               These values are typically defaults that are provided by the LMS or
+               via a Manifest.
+            <br />
+            <br />
+            <strong>Note:</strong> If entering Comments From LMS or Objective Data, click
+            the corresponding <strong>Add</strong> button, enter the values for the initial
+            element of the array and click the corresponding <strong>Set</strong> button.
+            After adding the last element of the list, click <strong>Done</strong>.
+            <br />
+            <br />
+            </li>
+            <li>Click <strong>Continue</strong>.</li>
+            <li>Then click <strong>Launch SCO</strong>.</li>
+            <li>Follow the necessary steps that are presented by the SCO to
+            exercise the content.</li>
+            <li>Click <strong>Complete Test</strong> in
+                the Instructions frame to finish the test.            
+            </li>
+            <li>
+               If multiple SCOs were entered you will repeat steps 9 through 11 for each SCO to be tested.
+               <br /><br />
+            </li>            
+         </ol>
+         </li>        
+         
+         <li>After you click <strong>Launch SCO</strong> the
+         Test Suite will launch the current SCO. <br />
+         <br />
+         </li>
+         <li>
+         The Test Suite will then wait for a call to
+         Initialize(&quot;&quot;). The Test Suite will either wait for the
+         call or the timeout period to expire (whichever comes first). 
+         <br />
+         <br />
+         </li>
+         <li>
+         The Test Suite will wait for calls to any of the API functions listed below.
+         <br />
+         <br />
+         </li>
+         <li>
+	         For Single SCO Testing: After the SCO RTE Conformance Utility Test
+	         surrogate LMS receives a call to Terminate(&quot;&quot;), the SCO RTE
+	         Conformance Utility Test will end. Click <strong>Complete Test</strong>
+	         after this test ends to close the SCO window. 
+	         <br />
+	         <br />
+         </li>
+         <li>
+	         For Multiple SCO Testing: After the SCO RTE Conformance Utility Test
+	         surrogate LMS receives a call to Terminate(&quot;&quot;), the current SCO RTE
+	         Conformance Utility Test will end. Click <strong>Complete Test</strong>
+	         to close the current SCO window. Processing will begin for the next SCO and  
+            will continue until the last SCO is tested. 
+	         <br />
+	         <br />
+         </li>
+         <li>
+	         Use <strong>Abort Test</strong> if a call to Terminate(&quot;&quot;) is
+            not received from the SCO being tested. Wait for a period of time to see if 
+            the call will be invoked. If not, <strong>Abort Test</strong> will send
+	         a call to Terminate(&quot;&quot;) and end the testing, marking the SCO as being
+	         non-conformant. 
+         	 <br /><br />
+         </li>
+         <li>
+	         At the end of a successful test the Test Suite will
+	         send to the Test Suite Log a set of supported features.
+	         These indicate what SCORM features a SCO supports. SCORM 2004
+	         4<sup>th</sup> Ed. features are: 
+	         <br />
+	         <br />
+	         <strong>API Support:</strong>
+	         <ul>
+	            <li>Find an LMS provided API Instance</li>
+	         </ul>
+	         <br />
+	         <strong>Session Methods:</strong>
+	         <ul>
+	            <li>Initialize()</li>
+	            <li>Terminate()</li>
+	         </ul>
+	         <br />
+	         <strong>Data Transfer:</strong>
+	         <ul>
+	            <li>GetValue()</li>
+	            <li>SetValue()</li>
+	            <li>Commit()</li>
+	         </ul>
+	         <br />
+	         <strong>Support Methods:</strong>
+	         <ul>
+	            <li>GetLastError()</li>
+	            <li>GetErrorString()</li>
+	            <li>GetDiagnostic()</li>
+	         </ul>
+	         <br />
+	         <strong>Data Model Support:</strong>
+	         <ul>
+	            <li>SCORM 2004 4<sup>th</sup> Ed. Run-Time Environment Data Model</li>
+	         </ul> 
+          </li>         
+      </ul>
+
+      <a name="addFun"></a>
+
+      <h5 class="title">Additional Functionality</h5>
+      <ul>
+         <li><strong>Log Legend:</strong> Clicking this link will open a
+         window to describe the meaning of the colors and symbols
+         used in the Test Suite log.          <br/><br/>
+         </li>
+         <li><strong>Saving a list of SCOs: </strong> To save a list of SCOs select all the 
+         SCOs you want in the list using the <strong>Browse</strong> and <strong>Add to List</strong> 
+         buttons. Select the .txt file you wish to save to or create a new .txt file using 
+         the <strong>Browse</strong> dialog. Click <strong>Save The List</strong> and you will be
+         prompted to confirm the file to write. Click <strong>OK</strong> to save this file or
+         <strong>Cancel</strong> to discard it. <br/><strong>Note: </strong> If you want to edit
+         the .txt file outside the SCORTE Instructions page open the file using a text
+         editor. Each SCO path is entered on a separate line of the file. <strong>File 
+         paths are not validated so each line needs to be a valid path or the test will not
+         work.</strong><br/><br/><strong>Loading a list of SCOs: </strong> To load a list
+         of SCOs that was created previously select that .txt file using 
+         the <strong>Browse</strong> button of step 2 to select it. Click <strong>Add To 
+         List</strong> or <strong>Continue</strong> to include the paths from that file to the list
+         of SCOs (this action will append the list, not overwrite it). You may continue to
+         add individual SCOs or load another saved list. 
+         </li>
+      </ul>
+
+      <a name="opNotes"></a>
+
+      <h5 class="title">Operational Notes</h5>
+             Both Summary and Detailed Logs are automatically saved in the
+             folder:
+             <br />
+	                &lt;install_directory&gt;\SCORM_2004_4th_Ed_TS_V1.1.1\TestSuite\Logs\SCO\&lt;timestamp-test subject name&gt;\  
+             <br />
+             <br />
+             <strong>Note:</strong> Logs are saved in this folder as a result of a
+             portability enhancement. If you need to move logs, please move the entire
+             folder and its contents since they are required to properly render the logs
+             in the browser.
+         <br/>
+         <br />
+	         If using Internet Explorer, it is critical for Run-Time
+	         API execution that the SCOs be launched from the same URL domain as
+	         the SCO RTE Conformance Utility Test. The SCOs being tested will likely use some sort of
+	         scripting language (i.e. JavaScript) to locate the LMS's API Adapter
+	         object, which requires the use of cross frame and/or cross-window
+	         scripting. For security reasons Internet Explorer requires
+	         that content that performs cross frame or cross-window scripting be
+	         loaded from the same domain. Refer to <a
+	            href="http://msdn2.microsoft.com/en-us/library/ms533028.aspx"
+	            onclick="window.open(this.href);return false">
+	         http://msdn2.microsoft.com/en-us/library/ms533028.aspx
+	         </a> 
+	         <br />
+	         <br />
+      </td>
+   </tr>
+</table>
+</div>
+</body>
+</html>

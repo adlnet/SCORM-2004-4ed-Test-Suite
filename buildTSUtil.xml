@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<project name="TestSuite" default="buildTSUtil">
+<description>Compiles code for the Utilities.jar</description>
+
+    <!--creates directories if they don&apos;t already exist -->
+    <target name="init">
+    </target>
+
+    <target name="compile" depends="init">
+        <javac destdir="${buildDir}" srcdir="${src}" includes="org/adl/testsuite/util/"/>
+        <javac destdir="${buildDir}" srcdir="${src}" includes="org/adl/logging/">
+            <classpath>
+                <pathelement location="${lib}/java40.jar"/>
+                <pathelement location="${lib}/util.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="buildTSUtilJar" depends="compile">
+        <echo message="building jar file from class files"/>
+
+        <copy todir="${buildDir}/org/adl/logging/resources">
+           <fileset dir="${resources}/org/adl/logging/resources">
+              <include name="*.properties"/>
+           </fileset>
+        </copy>
+		
+        <jar destfile="${buildDir}/${testsuiteutilJar}" basedir="${buildDir}" includes="org/adl/logging/**,                              org/adl/testsuite/util/**"/>
+
+        <echo message="signing jar file"/>
+        <signjar jar="${buildDir}/${testsuiteutilJar}" alias="${keystoreAlias}" storepass="${keystorePassword}" keystore="${keystore}" signedjar="${ccHome}/software_development/lib/${testsuiteutilJar}"/>
+    </target>
+
+    <!--If just the debug.jar is being built, then this will delete the temp build directory after the jar is copied to the lib folder.-->
+    <target name="buildTSUtil" depends="buildTSUtilJar">
+        <!--&lt;delete dir=&quot;${buildDir}&quot;/&gt;-->
+    </target>
+
+        <!--If the entire TestSuite is being built this is the call that will be made.  The class files will be copied to the testsuite folder
+            so that the jar file will not have to be unjarred-->
+    <target name="buildTestSuite" depends="buildTSUtilJar">
+      <!--  &lt;copy todir=&quot;${buildDir}/testsuite&quot; &gt;
+            &lt;fileset dir=&quot;${buildDir}/tsutil&quot; /&gt;
+        &lt;/copy&gt;
+        &lt;delete dir=&quot;${buildDir}/tsutil&quot; /&gt;     -->
+    </target>
+
+</project>

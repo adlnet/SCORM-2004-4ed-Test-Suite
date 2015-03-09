@@ -1,0 +1,137 @@
+<?xml version = "1.0" standalone = "no"?>
+<manifest identifier="LMSTestPackage_CM-07d" version="1.1.1" 
+    xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" 
+    xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3" 
+    xmlns:adlseq="http://www.adlnet.org/xsd/adlseq_v1p3" 
+    xmlns:imsss="http://www.imsglobal.org/xsd/imsss" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd
+                                           http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd
+                                           http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd
+                                           http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd">
+	<metadata>
+		<schema>ADL SCORM</schema>
+		<schemaversion>2004 4th Edition</schemaversion>
+	</metadata>
+	<organizations default="CM-07d">
+		<organization identifier="CM-07d">
+			<title>LMS Test Content Package CM-07d</title>
+			<item identifier="activity_1">
+				<title>Activity 1</title>
+				<item identifier="activity_2" identifierref="SEQ01" parameters="?tc=CM-07d&amp;act=2">
+					<title>Activity 2</title>
+				</item>
+				<item identifier="activity_3" identifierref="SEQ01" parameters="?tc=CM-07d&amp;act=3">
+					<title>Activity 3</title>
+				</item>
+				<imsss:sequencing>
+					<imsss:controlMode flow="true" />
+				</imsss:sequencing>
+			</item>
+			<item identifier="activity_4">
+				<title>Activity 4</title>
+				<item identifier="activity_5">
+					<title>Activity 5</title>
+					<item identifier="activity_6" identifierref="SEQ01" parameters="?tc=CM-07d&amp;act=6">
+						<title>Activity 6</title>
+					</item>
+					<item identifier="activity_7" identifierref="SEQ01" parameters="?tc=CM-07d&amp;act=7">
+						<title>Activity 7</title>
+                        <imsss:sequencing>
+                            <imsss:controlMode choice="false" />
+                        </imsss:sequencing>
+					</item>
+				</item>
+				<item identifier="activity_8" identifierref="SEQ01" parameters="?tc=CM-07d&amp;act=8">
+					<title>Activity 8</title>
+				</item>
+				<imsss:sequencing>
+					<adlseq:constrainedChoiceConsiderations constrainChoice="true" />
+				</imsss:sequencing>
+			</item>
+			<item identifier="activity_9">
+				<title>Activity 9</title>
+				<item identifier="activity_10" identifierref="SEQ01" parameters="?tc=CM-07d&amp;act=10" >
+					<title>Activity 10</title>
+				</item>
+				<item identifier="activity_11">
+					<title>Activity 11</title>
+					<item identifier="activity_12">
+						<title>Activity 12</title>
+						<item identifier="activity_13" identifierref="SEQ01" parameters="?tc=CM-07d&amp;act=13">
+							<title>Activity 13</title>
+							<imsss:sequencing IDRef = "seqCol-CM07d-1"/>
+						</item>
+						<item identifier="activity_14" identifierref="SEQ01" parameters="?tc=CM-07d&amp;act=14">
+							<title>Activity 14</title>
+						</item>
+						<imsss:sequencing IDRef = "seqCol-CM07d-1">
+							<imsss:controlMode flow="true" />
+							<adlseq:constrainedChoiceConsiderations preventActivation="true" />
+						</imsss:sequencing>
+					</item>
+					<item identifier="activity_15" identifierref="SEQ01" parameters="?tc=CM-07d&amp;act=15">
+						<title>Activity 15</title>
+					</item>
+					<imsss:sequencing IDRef = "seqCol-CM07d-1">
+						<imsss:controlMode flow="true" />
+						<adlseq:constrainedChoiceConsiderations constrainChoice="true" />
+					</imsss:sequencing>
+				</item>
+				<imsss:sequencing>
+					<imsss:controlMode flow="true" />
+					<adlseq:constrainedChoiceConsiderations constrainChoice="true" />
+				</imsss:sequencing>
+			</item>
+			<item identifier="activity_16">
+				<title>Activity 16</title>
+				<item identifier="activity_17" identifierref="SEQ01" parameters="?tc=CM-07d&amp;act=17">
+					<title>Activity 17</title>
+				</item>
+				<item identifier="activity_18" identifierref="SEQ01" parameters="?tc=CM-07d&amp;act=18">
+					<title>Activity 18</title>
+				</item>
+				<imsss:sequencing IDRef = "seqCol-CM07d-1">
+					<imsss:controlMode flow="true" />
+				</imsss:sequencing>
+			</item>
+			<imsss:sequencing>
+				<imsss:controlMode flow = "true" choice = "false"/>
+			</imsss:sequencing>
+		</organization>
+	</organizations>
+	<resources>
+		<resource identifier="SEQ01" type="webcontent" adlcp:scormType="sco" href="SequencingTest.htm" xml:base="resources/">
+			<file href="SequencingTest.htm" />
+			<dependency identifierref="LMSFNCTS01" />
+			<dependency identifierref="JAR01" />
+			<dependency identifierref="ABOUT01" />
+			<dependency identifierref="EMULATION01" />
+			<dependency identifierref="LMSINCLUDE" />
+		</resource>
+		<resource identifier="LMSFNCTS01" type="webcontent" adlcp:scormType="asset">
+			<file href="common/lmsrtefunctions.js" />
+		</resource>
+		<resource identifier="JAR01" type="webcontent" adlcp:scormType="asset" xml:base="common/">
+			<file href="LMSTest.jar" />
+		</resource>
+		<resource identifier="ABOUT01" type="webcontent" adlcp:scormType="asset">
+			<file href="common/About.js" />
+		</resource>
+		<resource identifier="EMULATION01" type="webcontent" adlcp:scormType="asset">
+			<file href="common/EmulationCode.js" />
+			<dependency identifierref="BROWSERDETECT01" />
+		</resource>
+		<resource identifier="BROWSERDETECT01" type="webcontent" adlcp:scormType="asset">
+			<file href="common/BrowserDetect.js" />
+		</resource>
+		<resource identifier="LMSINCLUDE" type="webcontent" adlcp:scormType="asset">
+			<file href="includes/LMSTestContentPackages_style.css" />
+		</resource>
+	</resources>
+   <imsss:sequencingCollection>
+        <imsss:sequencing ID = "seqCol-CM07d-1">
+            <adlseq:constrainedChoiceConsiderations constrainChoice="true" preventActivation="true" />
+        </imsss:sequencing>
+   </imsss:sequencingCollection>
+</manifest>

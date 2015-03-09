@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
+                      "DTD/xhtml1-frameset.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+   <head>
+      <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <title>
+         Learning Management System (LMS) Conformance Test</title>
+   <!--
+   /*******************************************************************************
+   **
+   ** Filename:  LMSRTEMain.htm
+   **
+   ** File Description:  This is the main html page for the LMS Runtime Envinronment
+   **                    Conformance Test. It launches a frameset that contains the
+   **                    top frame, a frame containing the instructions and the log
+   **                    frame.
+   **
+   ** Browser Compatibility:
+   **
+   ** Contract Number:
+   **
+   ** Module/Package Name:
+   ** Module/Package Description:
+   **
+   ** Design Issues:
+   ** Implementation Issues:  The instructions frame needs to be loaded last.  It
+   ** seems that since both the Log Frame and the Instructions frame load the
+   ** testsuite.jar java archive, there is a problem with the browser hanging if
+   ** both frames try to start loading at the same time.
+   **
+   ** Known Problems:
+   ** Side Effects:
+   **
+   ** References:  ADL SCORM
+   */
+   -->
+	
+   </head>
+
+   <frameset rows="95px, *, 50px">
+      <frame id="main" name="main" title="title frame" scrolling="no" src="LMSRTETopframe.htm" />
+
+         <frameset cols="44%, *">
+            <frameset rows="48%,*">
+            	<frame id="currentInstructions" name="currentInstructions" title="current user instructions" src="CurrentInstructions.htm" />
+               <frame id="instructions" name="instructions" title="lms instructions frame" src="NewLoadChoice.htm" />
+            </frameset>
+            <frame id="logFrame" name="logFrame" title="log frame" src="GenericLog.htm" />
+         </frameset>
+		 
+		 <frame id="controls" name="controls" title="lms controls" scrolling="no" src="LMSControls.htm" />
+		 
+         <noframes>
+            <body>
+            </body>
+         </noframes>
+   </frameset>
+</html> 

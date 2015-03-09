@@ -1,0 +1,258 @@
+<?xml version = "1.0" standalone = "no"?>
+<manifest identifier="LMSTestPackage_RU-17b" version="1.1.1" xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3" xmlns:adlseq="http://www.adlnet.org/xsd/adlseq_v1p3" xmlns:adlnav="http://www.adlnet.org/xsd/adlnav_v1p3" xmlns:imsss="http://www.imsglobal.org/xsd/imsss" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd
+                                           http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd
+                                           http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd
+                                           http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd
+                                           http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd">
+   <metadata>
+      <schema>ADL SCORM</schema>
+      <schemaversion>2004 4th Edition</schemaversion>
+   </metadata>
+   <organizations default="RU-17b">
+      <organization identifier="RU-17b">
+         <title>LMS Test Content Package RU-17b</title>
+         <item identifier="activity_1" identifierref="SEQ01" parameters="?tc=RU-17b&amp;act=1">
+            <title>Activity 1</title>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+                  <adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+            <imsss:sequencing>
+               <imsss:rollupRules rollupProgressCompletion="false" rollupObjectiveSatisfied="false">
+               </imsss:rollupRules>
+               <imsss:objectives>
+                  <imsss:primaryObjective objectiveID="PRIMARYOBJ">
+                  </imsss:primaryObjective>
+                  <imsss:objective objectiveID="obj1">
+                     <imsss:mapInfo targetObjectiveID="gObj-RU17b-2" writeSatisfiedStatus="true" />
+                  </imsss:objective>
+               </imsss:objectives>
+            </imsss:sequencing>
+         </item>
+         <item identifier="activity_2">
+            <title>Activity 2</title>
+            <item identifier="activity_3">
+               <title>Activity 3</title>
+               <item identifier="activity_4">
+                  <title>Activity 4</title>
+                  <item identifier="activity_5" identifierref="SEQ01" parameters="?tc=RU-17b&amp;act=5">
+                     <title>Activity 5</title>
+                     <adlnav:presentation>
+                        <adlnav:navigationInterface>
+                           <adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+                        </adlnav:navigationInterface>
+                     </adlnav:presentation>
+                  </item>
+                  <item identifier="activity_6" identifierref="SEQ01" parameters="?tc=RU-17b&amp;act=6">
+                     <title>Activity 6</title>
+                     <adlnav:presentation>
+                        <adlnav:navigationInterface>
+                           <adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+                        </adlnav:navigationInterface>
+                     </adlnav:presentation>
+                  </item>
+                  <imsss:sequencing>
+                     <imsss:controlMode choice="false" flow="true" />
+                  </imsss:sequencing>
+               </item>
+               <item identifier="activity_7">
+                  <title>Activity 7</title>
+                  <item identifier="activity_8" identifierref="SEQ01" parameters="?tc=RU-17b&amp;act=8">
+                     <title>Activity 8</title>
+                     <adlnav:presentation>
+                        <adlnav:navigationInterface>
+                           <adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+                        </adlnav:navigationInterface>
+                     </adlnav:presentation>
+                  </item>
+                  <item identifier="activity_9" identifierref="SEQ01" parameters="?tc=RU-17b&amp;act=9">
+                     <title>Activity 9</title>
+                     <adlnav:presentation>
+                        <adlnav:navigationInterface>
+                           <adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+                        </adlnav:navigationInterface>
+                     </adlnav:presentation>
+                     <imsss:sequencing>
+                        <imsss:objectives>
+                           <imsss:primaryObjective objectiveID="PRIMARYOBJ">
+                              <imsss:mapInfo targetObjectiveID="gObj-RU17b-1" writeSatisfiedStatus="true"></imsss:mapInfo>
+                           </imsss:primaryObjective>
+                        </imsss:objectives>
+                     </imsss:sequencing>
+                  </item>
+                  <imsss:sequencing>
+                     <imsss:controlMode choice="false" flow="true" />
+                  </imsss:sequencing>
+               </item>
+               <imsss:sequencing>
+                  <imsss:controlMode choice="false" flow="true" />
+               </imsss:sequencing>
+            </item>
+            <item identifier="activity_10">
+               <title>Activity 10</title>
+               <item identifier="activity_11">
+                  <title>Activity 11</title>
+                  <item identifier="activity_12" identifierref="SEQ01" parameters="?tc=RU-17b&amp;act=12">
+                     <title>Activity 12</title>
+                     <adlnav:presentation>
+                        <adlnav:navigationInterface>
+                           <adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+                        </adlnav:navigationInterface>
+                     </adlnav:presentation>
+                  </item>
+                  <item identifier="activity_13" identifierref="SEQ01" parameters="?tc=RU-17b&amp;act=13">
+                     <title>Activity 13</title>
+                     <adlnav:presentation>
+                        <adlnav:navigationInterface>
+                           <adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+                        </adlnav:navigationInterface>
+                     </adlnav:presentation>
+                  </item>
+                  <imsss:sequencing>
+                     <imsss:controlMode choice="false" flow="true" />
+                     <imsss:objectives>
+                        <imsss:primaryObjective objectiveID="PRIMARYOBJ">
+                        </imsss:primaryObjective>
+                        <imsss:objective objectiveID="obj1">
+                           <imsss:mapInfo targetObjectiveID="gObj-RU17b-2" />
+                        </imsss:objective>
+                     </imsss:objectives>
+                  </imsss:sequencing>
+               </item>
+               <item identifier="activity_14">
+                  <title>Activity 14</title>
+                  <item identifier="activity_15" identifierref="SEQ01" parameters="?tc=RU-17b&amp;act=15">
+                     <title>Activity 15</title>
+                     <adlnav:presentation>
+                        <adlnav:navigationInterface>
+                           <adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+                        </adlnav:navigationInterface>
+                     </adlnav:presentation>
+                  </item>
+                  <item identifier="activity_16" identifierref="SEQ01" parameters="?tc=RU-17b&amp;act=16">
+                     <title>Activity 16</title>
+                     <adlnav:presentation>
+                        <adlnav:navigationInterface>
+                           <adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+                           <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+                        </adlnav:navigationInterface>
+                     </adlnav:presentation>
+                     <imsss:sequencing>
+                        <imsss:objectives>
+                           <imsss:primaryObjective objectiveID="PRIMARYOBJ">
+                              <imsss:mapInfo targetObjectiveID="gObj-RU17b-1"></imsss:mapInfo>
+                           </imsss:primaryObjective>
+                        </imsss:objectives>
+                     </imsss:sequencing>
+                  </item>
+                  <imsss:sequencing>
+                     <imsss:controlMode choice="false" flow="true" />
+                     <imsss:rollupRules>
+                        <imsss:rollupRule childActivitySet="any">
+                           <imsss:rollupConditions>
+                              <imsss:rollupCondition condition="satisfied" />
+                           </imsss:rollupConditions>
+                           <imsss:rollupAction action="satisfied" />
+                        </imsss:rollupRule>
+                        <imsss:rollupRule childActivitySet="any">
+                           <imsss:rollupConditions>
+                              <imsss:rollupCondition condition="satisfied" operator="not" />
+                           </imsss:rollupConditions>
+                           <imsss:rollupAction action="notSatisfied" />
+                        </imsss:rollupRule>
+                     </imsss:rollupRules>
+                  </imsss:sequencing>
+               </item>
+               <imsss:sequencing>
+                  <imsss:controlMode choice="false" flow="true" />
+                  <imsss:sequencingRules>
+                     <imsss:preConditionRule>
+                        <imsss:ruleConditions>
+                           <imsss:ruleCondition condition="satisfied" />
+                        </imsss:ruleConditions>
+                        <imsss:ruleAction action="skip" />
+                     </imsss:preConditionRule>
+                  </imsss:sequencingRules>
+                  <imsss:rollupRules>
+                     <imsss:rollupRule childActivitySet="any">
+                        <imsss:rollupConditions>
+                           <imsss:rollupCondition condition="satisfied" />
+                        </imsss:rollupConditions>
+                        <imsss:rollupAction action="satisfied" />
+                     </imsss:rollupRule>
+                     <imsss:rollupRule childActivitySet="any">
+                        <imsss:rollupConditions>
+                           <imsss:rollupCondition condition="satisfied" operator="not" />
+                        </imsss:rollupConditions>
+                        <imsss:rollupAction action="notSatisfied" />
+                     </imsss:rollupRule>
+                  </imsss:rollupRules>
+               </imsss:sequencing>
+            </item>
+            <imsss:sequencing>
+               <imsss:controlMode choice="false" flow="true" />
+            </imsss:sequencing>
+         </item>
+         <item identifier="activity_17" identifierref="SEQ01" parameters="?tc=RU-17b&amp;act=17">
+            <title>Activity 17</title>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+                  <adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+         </item>
+         <imsss:sequencing>
+            <imsss:controlMode choice="false" flow="true" />
+         </imsss:sequencing>
+      </organization>
+   </organizations>
+   <resources>
+      <resource identifier="SEQ01" type="webcontent" adlcp:scormType="sco" href="SequencingTest.htm" xml:base="resources/">
+         <file href="SequencingTest.htm" />
+         <dependency identifierref="LMSFNCTS01" />
+         <dependency identifierref="JAR01" />
+         <dependency identifierref="ABOUT01" />
+         <dependency identifierref="EMULATION01" />
+         <dependency identifierref="LMSINCLUDE" />
+      </resource>
+      <resource identifier="LMSFNCTS01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/lmsrtefunctions.js" />
+      </resource>
+      <resource identifier="JAR01" type="webcontent" adlcp:scormType="asset" xml:base="common/">
+         <file href="LMSTest.jar" />
+      </resource>
+      <resource identifier="ABOUT01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/About.js" />
+      </resource>
+      <resource identifier="EMULATION01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/EmulationCode.js" />
+         <dependency identifierref="BROWSERDETECT01" />
+      </resource>
+      <resource identifier="BROWSERDETECT01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/BrowserDetect.js" />
+      </resource>
+      <resource identifier="LMSINCLUDE" type="webcontent" adlcp:scormType="asset">
+         <file href="includes/LMSTestContentPackages_style.css" />
+      </resource>
+   </resources>
+</manifest>

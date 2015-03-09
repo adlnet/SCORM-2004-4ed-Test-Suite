@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+	<head>
+		<meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+		<meta http-equiv="Pragma" content="no-cache" />
+
+		<title>Instructions for the Manifest Utility Test</title>
+
+		<script type="text/javascript" src="../scripts/EmulationCode.js"></script>
+		<script type="text/javascript" src="../scripts/BrowserDetect.js"></script>
+
+
+		<script type="text/javascript">
+      /************************************************************************
+      **
+      ** Filename:  ManifestInstructions.htm
+      **
+      ** File Description: ManifestInstructions guides the user through the
+      **    Content Package conformance testing process.
+      **
+      ** Browser Compatibility:
+      **
+      ** Author:  ADLI Project
+      **
+      ** References:  SCORM
+      **
+      *************************************************************************
+            
+
+      
+      **************************************************************************/
+
+      // <!--
+      // declare some global vars
+      var logWindow = top.frames[2];
+      var testComplete;
+      var testType;
+      var pifType;
+      var extensionSchemaLocation = " ";
+      var doSCOTest = false;
+      var doMDTest = false;
+      var overallSCOResult = true;
+      var overallMetadataResult = true;
+      var doManifestTestOnly = true;
+      var supressLabel = true;
+
+      // variable that holds the reference to the Content Package Driver
+      var driver = null;
+
+      //define the log message type constants
+
+      //  0 = informational (diagnostic, trace, etc.)
+      var _INFO = "0";     
+      //  1 = warning
+      var _WARNING = "1";
+      //  2 = conformance check passed
+      var _PASSED = "2";
+      //  3 = conformance check failure
+      var _FAILED = "3";
+      //  4 = test suite termination due to
+      // nonconformance or error
+      var _TERMINATE = "4"; 
+      //  5 = subject is found to be conformant 
+      var _CONFORMANT = "5";
+      //  other
+      var _OTHER = "9";
+      // 10 = header
+      var _HEADER = "10";
+
+      // constants for which log to write to
+      var _BOTH = "0";
+      var _DLOG = "1";
+      var _SLOG = "2";
+
+      /**
+       * Method:  initializeTest()
+       * 
+       * Description:
+       *      Set up intitial values and view for this test
+       * 
+       */
+      function initializeTest()
+      {
+         DetectBrowser();
+
+         document.getElementById("topOfForm").scrollIntoView();
+         document.getElementById("inst").pname.value = "";
+         document.getElementById("inst").pversion.value = "";
+         document.getElementById("inst").pvname.value = "";
+         testComplete = false;
+
+         // Set up the content package driver
+         if ( ! IE )
+         { 
+           driver = document.getElementById('NNcontentPackageDriver');
+         }
+         else 
+         { 
+           driver = document.getElementById('contentPackageDriver');
+         }
+         driver.setIsBrowserNetscape(Netscape);
+      }
+
+      /**
+       * Method:  step2(form)
+       * 
+       * @param form
+       *        name of the form
+       * 
+       * Description
+       *   Handles the interaction of the user for the first step of this test.
+       * 
+       */
+      function step2(form)
+      {
+         var type = "";
+
+         for ( i = 0; i < document.getElementById("inst").testTypeChoice.length; 
+               i++ )
+         {
+            if ( document.getElementById("inst").testTypeChoice[i].checked )
+            {
+               type = document.getElementById("inst").testTypeChoice[i].value;
+            }
+
+         }
+
+         if ( type != "" )
+         {
+            testType = type;
+
+            document.getElementById("status_ok_2").style.visibility = "visible";
+            document.getElementById("row_step_3").style.visibility = "visible";
+            document.getElementById("step_3").visibility = "visible";
+            document.getElementById("row_step_3").scrollIntoView();
+
+            document.getElementById("inst").Continue2.disabled = true;
+            document.getElementById("step2Rad1").disabled = true;
+            document.getElementById("step2Rad2").disabled = true;
+         }
+         else
+         {
+            document.getElementById("status_fail_2").style.visibility = 
+                                                                      "visible";
+            alert( "The type of SCORM Content Package Manifest being tested " +
+                   "must be selected." );
+            document.getElementById("status_fail_2").style.visibility = 
+                                                                      "hidden";
+         }
+      }
+
+      /**
+       * Method:  step3(form)
+       * 
+       * @param form
+       *    name of the form
+       * 
+       * Description
+       *    Handles the interaction of the user for the second step of this test. 
+       * 
+       */
+      function step3(form)
+      {
+         var type = "";
+
+         for ( i = 0; i < document.getElementById("inst").pifTypeChoice.length; 
+               i++ )
+         {
+            if ( document.getElementById("inst").pifTypeChoice[i].checked )
+            {
+               type = document.getElementById("inst").pifTypeChoice[i].value;
+            }
+
+         }
+         if ( type != "" )
+         {
+            pifType = type;
+
+            document.getElementById("status_ok_3").style.visibility = "visible";
+
+            document.getElementById("row_step_6").style.visibility = "visible";
+            document.getElementById("step_6").style.visibility = "visible";
+            document.getElementById("row_step_6").scrollIntoView();
+
+            document.getElementById("inst").Continue3.disabled = true;
+            document.getElementById("step3Rad1").disabled = true;
+            document.getElementById("step3Rad2").disabled = true;
+         }
+         else
+         {
+            document.getElementById("status_fail_3").style.visibility = 
+                                                                     "visible";
+            alert( "The type of SCORM Content Package Manifest being " +
+                   "tested must be selected." );
+            document.getElementById("status_fail_3").style.visibility = 
+                                                                       "hidden";
+         }
+      }
+
+
+      /**
+       * Method:  startTest()
+       * 
+       * Description:
+       *    Set up the view for the first step of this test
+       * 
+       */
+      function startTest()
+      {
+         var cDate = new Date;
+         var spacers = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+         inst_elem = document.getElementById("inst");
+         driver.setTestIDInfo(cDate.toLocaleString(),
+                              document.getElementById("inst").pname.value,
+                              document.getElementById("inst").pversion.value,
+                              document.getElementById("inst").pvname.value);
+         var logMsg = "Test Identification Information:" + "<br />";
+         logMsg += spacers + "Date: " + cDate.toLocaleString() + "<br />";
+         logMsg += spacers + "Manifest Product: " +
+                                   document.getElementById("inst").pname.value + 
+                             "<br />";
+         logMsg += spacers + "Manifest Version: "
+                              + document.getElementById("inst").pversion.value + 
+                              "<br />";
+         logMsg += spacers + "Manifest Vendor/Developer: "
+                + document.getElementById("inst").pvname.value + "<br />";
+
+         //writeLogEntry("0","9", "");
+         //writeLogEntry("2", "21", logMsg );
+         //writeLogEntry("0","9", "");
+         
+         //gets the row step 1 element
+         var rowstep2_Elem = document.getElementById("row_step_2");
+
+         rowstep2_Elem.style.visibility = "visible";
+
+         rowstep2_Elem.scrollIntoView();
+         inst_elem.continue0.disabled = true;
+         inst_elem.pname.readOnly = true;
+         inst_elem.pversion.readOnly = true;
+         inst_elem.pvname.readOnly = true;
+
+         document.getElementById("status_ok_1").style.visibility = "visible";
+      }
+
+
+      /**
+       * Method:  endTest()
+       * 
+       * @param doSCOTest
+       *    Flag indicating if the SCO test was performed 
+       *    
+       * @param doMDTest
+       *    Flag indicating if the SCO test was performed 
+       * 
+       * Description
+       *    Completes the Manifest Utility Test   
+       * 
+       */
+      function endTest()
+      {
+         driver.completeTest( doSCOTest, doMDTest, supressLabel );
+
+      }
+
+      /**
+       * Method:  writeLogEntry(type, msg)
+       * 
+       * @param log
+       *    the log to be written to
+       * 
+       * @param type
+       *   category of message
+       * 
+       * @param msg
+       *    actual message text
+       * 
+       * Description
+       *   Interface function to write messages to the log based on the type. 
+       */
+      function writeLogEntry(log, type, msg)
+      {
+         driver.doWriteLogEntry(log, type, msg);
+      }
+
+      /**
+       * Method:  confirmQuit()
+       * 
+       * Description:
+       *    Provides an option to cancel a quit.
+       * 
+       */
+      function confirmQuit()
+      {
+         if (testComplete == false)
+         {
+            var msg = "The test is not complete.  If you leave this page, \n" +
+                  "the test will be terminated and you will lose the test log.";
+            return msg;
+         }
+      }
+      /**
+       * Method:  loadComplete()
+       * 
+       * Description:
+       *   This function is called when the applets have been loaded for the
+       *   test. The continue button will then be made visible.
+       * 
+       */
+	  function loadComplete()
+	  {
+	     document.getElementById("inst").continue0.disabled = false;
+		
+	  }
+
+      /**
+       * Method:  validate()
+       * 
+       * Description:
+       *   Use the applet's public method, passing the name of the file entered
+       *   by the user.  The following is intended to simulate what the
+       *   validation function might do.
+       * 
+       */
+      function validate()
+      {
+         var manifestFile = document.getElementById("xmlfile").value;
+
+         // get the file extension and make it lower case for comparison
+         var ext = manifestFile.substr((manifestFile.length-4),manifestFile.length);
+         ext = ext.toLowerCase();
+         
+         if ( manifestFile == "" )
+         {
+            return;
+         }
+         else if( (ext == ".xml" && testType == "non-pif") || (ext==".zip" && testType=="pif" ))
+         {
+            document.getElementById("xmlfile").disabled = true;
+            document.getElementById("Continue6").disabled = true;
+   
+            var logMsg = "Initiating the Manifest Utility test.";
+            writeLogEntry(_SLOG, _INFO, logMsg );
+            logMsg = "It may take a few moments to begin logging messages," +
+                     " please be patient.";
+            writeLogEntry(_SLOG, _INFO, logMsg );
+            
+   
+            alert("The Manifest Utility Test has been initiated.  " + 
+                  "This may take a few minutes, please be patient.");
+   
+            driver.startValidateTest( manifestFile, testType, pifType,
+                                      extensionSchemaLocation, doMDTest,
+                                      doSCOTest, doManifestTestOnly );
+   
+            var isValid = driver.isManifestConformant();
+            supressLabel = !driver.isLabelShown();
+   
+            if ( isValid == true )
+            {
+               document.getElementById("status_ok_6").style.visibility = "visible";
+            }
+            else
+            {
+               document.getElementById("status_fail_6").style.visibility = 
+                                                                         "visible";
+            }
+            
+            testComplete = true;
+            endTest();
+         }
+         else
+         {
+             if(testType=="non-pif")
+             {
+                 alert("Please select a .xml file.");
+             }
+             else if(testType=="pif")
+             {
+            	 alert("Please select a .zip file.");
+             }
+              // reset the file input box
+                document.getElementById("step_6").innerHTML=document.getElementById("step_6").innerHTML;                   
+         }
+      }
+
+
+      // ]]-->
+      </script>
+
+		<link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+	</head>
+
+	<body onload="initializeTest();" onunload="return confirmQuit();">
+		<p>
+
+			<!-- ContentPackageDriver -->
+			<!--[if !IE]> Firefox and others will use outer object -->
+			<object
+				classid="java:org/adl/testsuite/contentpackage/ContentPackageDriver.class"
+				type="application/x-java-applet"
+				archive="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar"
+				height="1" width="1" 
+                name="contentPackageDriver" id="NNcontentPackageDriver"
+                codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab">				
+				<param name="archive" value="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar" />
+				<param name="code" value="org/adl/testsuite/contentpackage/ContentPackageDriver.class" />
+				<param name="MAYSCRIPT" value="true" />
+				<param name="codebase" value="../../lib/" />
+				<param name="scriptable" value="true" />
+				<!--<![endif]-->
+
+
+
+				<!-- MSIE (Microsoft Internet Explorer) will use inner object -->
+				<object name="contentPackageDriver" id="contentPackageDriver"
+					classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+					codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+					height="4" width="0">
+
+					<param name="code" value="org/adl/testsuite/contentpackage/ContentPackageDriver.class" />
+					<param name="archive" value="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar" />
+					<param name="codebase" value="../../lib" />
+					<param name="name" value="contentPackageDriver" />
+					<param name="type" value="application/x-java-applet" />
+
+					<strong> This browser does not have a Java Plug-in. <br />
+						<a href="http://java.sun.com/products/plugin/downloads/index.html">
+							Get the latest Java Plug-in here. </a> </strong>
+				</object>
+
+
+				<!--[if !IE]> close outer object -->
+			</object>
+			<!--<![endif]-->
+
+
+
+
+		</p>
+		<form id="inst" action="">
+			<div id="topOfForm" />
+			<h2>
+				Instructions
+			</h2>
+
+			<p>
+				Before beginning this test, verify that you have access to the
+				Manifest test subject that is to be tested (either included in a
+				Package Interchange File (PIF) or in non-PIF format on the local
+				file system).
+				<br />
+				<br />
+				Complete the test using the step-by-step instructions below. During
+				testing, summary messages to indicate the test progress and status
+				will be displayed in the Test Suite Log located to the right.
+				&nbsp;You may click the link below each summary section to see the
+				detailed messages of the test.
+				<br />
+				<br />
+			</p>
+
+			<table width="100%" border="1" cellspacing="0" cellpadding="6">
+				<thead>
+					<tr>
+						<th scope="col" class="adlHeader">
+							<strong>&nbsp;Step&nbsp;</strong>
+						</th>
+						<th scope="col" class="adlHeader">
+							<strong>Instructions</strong>
+						</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<!-- ************************************************************
+               **
+               ** STEP 1
+               ** Vender Info
+               **
+               ************************************************************* -->
+					<tr id="row_step_1" style="VISIBILITY: visibile">
+						<td scope="row" class="cellStep">
+							<p class="stepCount">
+								1 of 4
+							</p>
+
+
+							<div id="status_ok_1" style="VISIBILITY: hidden">
+								<img src="../images/smallcheck.gif" alt="passed" />
+							</div>
+
+							<div id="status_fail_1" style="VISIBILITY: hidden">
+								<img src="../images/smallstop.gif" alt="termination" />
+							</div>
+
+						</td>
+						<td class="cell">
+
+							Please provide the following information to identify the IMS
+							Manifest being tested:
+
+							<br />
+							<br />
+
+							<table width="100%" border="0" cellspacing="0" cellpadding="2">
+								<tr>
+									<td class="cell">
+										<label for="pname" class="products">
+											Manifest Identifier:
+										</label>
+									</td>
+									<td class="cell">
+										<input id="pname" name="pname" />
+									</td>
+								</tr>
+
+								<tr>
+									<td class="cell">
+										<label for="pversion" class="products">
+											Manifest Version/Release Number:
+										</label>
+									</td>
+									<td class="cell">
+										<input id="pversion" name="pversion" />
+									</td>
+								</tr>
+
+								<tr>
+									<td class="cell">
+										<label for="pvname" class="products">
+											Manifest Vendor/Developer:
+										</label>
+									</td>
+									<td class="cell">
+										<input id="pvname" name="pvname" />
+									</td>
+								</tr>
+							</table>
+
+							<p>
+
+								<input type="button" value="Continue" id="continue0"
+									name="continue0" onclick="startTest();" disabled="disabled" />
+							</p>
+						</td>
+					</tr>
+
+					<!-- ************************************************************
+               **
+               ** STEP 2
+               ** PIF or NON-PIF
+               **
+               ************************************************************* -->
+					<tr id="row_step_2" style="VISIBILITY: hidden">
+						<td scope="row" class="cellStep">
+							<p class="stepCount">
+								2 of 4
+							</p>
+
+							<div id="status_ok_2" style="VISIBILITY: hidden">
+								<img src="../images/smallcheck.gif" alt="passed" />
+							</div>
+
+							<div id="status_fail_2" style="VISIBILITY: hidden">
+								<img src="../images/smallstop.gif" alt="termination" />
+							</div>
+						</td>
+						<td class="cell">
+							<div id="step_2">
+								The options below will describe the type of test you want
+								to run. The options and their characteristics are:
+								<ul>
+									<li>
+										<strong>Package (PIF - Manifest only):</strong> &nbsp;This
+										option will test a Package that is a Package Interchange File.
+										This option will only test the manifest of the PIF. The
+										manifest will be tested to ensure it is well-formed, valid
+                              against the proper controlling documents, and meets ADL Mandatory
+                              rules, extensions, and unidentified resources (referenced files will
+										be tested for their existence). &nbsp;
+										<strong> </strong>
+										<br />
+										<br />
+									</li>
+
+									<li>
+										<strong>Package (non-PIF - Manifest only):</strong> &nbsp;This
+										option will test a Package that is not a Package Interchange
+										File. This option will only test the manifest of the non-PIF.
+										The manifest will be tested to ensure it is well-formed, valid
+										against the proper controlling documents, and meets ADL Mandatory
+                              rules, extensions, and unidentified resources (referenced files will
+										be tested for their existence). &nbsp;
+										<strong> </strong>
+										<br />
+										<br />
+									</li>
+
+								</ul>
+								<input id="step2Rad2" type="radio" name="testTypeChoice"
+									value="pif" />
+								<label for="step2Rad2" class="products">
+									Package (PIF - Manifest only )
+								</label>
+								<br />
+								<input id="step2Rad1" type="radio" name="testTypeChoice"
+									value="non-pif" />
+								<label for="step2Rad1" class="products">
+									Package (non-PIF - Manifest only)
+								</label>
+								<br />
+								<br />
+								<input type="button" name="Continue2" id="Continue2"
+									value="Continue" onclick="step2();" />
+							</div>
+						</td>
+					</tr>
+
+					<!-- ************************************************************
+               **
+               ** STEP 3
+               ** Application Profile Type
+               **
+               ************************************************************* -->
+					<tr id="row_step_3" style="VISIBILITY: hidden">
+						<td scope="row" class="cellStep">
+							<p class="stepCount">
+								3 of 4
+							</p>
+
+							<div id="status_ok_3" style="VISIBILITY: hidden">
+								<img src="../images/smallcheck.gif" alt="passed" />
+							</div>
+
+							<div id="status_fail_3" style="VISIBILITY: hidden">
+								<img src="../images/smallstop.gif" alt="termination" />
+							</div>
+						</td>
+						<td class="cell">
+							<div id="step_3">
+								<br />
+								The options below tell the Test Suite the type of
+								manifest you want to test.
+								<ul>
+									<li>
+										<strong>Content Aggregation Manifest:</strong> &nbsp;A
+										manifest that uses the SCORM Content Aggregation Package
+										Profile having a particular organization.
+										<br />
+										<br />
+									</li>
+									<li>
+										<strong>Resource Manifest:</strong> &nbsp;A manifest that uses
+										the SCORM Resource Package Profile not having a particular
+										organization.
+									</li>
+								</ul>
+
+								<input id="step3Rad1" type="radio" name="pifTypeChoice"
+									value="contentaggregation" />
+								<label for="step3Rad1" class="products">
+									Content Aggregation Manifest
+								</label>
+								<br />
+								<input id="step3Rad2" type="radio" name="pifTypeChoice"
+									value="resource" />
+								<label for="step3Rad2" class="products">
+									Resource Manifest
+								</label>
+								<br />
+								<br />
+								<input type="button" name="Continue3" id="Continue3"
+									value="Continue" onclick="step3();" />
+
+							</div>
+						</td>
+					</tr>
+
+					<!-- ************************************************************
+               **
+               ** STEP 6
+               ** Browse for File and Begin
+               **
+               ************************************************************* -->
+					<tr id="row_step_6" style="VISIBILITY: hidden">
+						<td scope="row" class="cellStep">
+							<p class="stepCount">
+								4 of 4
+							</p>
+
+							<div id="status_ok_6" style="VISIBILITY: hidden">
+								<img src="../images/smallcheck.gif" alt="passed" />
+							</div>
+
+							<div id="status_fail_6" style="VISIBILITY: hidden">
+								<img src="../images/smallstop.gif" alt="termination" />
+							</div>
+						</td>
+						<td class="cell">
+							<div id="step_6" style="VISIBILITY: hidden">
+								<p>
+									Enter the IMS Manifest file to be tested:
+									<br />
+									<br />
+									<label for="xmlfile" class="products">
+										File:
+									</label>
+									<input id="xmlfile" name="xmlfile" type="file" />
+									<br />
+									<br />
+									<input id="Continue6" name="Continue6" onclick="validate();"
+										type="button" value="Begin Test" />
+								</p>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</body>
+</html>

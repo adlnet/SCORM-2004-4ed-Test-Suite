@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<link rel="stylesheet" href="README.css" type="text/css" />
+<title>SCORM 2004 4th Edition Conformance Test Suite Version 1.1.1
+Readme</title>
+</head>
+<body>
+<div class="bg"><!-- <td align="left" valign="top">--> <!-- Anchor for link from left frame. -->
+<a name="revisionsToCTS1.1.1"></a> <!-- Page Content -->
+<table width="100%" cellpadding="3">
+   <tr>
+      <td class="stagebar">Revisions</td>
+   </tr>
+</table>
+<table>
+   <tr>
+   <td>
+   <h5 class="title">Revisions from ADL SCORM 2004 4<sup>th</sup> 
+   Ed. Test Suite Version 1.1 to ADL
+   SCORM 2004 4<sup>th</sup> Ed. Test Suite Version 1.1.1</h5>
+   
+   <ul>
+      <li>LMS Conformance Test:
+      <ul>
+         <li><!-- Issue 237: Typo in a few CO test case instructions  -->
+         <p>The instructions for LMS Test Content Packages CO-06, CO-09, 
+         and CO-13b were updated to display the correct precondition rule
+         of &quot;If obj1 activity progress known and not completed, then 
+         skip&quot;</p>
+         </li>
+      </ul>
+      <br />
+      </li>
+      <li>Content Package Conformance Test:
+         <ul>
+            <li><!-- Issue 273: Element parents incorrectly checked -->
+            <p>The Content Package Conformance Test and Manifest
+            Utility Test were updated to enforce that parents of a given
+            element are correct in both name and XML namespace.</p>
+            </li>
+         </ul>
+         <br />
+         </li>
+   </ul>
+   </td>
+   </tr>
+   <tr>
+      <td>
+      <!-- Anchor for link from left frame. --> <a name="revisionsToCTS1.1"></a>
+      <h5 class="title">Revisions from ADL SCORM 2004 4<sup>th</sup> 
+      Ed. Test Suite Version 1.0 to ADL
+      SCORM 2004 4<sup>th</sup> Ed. Test Suite Version 1.1</h5>
+
+      <ul>
+         <li>LMS Conformance Test:
+         <ul>
+            <li><!-- Issue 135: Incorrect Expected Result for LMS Test Package CO-10 -->
+            <p>LMS Test Content Package CO-10 was updated to expect
+            &quot;incomplete&quot; as the result for the GetValue() call
+            on &quot;cmi.objectives.n.completion_status.&quot;</p>
+            </li>
+            <li><!-- ISSUE 122: RU-15 - Removal of suspended child -->
+            <p>LMS Test Content Packages RU-15b, RU-15c, and RU-15d
+            were updated to correctly use cmi.exit.</p>
+            </li>
+            <li><!-- ISSUE 166: adding MS-07-->
+            <p>LMS Test Content Package MS-07 was added to the LMS Conformance 
+            Test to test the evaluation of measure greater than against a
+            referenced objective mapped to a global objective.</p>
+            </li>
+         </ul>
+         <br />
+         </li>
+         <li>Content Package Conformance Test:
+         <ul>
+            <li><!-- Issue 159: Location of <imsss:sequencing> Children -->
+            <p>The Content Package Conformance Test and Manifest
+            Utility Test were updated to enforce that children of the
+            &lt;imsss:sequencing&gt; element exist only under an
+            &lt;imsss:sequencing&gt; element. If a child of
+            &lt;imsss:sequencing&gt; is found in a location other than
+            as a child of the &lt;imsss:sequencing&gt; element, an error
+            message will be generated.</p>
+            </li>
+         </ul>
+         <br />
+         </li>
+      </ul>
+      </td>
+   </tr>
+   <tr>
+      <td>
+      <!-- Anchor for link from left frame. --> <a name="revisionsToCTS1.0"></a>
+      <h5 class="title">Revisions from ADL SCORM 2004 3<sup>rd</sup>
+      Edition Conformance Test Suite Version 1.0.2 to ADL SCORM 2004 4<sup>th</sup>
+      Ed. Test Suite Version 1.0</h5>
+
+      <ul>
+         <li>LMS Conformance Test:
+         <ul>
+            <li><!-- PT #11448: Missing Resume Learner Attempt Run-Time Data Model SPM Tests -->
+            <p>LMS Test Content Package DMI was updated to test
+            persistence of suspended data across learner sessions.</p>
+            </li>
+            <li><!-- PT # 11455 -->
+            <p>The LMS Test Content Packages were updated to parse
+            the expected parameters more accurately from the URL of a
+            launched SCO. The LMS Test Content Packages also were
+            updated to add logging messages when an error occurs while
+            parsing.</p>
+            </li>
+            <li><!-- PT #11460: Missing Test for Attempt Absolute Duration Limit with Sub-seconds -->
+            <p>LMS Test Content Package CM-01 was updated to fully
+            test the defined syntax for the Attempt Absolute Duration
+            Limit.</p>
+            </li>
+            <li><!-- PT #11466: Missing Read Map Tests on the Root of the Activity Tree -->
+            <!-- PT #11501: Status at the Root of the Activity Tree -->
+            <p>LMS Test Content Packages RU-13a, RU-13b, RU-13c,
+            RU-13d and RU-13e were added to the LMS Conformance Test to
+            test that read maps on the primary objective of the Activity
+            Tree Root are being applied correctly.</p>
+            </li>
+            <li><!-- PT #11471: Delivery Support for Legacy Content -->
+            <p>LMS Test Content Packages SX-08a and SX-08b were
+            added to the LMS Conformance Test to test that an LMS
+            properly delivers an Activity Tree with only a single leaf
+            activity and default sequencing information.</p>
+            </li>
+            <li><!-- PT #11472 -->
+            <p>LMS Test Content Package SX-09 was added to the LMS
+            Conformance Test to test that LMSs are properly taking the
+            content away from the learner.</p>
+            </li>
+            <li><!-- PT #11473: Ensure Learner Invoked Navigation Events Take Precedence -->
+            <p>LMS Test Content Packages CM-09aa, CM-09ab, CM-09ba,
+            CM-09bb, CM-09ca and CM-09cb were added to the LMS
+            Conformance Test to test that learner invoked Navigation
+            Events take precedence over Navigation Events triggered
+            within the content.</p>
+            </li>
+            <li><!-- PT #11474: Missing Sequencing Collection Tests -->
+            <p>LMS Test Content Packages CM-03b, CM-04a, CM-07d,
+            RU-01ab, RU-03, RU-07a, RU-07b, RU-08a, RU-08b, SX-05, SX-06
+            and OB-14b were updated to test that LMSs 'merge' various
+            pieces of sequencing information correctly.</p>
+            </li>
+            <li><!-- PT #11478: Missing Exit All Data Persistence Tests -->
+            <p>LMS Test Content Packages SX-10a, SX-10b, SX-10c and
+            SX-10d were added to the LMS Conformance Test to invoke Exit
+            Navigation Events and tests that Run-Time Data from the last
+            experienced SCO is correctly persisted and utilized in
+            Rollup.</p>
+            </li>
+            <li><!-- PT #11480: Reentry into a Choice-only Activity Tree -->
+            <p>LMS Test Content Package CM-10 was added to the LMS
+            Conformance Test. This test will end the current Sequencing
+            Session (via an Exit All) and check that the LMS does not
+            'resume' on last SCO experienced by the learner.</p>
+            </li>
+            <li><!-- PT #11482: Evaluation of Post Condition Rules Stemming from Different Exit Events  -->
+            <p>LMS Test Content Packages OB-16a, OB-16b, OB-16c and
+            OB-16d were added to the LMS Conformance Test to test that an
+            LMS properly processes Post Condition Evaluations when
+            triggered in various ways.</p>
+            </li>
+            <li><!-- PT #11491: Missing Tests for Sequencing Rules That Have the Rule Condition of “Always"  -->
+            <p>LMS Test Content Packages CM-07b and SX-03 were
+            updated to test Sequencing Rules with the condition
+            'always'.</p>
+            </li>
+            <li><!-- PT #11494: Application of ‘Write’ Maps When No Success Status Reported by the SCO -->
+            <p>LMS Test Content Packages OB-17a and OB-17b were
+            added to the LMS Conformance Test to test that an LMS
+            correctly processes 'write' maps.</p>
+            </li>
+            <li><!-- PT #11495: Consistent Application of Exit All Navigation Events -->
+            <p>LMS Test Content Packages RU-14a, RU-14b, RU-14c and
+            RU-14d were added to the LMS Conformance Test to test that an
+            LMS consistently evaluates Exit All Navigation Events,
+            regardless of the source of the event.</p>
+            </li>
+            <li><!-- PT #11459: Missing Test for GetErrorString("1444") Returning an emptyString -->
+            <p>LMS Test Content Package API was updated to test that
+            a GetErrorString(&quot;&lt;any unknown error code&gt;&quot;)
+            is expected to return a &quot;&quot; and error code of 0.</p>
+            </li>
+            <li><!-- PT #11500: Missing Test: Extended Rollup Triggered Via Secondary Objectives -->
+            <p>LMS Test Content Package RU-16 was added to the LMS
+            Conformance Test to test the consistent application of the
+            Extended Rollup Process when the source of objective status
+            change comes from a secondary objective.</p>
+            </li>
+            <li><!-- Issue #11503: Relaxed UI Interoperability Test Requirements and Questions -->
+            <p>The LMS Conformance Test was updated to remove or
+            relax current UI Interoperability Inspection test questions
+            related to 'constrained' and 'prevented' activities. No
+            additional UI Interoperability Inspection test questions
+            were added. This affects LMS Test Content Package CM-07d.</p>
+            </li>
+
+            <li><!-- PT #11521: Missing Test: Rollup Evaluations Involving Empty Sets -->
+            <!-- PT #11502 -->
+            <p>LMS Test Content Packages RU-15a, RU-15b, RU-15c and
+            RU-15d were added to the LMS Conformance Test to test that an
+            LMS correctly processes situations where the contributing
+            children in Rollup evaluations consist of an empty set.</p>
+            </li>
+            <li><!-- PT #11573: Quit button test -->
+            <p>LMS Test Content Package CM-11 was added to the LMS
+            Conformance Test to test that an LMS properly processes an
+            Exit All Navigation Request when triggered by the LMS
+            provided navigation interface.</p>
+            </li>
+            <!-- <li>    <!-- PT #11574: Resume All Behavior -->
+            <!-- <p>
+               LMS Test Content Packages CM-12a and CM-12b were added to the LMS Conformance
+               Test to test that an LMS properly processes a Resume All Navigation event.
+             </p>
+             </li>-->
+            <li><!-- PT #11575 -->
+            <p>LMS Test Content Packages RU-17a and RU-17b were
+            added to the LMS Conformance Test to test that an LMS
+            correctly processes the extended Rollup behavior.</p>
+            </li>
+            <li><!-- PT #11576 -->
+            <p>LMS Test Content Packages RU-18a and RU-18b were
+            added to the LMS Conformance Test to test that an LMS
+            correctly processes the default Rollup behavior.</p>
+            </li>
+            <li><!-- PT #12143 -->
+            <p>A User Interface (UI) inspection question was added
+            to LMS Test Content Package CM-01 to ensure that LMSs
+            correctly handle a parent Activity that has Control Mode
+            choice set to &quot;false&quot;.</p>
+            </li>
+            <li><!-- PT #12163 -->
+            <p>LMS Test Content Package CM-13 was added to the LMS
+            Conformance Test to test that an LMS properly handles
+            Pre-Condition Hidden From Choice sequencing rules.</p>
+            </li>
+            <li><!-- PT #11294 -->
+            <p>LMS Test Content Packages CM-04c, OB-01a, OB-01b,
+            OB-01c, OB-10d and OB-14a were updated to test case
+            sensitivity of &quot;identifier&quot; attributes.</p>
+            </li>
+            <li><!-- PT #12162 -->
+            <p>LMS Test Content Packages CM-07e, CM-08, OB-02a,
+            OB-02b, OB-11a and OB-12a were updated to test that an LMS
+            correctly trims and collapses all values of type
+            &quot;anyURI&quot; or &quot;ID&quot; that include
+            whitespaces.</p>
+            </li>
+            <!-- PT #11552: July 08 TWG Feature #01: Add Support for Generic Shared Global Objective Data -->
+            <li>
+            <p>LMS Test Content Packages DDMa and DDMb were added to
+            the LMS test and LMS Test Content Package DMI was updated to
+            test the support for sharing generic run-time data between
+            SCOs.</p>
+            </li>
+
+            <!-- PT #11554: July 08 TWG Feature #02: Add Extra Types of Shared Global Information -->
+            <li>
+            <p>LMS Test Content Packages SX-11a, SX-11b and SX-11c
+            were added to the LMS test and LMS Test Content Packages
+            DMI, OB-06, OB-10a, OB-10d and OB-11a were updated to test
+            support for sharing additional objective data between SCOs.
+            </p>
+            </li>
+
+            <!-- PT #11556: July 08 TWG Feature #03: Learner verses Content Triggered Choice Nav Requests -->
+            <li>
+            <p>LMS Test Content Package CM-14 was added to the LMS
+            test and LMS Test Content Packages DMI, CM-03a, MS-05a,
+            OB-05c and T-01b were updated to test that an LMS supports
+            the new Jump Navigation Request.</p>
+            </li>
+
+            <!-- PT #11560: July 08 TWG Feature #05: Adding Support for Tracking Partial Attempt Completion -->
+            <li>
+            <p>LMS Test Content Packages CT-01, CT-02, CT-03, CT-04,
+            CT-05, CT-06 and CT-07 were added to the LMS test to test
+            that an LMS properly handles roll-up of partial completion
+            information.</p>
+            </li>
+
+            <!-- PT # 12189-->
+            <li>
+            <p>LMS Test Content Package CM-16 was added to the LMS
+            Conformance Test to test that an LMS properly handles the
+            application of Constrained Choice on the root of the
+            Activity Tree.</p>
+            </li>
+
+            <!-- PT # ???? -->
+            <li>
+            <p>LMS Test Content Package CM-17a and CM-17b were added
+            to the LMS Conformance Test to test that an LMS properly
+            handles the application of Prevent Activation in deep
+            Activity Trees.</p>
+            </li>
+
+            <!-- PT # 12201 -->
+            <li>
+            <p>LMS Test Content Package RU-19a and RU-19b were added
+            to the LMS Conformance Test to test that an LMS correctly
+            initializes a cluster activity and process the default
+            Rollup Rules.</p>
+            </li>
+
+            <!-- PT # 12209 -->
+            <li>
+            <p>LMS Test Content Packages DMI and DDM were updated to
+            test that an LMS correctly stores and retrieves various
+            encoded values.</p>
+            </li>
+
+            <!-- PT # 12204 - Update Completion Threshold Tests in DMI-->
+            <li>
+            <p>LMS Test Content Package DMI was updated to test that
+            an LMS correctly initializes Completion Threshold
+            information.</p>
+            </li>
+
+            <!-- PT # 12192 - LMS Test Content Package to test root w/ (flow & choice) = false -->
+            <li>
+            <p>LMS Test Content Package CM-15 was created to test
+            that an LMS correctly handles a root Activity that has
+            Control Mode choice and flow set to &quot;false&quot;. In
+            addition, it also tests that an LMS supports the new Jump
+            Navigation Request.</p>
+            </li>
+            <!-- The "not" operator is applied after this evaluation, so a Sequencing Rule for 
+             not "satisfied" will evaluate to true if the objective is either unknown or 
+             "not satisfied"  -->
+            <li>
+            <p>LMS Test Content Packages SX-12a, SX-12b, and SX-12c
+            were created to test that if an Activity’s status is
+            &quot;unknown&quot;, this invalid state would not cause a
+            Not &quot;Satisfied&quot; or Not &quot;Completed&quot; rule
+            from triggering in the LMS.</p>
+            </li>
+            <!-- PT # 12225 New CO Test packages -->
+            <li>
+            <p>LMS Test Content Packages CO-01, CO-02a, CO-02b,
+            CO-03, CO-04a, CO-04b, CO-04c, CO-05a, CO-05b, CO-06,
+            CO-07a, CO-07b, CO-08a, CO-08b, CO-09, CO-10, CO-11, CO-12a,
+            CO-12b, CO-12c, CO-12d, CO-13a and CO-13b were added to the
+            LMS Conformance Test to test that the Activities completion
+            be properly evaluated through objectives. The tests ensure
+            that all potential combinations of completion/progress
+            information are accounted for, proper initialization and
+            data mappings are applied, and the correct status
+            information is utilized during Rollup and Sequencing Rule
+            evaluations.</p>
+            </li>
+         </ul>
+         <br />
+         </li>
+         <li>Content Package Conformance Test:
+         <ul>
+            <li><!-- Issue #11307: The Content Package Test Does Not Validate Extension Elements-->
+            <p>The Content Package Conformance Test was updated to
+            validate all XML extension elements against their provided
+            controlling documents (XSDSs). This change will better align
+            the validation behavior of the Test Suite with other
+            available XML parsers and increase SCORM Content Package
+            interoperability.</p>
+            </li>
+            <li><!-- Issue #11309: Multiplicity Requirements for Elements That Contain 
+               <ruleConditions> Child Elements Not Tested Correctly During Validation-->
+            <p>The Content Package Conformance Test and the Manifest
+            Utility Test were updated to enforce that
+            &lt;preConditionRule&gt;, &lt;exitConditionRule&gt;, and
+            &lt;postConditionRule&gt; elements contain 1 and only 1
+            &lt;ruleConditions&gt; element as a child. The Content
+            Package Conformance Test and Manifest Utility Test will throw
+            an error if 0 or more than 1 &lt;ruleConditions&gt;
+            element(s) is found as a child of &lt;preConditionRule&gt;,
+            &lt;exitConditionRule&gt;, or &lt;postConditionRule&gt;.</p>
+            </li>
+            <li><!-- Issue #11312: <sequencing> Element “ID” Attribute Not Checked Correctly During Validation-->
+            <p>The Content Package Conformance Test and Manifest
+            Utility Test were updated to enforce that an &quot;ID&quot;
+            attribute is not permitted on a &lt;sequencing&gt; element
+            that is a child of an &lt;item&gt; or &lt;organization&gt;
+            element. The Content Package Conformance Test and Manifest
+            Utility Test will throw an error if an &quot;ID&quot;
+            attribute is found on a &lt;sequencing&gt; element that is a
+            child of an &lt;item&gt; or &lt;organization&gt; element.</p>
+            </li>
+            <li><!--Issue #11314: <mapInfo> Element “targetObjectiveID” Attribute Not Checked Correctly During Validation-->
+            <p>The Content Package Conformance Test and Manifest
+            Utility Test were updated to enforce that the
+            &quot;targetObjectiveID&quot; attribute of the
+            &lt;MapInfo&gt; element does not contain only white space
+            characters. The Content Package Conformance Test and the
+            Manifest Utility test will throw an error when a
+            &quot;targetObjectiveID&quot; attribute is found to contain
+            only white space characters.</p>
+            </li>
+            <li><!-- Issue #11315: Sub-Manifest in Content Packages -->
+            To increase the understanding of the best practice
+            recommendation and to increase interoperability of content
+            packages, the Content Package Conformance Test and Manifest
+            Utility Test were updated to handle the existence of
+            (sub)manifests in the following ways:<br />
+            <ul>
+               <li>If a (sub)manifest is detected in an
+               imsmanifest.xml file and the main manifest includes a
+               reference into the (sub)manifest, testing will be
+               terminated and a warning will be thrown indicating that
+               the best practice recommendation was not followed. No
+               conformance labels will be reported.</li>
+               <li>If a (sub)manifest is detected in a
+               imsmanifest.xml file but the main manifest does not
+               include a reference into the (sub)manifest, the
+               (sub)manifest will be not be considered for validation
+               and the conformance test will continue.</li>
+            </ul>
+            <br />
+            </li>
+            <li><!--Issue #11321: <adlnav:presentation> Element Shall Only Be Used With <item> 
+            Elements That Reference SCO or Asset Resources Not Tested Correctly During Validation-->
+            <p>The Content Package Conformance Test and the Manifest
+            Utility Test were updated to enforce that the
+            &lt;adlnav:presentation&gt; element must exist as a child of
+            an &lt;item&gt; element that contains an
+            &quot;identifierref&quot; attribute. In addition, the
+            &quot;identifierref&quot; attribute must reference a
+            &lt;resource&gt; element that has an
+            &quot;adlcp:scormType&quot; attribute with a value of
+            &quot;asset&quot; or &quot;sco&quot;. The Content Package
+            Conformance Test and the Manifest Utility test will throw an
+            error if the &lt;adlnav:presentation&gt; element exists and
+            does not follow this requirement.</p>
+            </li>
+            <li><!-- Issue #11361: Handling of Content Packages with Incomplete “xsi:schemaLocation” Attribute -->
+            <p>The Content Package Conformance Test and the Manifest
+            Utility Test were updated to enforce that if the
+            &quot;xsi:schemaLocation&quot; is present on the
+            &lt;manifest&gt; element, it must contain all element
+            namespaces used in the XML instance with their corresponding
+            controlling document (XSD). The Content Package Conformance
+            Test and the Manifest Utility Test will throw an error if a
+            namespace is found to be used in the XML instance that is
+            not included in the &quot;xsi:schemaLocation&quot; attribute
+            on the &lt;manifest&gt; element. This change will better
+            align the validation behavior of the Test Suite with other
+            available XML parsers and increase SCORM Content Package
+            interoperability.</p>
+            </li>
+            <li><!--Issue #11363: Content Package and Manifest Utility Tests Only Check for
+            Control Files at the Root During Validation  -->
+            <p>The Content Package Conformance Test and the Manifest
+            Utility Test were updated to verify that any controlling
+            documents (schemas) referenced in the
+            &quot;xsi:schemaLocation&quot; exist at both the root of the
+            Content Package and at the location specified in the
+            &quot;xsi:schemaLocation&quot; attribute if it is different
+            than the Content Package root. The Content Package
+            Conformance Test and the Manifest Utility Test will throw an
+            error if the controlling documents are not located in both
+            their root and &quot;xsi:schemaLocation&quot;-specified
+            locations.</p>
+            </li>
+            <li><!-- #11366: The Content Package Conformance Test and Manifest Utility Test Do Not Correctly Test the ADLCP Namespace Element Requirements-->
+            <p>The Content Package Conformance Test and the Manifest
+            Utility Test were updated to enforce that the
+            &lt;adlcp:timeLimitAction&gt;,
+            &lt;adlcp:completionThreshold&gt;, and
+            &lt;adlcp:dataFromLMS&gt; elements exist only as the child
+            of an &lt;item&gt; element which references a
+            &lt;resource&gt; element with an &quot;adlcp:scormType&quot;
+            attribute value of &quot;sco&quot;. The Content Package
+            Conformance Test and the Manifest Utility Test will throw an
+            error if the &lt;adlcp:timeLimitAction&gt;,
+            &lt;adlcp:completionThreshold&gt;, and
+            &lt;adlcp:dataFromLMS&gt; elements exist as the child of an
+            &lt;item&gt; element which does not reference a
+            &lt;resource&gt; element with an &quot;adlcp:scormType&quot;
+            attribute value of &quot;sco&quot;.</p>
+            </li>
+            <li><!-- #11446: Packages Incorrectly Pass Excess Baggage Check -->
+            <p>The Content Package Conformance Test was updated to
+            include directories named &quot;common&quot;,
+            &quot;vocab&quot;, &quot;extend&quot;, and
+            &quot;unique&quot; when checking a Content Package for files
+            which are not referenced by the imsmanifest.xml file (Excess
+            Baggage). Previously, any files contained inside a directory
+            with one of the above names was excluded from the Excess
+            Baggage check and therefore any unreferenced files contained
+            in those directories were not logged. The Content Package
+            Conformance Test will now throw a warning if Excess Baggage
+            is found in a directory named &quot;common&quot;,
+            &quot;vocab&quot;, &quot;extend&quot;, or
+            &quot;unique&quot;.</p>
+            </li>
+            <li><!-- Issue #11449: The Content Package and the Manifest Utility Tests Do Not Correctly
+            Test That a Leaf <item> Shall Contain an “identifierref” Attribute -->
+            <p>The Content Package Conformance test now stops if any
+            part of the imsmanifest.xml file fails validation.
+            Therefore, upon the completion of the imsmanifest.xml file
+            validation, if a validation error has occurred, the test
+            stops, fails, and no SCOs are tested.</p>
+            </li>
+            <li><!-- #11453 May 08 TWG Issue #14: CP Test SCO Test incorrectly handles invalid item elements  -->
+            <p>The Content Package Conformance test now stops if any
+            part of the imsmanifest.xml file fails validation.
+            Therefore, if a given &lt;item&gt; element is invalid in any
+            way, the test stops and fails.</p>
+            </li>
+            <li><!-- Issue #11467: Conformant SCOs and Packages After SCO Timeout Period Elapses -->
+            <p>The Content Package Conformance Test and the SCO RTE
+            Test were updated to stop testing any SCO or Content Package
+            when the SCO does not call Initialize within the SCO Timeout
+            Period.</p>
+            </li>
+            <li><!-- Issue #11485: Prohibiting Exit Parent Post Condition Rules on the Root of the Activity Tree -->
+            <p>The Content Package Conformance Test was updated to
+            enforce that if the &lt;ruleAction&gt; element exists under
+            a &lt;sequencing&gt; element which is under an
+            &lt;organizations&gt; element, the &quot;action&quot;
+            attribute of the &lt;ruleAction&gt; element must not have
+            the value &quot;exitParent&quot;. The Content Package
+            Conformance Test will throw an error if a &lt;ruleAction&gt;
+            element with an &quot;action&quot; attribute value of
+            &quot;exitParent&quot; element exists under a
+            &lt;sequencing&gt; element which is under an
+            &lt;organizations&gt; element.</p>
+            </li>
+            <li><!-- Issue #11486: May 08 TWG Issue #27: Previous Post Condition Rule on the Root of the Activity -->
+            <p>The Content Package Conformance Test was updated to
+            enforce that if the &lt;ruleAction&gt; element exists under
+            a &lt;sequencing&gt; element which is under an
+            &lt;organizations&gt; element, the &quot;action&quot;
+            attribute of the &lt;ruleAction&gt; element must not have
+            the value &quot;previous&quot;. The Content Package
+            Conformance Test will throw an error if a &lt;ruleAction&gt;
+            element with an &quot;action&quot; attribute value of
+            &quot;previous&quot; element exists under a
+            &lt;sequencing&gt; element which is under an
+            &lt;organizations&gt; element.</p>
+            </li>
+            <li><!-- Issue #11523: Content Package and SCO Tests Incorrectly Apply Parameter 
+             Decoding for %2F -->
+            <p>The Content Package Conformance Test was updated to
+            not decode any ASCII encoded characters contained in the SCO
+            launch parameters of the &quot;parameters&quot; attribute on
+            the &lt;item&gt; element. The displayed and logged messages
+            reflect any encoded characters exactly as they are in the
+            &quot;parameters&quot; attribute.</p>
+            </li>
+            <li><!-- PT 11549 Enforcement of Non-Communication of Assets -->
+            <p>The Content Package Conformance Test was updated to
+            launch and test &quot;asset&quot; type resources to ensure
+            they do not attempt to communicate with the SCORM API or
+            Data Model. If an &quot;asset&quot; resource attempts to
+            communicate with the SCORM API or Data Model, the Content
+            Package Conformance Test will throw a warning message,
+            continue to test the &quot;asset&quot; resource as a
+            &quot;sco&quot; resource, and fail the test.</p>
+            </li>
+            <li><!-- PT 11567 Metadata <schemaversion> Element update for SCORM 2004 4th Edition-->
+            <p>The Content Package Conformance Test was updated to
+            enforce that the value of the &lt;schemaversion&gt; element
+            is &quot;2004 4th Edition&quot;. The Content Package
+            Conformance Test will throw a warning if the value of the
+            &lt;schemaversion&gt; element is &quot;2004 3rd
+            Edition&quot;.</p>
+            </li>
+            <li><!-- 12165 CP Validator does not correctly handle whitespace or encoded identifiers -->
+            The Content Package Conformance Test and the Manifest
+            Utility Test were updated to correctly process encoded and
+            un-encoded whitespace based on the ADL, IMS, and XML
+            specifications in the following attributes:
+            <ul>
+               <li>&lt;manifest&gt; : identifier</li>
+               <li>&lt;item&gt; : identifier</li>
+               <li>&lt;organizations&gt; : default</li>
+               <li>&lt;organization&gt; : identifier</li>
+               <li>&lt;resource&gt; : identifier</li>
+               <li>&lt;sequencing&gt; : ID</li>
+               <li>&lt;sequencing&gt; : IDRef</li>
+               <li>&lt;primaryObjective&gt; : objectiveID</li>
+               <li>&lt;objective&gt; : objectiveID</li>
+               <li>&lt;mapInfo&gt; : targetObjectiveID</li>
+               <li>&lt;ruleCondition&gt; : referencedObjective</li>
+            </ul>
+            <br />
+            </li>
+            <li><!-- 12166 Validator incorrectly validates referencedObjectives under sequencingCollection-->
+            <p>The Content Package Conformance Test and the Manifest
+            Utility Test were updated to enforce that the
+            &quot;referencedObjective&quot; attribute of the
+            &lt;ruleCondition&gt; element references a valid
+            &quot;objectiveID&quot; inside the given sequencing
+            activity. If a &lt;sequencingCollection&gt; sequencing
+            activity is referenced by the given activity or the
+            &quot;referencedObjective&quot; attribute exists inside an
+            &lt;sequencingCollection&gt; sequencing activity, the
+            validity of the &quot;referencedObjective&quot; attribute is
+            tested after the local and &lt;sequencingCollection&gt;
+            sequencing activities were merged.</p>
+            </li>
+            <!-- PT #11552: July 08 TWG Feature #01: Add Support for Generic Shared Global Objective Data -->
+            <li>
+            <p>The Content Package Conformance Test was updated to
+            enforce the correct use of the &lt;adlseq:data&gt; element.
+            In addition, the Content Package Conformance Test been
+            updated to read &lt;adlseq:data&gt; information from the
+            &quot;imsmanifest.xml&quot; file when testing SCOs.</p>
+            </li>
+            <!-- PT #11554: July 08 TWG Feature #02: Add Extra Types of Shared Global Information -->
+            <li>
+            <p>The Content Package Conformance Test was updated to
+            enforce the correct use of the &lt;adlseq:objectives&gt;
+            element.</p>
+            </li>
+            <!-- PT #11560: July 08 TWG Feature #05: Adding Support for Tracking Partial Attempt Completion -->
+            <li>
+            <p>The Content Package Conformance Test was updated to
+            enforce the correct use of the
+            &lt;adlcp:completionThreshold&gt; element including its
+            three new attributes &quot;completedByMeasure&quot;,
+            &quot;minProgressMeasure&quot;, and
+            &quot;progressWeight&quot;.</p>
+            </li>
+            <li>
+            <p>The Content Package Conformance Test was updated to
+            obtain the Completion Threshold Value from the
+            &quot;minProgressMeasure&quot; attribute of the
+            &lt;adlcp:completionThreshold&gt; element when testing SCOs.
+            </p>
+            </li>
+            <!-- PT #12206, 12196: Identifierref attribute whitespaces handled incorrectly -->
+            <li>
+            <p>The Content Package Conformance Test was updated to
+            enforce the correct use of whitespace in
+            &quot;identifierref&quot; attributes. The
+            &quot;identifierref&quot; attribute will be validated
+            exactly, whitespace included, as it appears in the XML.</p>
+            </li>
+            <!-- PT #12187/12195: Validation of external URLs -->
+            <li>
+            <p>The Content Package Conformance Test was updated to
+            enforce that no &quot;href&quot; attributes on
+            &lt;resource&gt; elements contain references to external
+            URLs. Validation will be stopped if a reference to an
+            external URL is found.</p>
+            </li>
+            <!-- PT #11454 : Multiple Validation of metadata files -->
+            <li>
+            <p>The Content Package Conformance Test was updated to
+            validate each unique metadata instance in a given Content
+            Package only one time.</p>
+            </li>
+            <!-- PT #12157 : CP Test cannot handle files without file extensions -->
+            <li>
+            <p>The Content Package Conformance Test was updated to
+            validate the extension of each file referenced in the
+            Content Package to ensure that it exists and that it is a
+            valid extension.</p>
+            </li>
+
+         </ul>
+         <br />
+         </li>
+         <li>SCO RTE Conformance Utility Test:
+         <ul>
+            <li><!--11488 11489 New UI options for SCO RTE --> The
+            SCO RTE Conformance Utility Test changed how to select SCOs
+            to run during the test.
+            <ul>
+               <li>Lists of SCO file paths can be saved to/loaded
+               from a .txt file.</li>
+               <li>The saved lists can be edited outside of the SCO
+               RTE interface to include query strings or other
+               additional attributes.</li>
+               <li>The text window can now be edited. Changes made
+               inside this window will be used during the test.</li>
+               <li>This change makes it unnecessary to select
+               single SCO or Multiple SCO test during the test.</li>
+            </ul>
+            <p>For more detailed instructions on this change see the
+            Sharable Content Object Utility <a
+               href="./runSCO.html#opInstr">Operational Instructions</a>.
+            </p>
+            </li>
+            <!-- PT #11552: July 08 TWG Feature #01: Add Support for Generic Shared Global Objective Data -->
+            <li>
+            <p>The SCO RTE Conformance Utility Test was updated to
+            enforce the correct use of the adl.data Data Model elements.
+            In addition, the &quot;Add Data Map&quot; option was added
+            to the SCO RTE Conformance Utility Test interface to allow
+            users to enter Data Map information to be used when testing
+            the given SCO.</p>
+            </li>
+
+            <!-- PT #11554: July 08 TWG Feature #02: Add Extra Types of Shared Global Information -->
+            <!-- PT #11556: July 08 TWG Feature #03: Learner verses Content Triggered Choice Nav Requests -->
+
+            <!-- PT #11560: July 08 TWG Feature #05: Adding Support for Tracking Partial Attempt Completion -->
+            <li>
+            <p>The SCO RTE Conformance Utility Test was updated to
+            enforce the correct use of cmi.completion_threshold Data
+            Model element. In addition, the SCO RTE Conformance Utility
+            Test interface was updated to allow users to enter the value
+            of the &quot;minProgressMeasure&quot; attribute of the
+            &lt;adlcp:completionThreshold&gt; element to be used when
+            testing the given SCO.</p>
+            </li>
+         </ul>
+         <br />
+         </li>
+      </ul>
+      </td>
+   </tr>
+
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"  >
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+<meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+<meta http-equiv="Pragma" content="no-cache" />
+
+<title>ChecksumAppletTestPage</title>
+
+<script type="text/javascript" src="../scripts/BrowserDetect.js"></script>
+<script type="text/javascript" src="../scripts/EmulationCode.js"></script>
+<script type="text/javascript">
+
+      // Variable that holds the reference to the Content Package Driver
+      var driver = null;
+      var testLog = false;
+
+      /**
+       * Method:  initializeTest()
+       * 
+       * Description:
+       *   Set up intitial values and view for this test
+       * 
+       */
+      function initializeTest()
+      {
+    	   DetectBrowser();
+           if ( ! IE )
+           { 
+              window.setTimeout(
+                 "driver = document.getElementById('NNchecksumDriver')", 100);  
+           }
+           else 
+           { 
+             driver = document.getElementById('checksumDriver');  
+           }
+           
+      }
+
+      function compareChecksum()
+      {
+          var pkg = document.getElementById('checksumForm').packageFile.value;
+          var checksum;
+
+          var runChecksum = true;
+          
+          if ( testLog == true )          
+          {
+        	  checksum = "File:" + document.getElementById('checksumForm').logValue.value;
+          }
+          else
+          {
+              checksum = document.getElementById('checksumForm').checksumValue.value;
+          }
+
+          if ( pkg == "" || checksum == "" || checksum == "File:" )
+          {
+              runChecksum = false;
+              var message = "";
+              if ( pkg == "" )
+              {
+                  message = message + "Error, please select a Content Package file.\n";
+              }
+              if ( checksum == "" || checksum == "File:" )
+              {
+                  message = message + "Error, please enter a Checksum value or select a log file.\n";
+              }
+              alert ( message );
+          }
+
+          if ( runChecksum == true )
+          {
+             driver.startChecksumValidation(pkg, checksum);
+             var res = driver.isValidLog();
+             
+             if (res == true)
+             {
+                 res="<img src='../images/smallcheck.gif' alt='Passed' /> <b>Checksum Successful</b>";
+             }
+             else
+             {
+           	  res="<img src='../images/smallxuser.gif' alt='Failed' /> <b>Checksum Failed</b>";
+             }
+   
+             document.getElementById('results').innerHTML= res;
+          }          
+      }
+
+      function disableLog()
+      {
+    	  document.getElementById("checksumForm").logValue.disabled = true;   
+
+          document.getElementById("checksumForm").checksumValue.disabled = false;       
+             
+          testLog = false; 
+          //document.getElementById("replacethis").innerHTML="<input id='compareValue' name='compareValue' type='text' />";
+          document.getElementById('results').innerHTML="";    
+          document.getElementById('checksumForm').logValue.value = "";    
+      }
+
+      function disableChecksum()
+      {
+    	  document.getElementById("checksumForm").checksumValue.disabled = true;
+
+          document.getElementById("checksumForm").logValue.disabled = false;
+          
+          testLog = true;
+          //document.getElementById("replacethis").innerHTML="<input id='compareValue' name='compareValue' type='file' />";
+          document.getElementById('results').innerHTML="";
+          document.getElementById('checksumForm').checksumValue.value = "";
+          
+      }
+
+      /**
+       * Method:  loadComplete()
+       * 
+       * Description:
+       *    This function is called when the applets have been loaded for the
+       *    test. The continue button will then be made visible.
+       * 
+       */
+     function loadComplete()
+     {
+        //document.getElementById("checksumForm").logFile.disabled = true;
+        document.getElementById("checksumForm").packageFile.disabled = false;
+        document.getElementById("checksumForm").logValue.disabled = true;
+        //document.getElementById("checksumForm").checksumVal.disabled = false;
+     }
+
+      </script>
+
+<link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+</head>
+<body onload="initializeTest();" >
+	
+	<div class="adlHeader" style="width: 600px">
+    	Instructions
+    </div>
+    <div style="width: 600px">
+    	This test will confirm the relationship between a Content Package and its corresponding  
+        Content Package Conformance Test result log.  A successful comparison indicates that the 
+        summary log was created as the result of a successful Content Package Conformance Test
+        run with the given Content Package.
+    </div>
+   <!-- ContentPackageDriver --> 
+   <!--[if !IE]> Firefox and others will use outer object -->
+      <object
+         classid="java:org/adl/testsuite/checksum/PackageChecksumDriver.class"
+         type="application/x-java-applet"
+         archive="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar"
+         height="0" width="0" name="NNchecksumDriver"
+         id="NNchecksumDriver"
+         codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab">   
+         <param name="archive" value="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar" />
+         <param name="code" value="org/adl/testsuite/checksum/PackageChecksumDriver.class" />
+         <param name="MAYSCRIPT" value="true" />
+         <param name="codebase" value="../../lib/" />
+         <param name="scriptable" value="true" />
+         <!--<![endif]--> <!-- MSIE (Microsoft Internet Explorer) will use inner object -->
+         <object name="checksumDriver" id="checksumDriver"
+            classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+            codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+            height="0" width="0">
+      
+            <param name="code" value="org/adl/testsuite/checksum/PackageChecksumDriver.class" />
+            <param name="archive" value="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar" />
+            <param name="codebase" value="../../lib" />
+            <param name="name" value="checksumDriver" />
+            <param name="type" value="application/x-java-applet" />
+      
+            <strong> This browser does not have a Java Plug-in. <br />
+            <a href="http://java.sun.com/products/plugin/downloads/index.html">
+            Get the latest Java Plug-in here. </a> </strong> 
+            </object> 
+            <!--[if !IE]> close outer object -->
+         </object> 
+         <!--<![endif]--> 
+   <form id="checksumForm" action="">
+   	  <table width="600px" >
+      <tr>
+         <td colspan="2">
+            <hr/>
+         </td>
+      </tr>
+   	  <tr>
+   	  	<td colspan="2">
+            <b>Select the Content Package to be tested:</b>             
+            <br/><br/>
+            <label for="packageFile" class="products"> File: </label>
+   	  		<input id="packageFile" name="packageFile" type="file" />
+            <br/>
+   	  	</td>
+   	  </tr>
+   	  <tr><td style="width: 600px" colspan="2"><hr/></td></tr>
+      <tr>
+        <td colspan="2">
+            <b>Select the Checksum value:</b>
+        </td>
+      </tr>
+      <tr>
+         <td colspan="2">
+            <br/>         
+            <ul>
+               <li><strong>Checksum Value: </strong>
+                  &nbsp;The Checksum value from a successful Content Package Conformance Test summary log. <br />
+               <br />
+               </li>
+               <li><strong>Log File: </strong> 
+                  &nbsp;A valid summary log file created by a successful Content Package Conformance Test.
+               </li>
+            </ul>
+         </td>
+      </tr>
+   	  <tr>
+   	  	<td width="25%">
+   	  		<input id="checksumRadio" type="radio" name="logType" value="checksum" checked onclick="disableLog();" />
+            <label for="checksumRadio" class="products"> Checksum Value: </label> 
+        </td>
+        <td>
+            <input id='checksumValue' name='checksumValue' type='text' /> 	
+   	  	</td>
+   	  </tr>
+   	  <tr>
+   	  	<td width="25%">
+			<input id="logRadio" type="radio" name="logType" value="log" onclick="disableChecksum();" />
+            <label for="logRadio" class="products"> Log File: </label>
+        </td>
+        <td>   	  
+            <input id='logValue' name='logValue' type='file' />	
+   	  	</td>
+   	  </tr>
+      <tr>
+         <td colspan="2">
+            <hr/>
+         </td>
+      </tr>
+   	  </table>
+      
+   	  <input id="compare" name="compare" onclick="compareChecksum();" type="button" value="Compare" />
+      <br/>
+   </form>
+   
+   <table id="tableTitle" width="600px">
+        <tr>
+            <td>
+                <label for="resultsTable"> 
+                    <b>Checksum Results:</b>
+                </label>
+            </td>
+        </tr>
+    </table>
+   
+   <table id="resultsTable" border="1" width="600px" rules="none" frame="box">
+      <tr>
+         <td align="center"> 
+            &nbsp;              
+            <div id="results">&nbsp;</div>            
+            &nbsp;
+         </td>
+      </tr>
+   </table>
+</body>
+</html>

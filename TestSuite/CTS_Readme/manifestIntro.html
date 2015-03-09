@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+   <title>SCORM 2004 4th Edition Test Suite Version 1.1.1 Readme</title>
+   <link rel="stylesheet" href="README.css" type="text/css" />
+</head>
+<body class="bg">
+<a name="manifestIntro" />
+<table width="100%" cellpadding="3">
+   <tr>
+      <td class="stagebar">Manifest Utility Test</td>
+   </tr>
+</table>
+<p><br /></p>
+   <table>
+      <tr>
+         <td>
+            The Manifest Utility Test verifies that the IMS Manifest complies
+            with the rules specified in the SCORM 2004 4<sup>th</sup> Edition Content Package
+            Application Profiles.
+            <br />
+            <br />
+            The purpose of this test is to verify that the IMS Manifest
+            test subject:
+            <ul>
+               <li>
+                  Is named imsmanifest.xml
+               </li>
+               <li>
+                  Is located at the root of the content package.
+               </li>
+               <li>
+                  Is well-formed.
+               </li>
+               <li>
+                  Validates against the IMS Content Packaging XML Schema
+                  Definition (XSD) Version 1.1.4 ( imscp_v1p1.xsd found at 
+                  http://www.imsglobal.org/ ).
+               </li>
+               <li>
+                  Validates against the SCORM 2004 4<sup>th</sup> Edition Content Packaging Extensions 
+                  XML XSD Version 2.0 ( adlcp_v1p3.xsd found at http://www.adlnet.gov/ ).
+               </li>
+               <li>
+                  Implements all mandatory elements correctly.
+               </li>
+               <li>
+                  Uses optional elements correctly if they are used.
+               </li>
+               <li>
+                  Uses extensions elements and if they are used, they are
+                  valid to their respective controlling document.
+               </li>
+               <li>
+                  Contains IMS Simple Sequencing Information, and if so,
+                  verifies that the sequencing information is valid according to 
+                  the IMS Simple Sequencing XML Schema Definition (XSD) 
+                  ( imsss_v1p0.xsd and supporting files found at http://www.imsglobal.org/ ).
+               </li>
+               <li>
+                  Contains SCORM CAM Sequencing extensions, and if so, 
+                  verifies that the sequencing extensions are valid according to 
+                  the  SCORM 2004 4<sup>th</sup> Edition Sequencing Extensions XML XSD Version 2.0 
+                  ( adlseq_v1p3.xsd found at http://www.adlnet.gov/ ).
+               </li>
+               <li>
+                  Contains SCORM CAM Navigation extensions, and if so, 
+                  verifies that the navigation extensions are valid according to 
+                  the SCORM 2004 4<sup>th</sup> Edition Navigation Extensions XML XSD Version 1.0 
+                  ( adlnav_v1p3.xsd found at http://www.adlnet.gov/ ). 
+               </li>
+            </ul>
+         </td>
+      </tr>
+   </table>
+
+</body>
+</html>

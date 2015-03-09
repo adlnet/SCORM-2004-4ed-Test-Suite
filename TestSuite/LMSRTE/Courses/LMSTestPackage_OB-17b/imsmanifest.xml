@@ -1,0 +1,146 @@
+<?xml version = "1.0" standalone = "no"?>
+<manifest identifier = "LMSTestPackage_OB-17b" version = "1.1.1"
+    xmlns = "http://www.imsglobal.org/xsd/imscp_v1p1"
+    xmlns:adlcp = "http://www.adlnet.org/xsd/adlcp_v1p3"
+    xmlns:adlseq = "http://www.adlnet.org/xsd/adlseq_v1p3"
+    xmlns:imsss = "http://www.imsglobal.org/xsd/imsss"
+    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:adlnav = "http://www.adlnet.org/xsd/adlnav_v1p3"
+    xsi:schemaLocation = "http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd
+                                           http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd
+                                           http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd
+                                           http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd
+                                           http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd"  >
+
+   <metadata>
+      <schema>ADL SCORM</schema>
+      <schemaversion>2004 4th Edition</schemaversion>
+   </metadata>
+
+   <organizations default = "OB-17b">
+      <organization identifier = "OB-17b">
+         <title>LMS Test Content Package OB-17b </title>
+               <item identifier="activity_1" identifierref="SEQ01" parameters="?tc=OB-17b&amp;act=1">
+        <title>Activity 1</title>
+        <imsss:sequencing>
+          <imsss:objectives>
+            <imsss:primaryObjective  objectiveID="PRIMARYOBJ">
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-1" readSatisfiedStatus="false" readNormalizedMeasure="false" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:primaryObjective>
+            <imsss:objective  objectiveID="obj1">
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-2" readSatisfiedStatus="false" readNormalizedMeasure="false" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:objective>
+            <imsss:objective  objectiveID="obj2">
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-3" readSatisfiedStatus="false" readNormalizedMeasure="false" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:objective>
+            <imsss:objective  objectiveID="obj3">
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-4" readSatisfiedStatus="false" readNormalizedMeasure="false" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:objective>
+            <imsss:objective  objectiveID="obj4">
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-5" readSatisfiedStatus="false" readNormalizedMeasure="false" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:objective>
+          </imsss:objectives>
+        </imsss:sequencing>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+                  <adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+      </item>
+      <item identifier="activity_2" identifierref="SEQ01" parameters="?tc=OB-17b&amp;act=2">
+        <title>Activity 2</title>
+        <imsss:sequencing>
+          <imsss:objectives>
+            <imsss:primaryObjective  objectiveID="PRIMARYOBJ">
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-1" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:primaryObjective>
+            <imsss:objective  objectiveID="obj1">
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-2" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:objective>
+            <imsss:objective  objectiveID="obj2">
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-3" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:objective>
+            <imsss:objective  objectiveID="obj3">
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-4" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:objective>
+            <imsss:objective satisfiedByMeasure="true" objectiveID="obj4">
+              <imsss:minNormalizedMeasure>0.75</imsss:minNormalizedMeasure>
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-5" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:objective>
+          </imsss:objectives>
+        </imsss:sequencing>           
+		<adlnav:presentation>
+          <adlnav:navigationInterface>
+            <adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+               <adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+               <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+          </adlnav:navigationInterface>
+        </adlnav:presentation>
+      </item>
+      <item identifier="activity_3" identifierref="SEQ01" parameters="?tc=OB-17b&amp;act=3">
+        <title>Activity 3</title>
+        <imsss:sequencing>
+          <imsss:objectives>
+            <imsss:primaryObjective  objectiveID="PRIMARYOBJ">
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-1" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:primaryObjective>
+            <imsss:objective  objectiveID="obj1">
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-2"  />
+            </imsss:objective>
+            <imsss:objective  objectiveID="obj2">
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-3" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:objective>
+            <imsss:objective  objectiveID="obj3">
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-4" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:objective>
+            <imsss:objective satisfiedByMeasure="true" objectiveID="obj4">
+              <imsss:minNormalizedMeasure>0.75</imsss:minNormalizedMeasure>
+              <imsss:mapInfo targetObjectiveID="gObj-OB17b-5" writeSatisfiedStatus="true" writeNormalizedMeasure="true" />
+            </imsss:objective>
+          </imsss:objectives>
+        </imsss:sequencing>            
+        <adlnav:presentation>
+          <adlnav:navigationInterface>
+            <adlnav:hideLMSUI>continue</adlnav:hideLMSUI>
+            <adlnav:hideLMSUI>previous</adlnav:hideLMSUI>
+            <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+          </adlnav:navigationInterface>
+        </adlnav:presentation>
+      </item>
+      <imsss:sequencing>
+        <imsss:controlMode choice="false" flow="true" />
+      </imsss:sequencing>
+      </organization>
+   </organizations>
+   <resources>
+      <resource identifier="SEQ01" type="webcontent" adlcp:scormType="sco" href="SequencingTest.htm" xml:base="resources/">
+         <file href="SequencingTest.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="LMSFNCTS01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/lmsrtefunctions.js" />
+      </resource>
+      <resource identifier="JAR01" type="webcontent" adlcp:scormType="asset" xml:base="common/">
+         <file href="LMSTest.jar" />
+      </resource>
+      <resource identifier="ABOUT01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/About.js" />
+      </resource>
+      <resource identifier="EMULATION01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/EmulationCode.js" />
+         <dependency identifierref="BROWSERDETECT01"/>
+      </resource>
+      <resource identifier="BROWSERDETECT01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/BrowserDetect.js" />
+      </resource>
+      <resource identifier="LMSINCLUDE" type="webcontent" adlcp:scormType="asset">
+         <file href="includes/LMSTestContentPackages_style.css"/>
+      </resource>
+   </resources>
+</manifest>

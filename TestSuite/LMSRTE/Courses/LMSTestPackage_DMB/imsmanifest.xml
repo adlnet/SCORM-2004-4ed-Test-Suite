@@ -1,0 +1,241 @@
+<?xml version="1.0" standalone="no"?>
+<manifest identifier="LMSTestPackage_DMB"
+                 version="1.1.1"
+                 xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
+                 xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3"
+                 xmlns:imsss = "http://www.imsglobal.org/xsd/imsss"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:adlnav = "http://www.adlnet.org/xsd/adlnav_v1p3" 
+                 xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd
+                                                      http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd
+                                                      http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd
+                                                      http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd">
+
+   <metadata>
+      <schema>ADL SCORM</schema>
+      <schemaversion>2004 4th Edition</schemaversion>
+   </metadata>
+
+   <organizations default="DMB">
+      <organization identifier="DMB">
+         <title>LMS Test Content Package DMB </title>
+         <item identifier="activity_1" identifierref="DMBEHAVIOR01" parameters="?tc=DMB&amp;act=1">
+            <title>Data Model Behavior Test 1</title>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+         </item>
+         <item identifier="activity_2" identifierref="DMBEHAVIOR02" parameters="?tc=DMB&amp;act=2">
+            <title>Data Model Behavior Test 2</title>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+            <adlcp:completionThreshold completedByMeasure="true" minProgressMeasure="0.8" />
+         </item>
+         <item identifier="activity_3" identifierref="DMBEHAVIOR03" parameters="?tc=DMB&amp;act=3">
+            <title>Data Model Behavior Test 3</title>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+            <!-- satisfiedByMeasure = true -->
+            <!-- MinNormalizeMeasure = -0.5 -->
+            <imsss:sequencing>
+               <imsss:objectives>
+                  <imsss:primaryObjective objectiveID="SEQSUCCESSSTATUSOVERRIDE01" satisfiedByMeasure="true">
+                     <imsss:minNormalizedMeasure>-0.5</imsss:minNormalizedMeasure>
+                  </imsss:primaryObjective>
+               </imsss:objectives>
+            </imsss:sequencing>
+         </item>
+         <item identifier="activity_4" identifierref="DMBEHAVIOR04" parameters="?tc=DMB&amp;act=4">
+            <title>Data Model Behavior Test 4</title>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+            <!-- satisfiedByMeasure = true -->
+            <!-- MinNormalizeMeasure = -0.5 -->
+            <imsss:sequencing>
+               <imsss:objectives>
+                  <imsss:primaryObjective objectiveID="SEQSUCCESSSTATUSUNKNOWN01" satisfiedByMeasure="true">
+                     <imsss:minNormalizedMeasure>-0.5</imsss:minNormalizedMeasure>
+                  </imsss:primaryObjective>
+               </imsss:objectives>
+            </imsss:sequencing>
+         </item>
+         <item identifier="activity_5" identifierref="DMBEHAVIOR05" parameters="?tc=DMB&amp;act=5">
+            <title>Data Model Behavior Test 5</title>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+            <!-- satisfiedByMeasure = true -->
+            <imsss:sequencing>
+               <imsss:objectives>
+                  <imsss:primaryObjective objectiveID="SEQSCALEDPASSINGSCOREDEFAULT01" satisfiedByMeasure="true" />
+               </imsss:objectives>
+            </imsss:sequencing>
+         </item>
+         <item identifier="activity_6" identifierref="DMBEHAVIOR06" parameters="?tc=DMB&amp;act=6">
+            <title>Data Model Behavior Test 6</title>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+			<adlcp:completionThreshold completedByMeasure="true" minProgressMeasure="0.6" />
+            <!-- satisfiedByMeasure = true -->
+            <!-- MinNormalizeMeasure = 0.6 -->
+            <imsss:sequencing>
+               <imsss:objectives>
+                  <imsss:primaryObjective objectiveID="SCALEDPASSINGSCOREINIT" satisfiedByMeasure="true">
+                     <imsss:minNormalizedMeasure>0.6</imsss:minNormalizedMeasure>
+                  </imsss:primaryObjective>
+               </imsss:objectives>
+            </imsss:sequencing>
+         </item>
+         <item identifier="activity_7" identifierref="DMBEHAVIOR07" parameters="?tc=DMB&amp;act=7">
+            <title>Data Model Behavior Test 7</title>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+            <!-- MinNormalizeMeasure = 0.8 -->
+            <imsss:sequencing>	
+               <imsss:objectives>
+                  <imsss:primaryObjective objectiveID="SEQSCALEDPASSINGSCORENOINIT01">
+                     <imsss:minNormalizedMeasure>0.8</imsss:minNormalizedMeasure>
+                  </imsss:primaryObjective>
+               </imsss:objectives>
+            </imsss:sequencing>
+         </item>
+         <item identifier="activity_8" identifierref="DMBEHAVIOR08" parameters="?tc=DMB&amp;act=8">
+            <title>Data Model Behavior Test 8</title>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+            <!-- satisfiedByMeasure = false -->
+            <!-- MinNormalizeMeasure = 0.7 -->
+            <imsss:sequencing>
+               <imsss:objectives>
+                  <imsss:primaryObjective objectiveID="SEQSCALEDPASSINGSCORENOINIT02" satisfiedByMeasure="false">
+                     <imsss:minNormalizedMeasure>0.7</imsss:minNormalizedMeasure>
+                  </imsss:primaryObjective>
+               </imsss:objectives>
+            </imsss:sequencing>
+         </item>
+		 <item identifier="activity_9" identifierref="DMBEHAVIOR09" parameters="?tc=DMB&amp;act=9">
+            <title>Data Model Behavior Test 9</title>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+         </item>
+      </organization>
+   </organizations>
+   <resources>
+      <resource identifier="DMBEHAVIOR01" type="webcontent" adlcp:scormType="sco" href="DMBehaviorTest1.htm" xml:base="resources/">
+         <file href="DMBehaviorTest1.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="DMBEHAVIOR02" type="webcontent" adlcp:scormType="sco" href="DMBehaviorTest2.htm" xml:base="resources/">
+         <file href="DMBehaviorTest2.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="DMBEHAVIOR03" type="webcontent" adlcp:scormType="sco" href="DMBehaviorTest3.htm" xml:base="resources/">
+         <file href="DMBehaviorTest3.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="DMBEHAVIOR04" type="webcontent" adlcp:scormType="sco" href="DMBehaviorTest4.htm" xml:base="resources/">
+         <file href="DMBehaviorTest4.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="DMBEHAVIOR05" type="webcontent" adlcp:scormType="sco" href="DMBehaviorTest5.htm" xml:base="resources/">
+         <file href="DMBehaviorTest5.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="DMBEHAVIOR06" type="webcontent" adlcp:scormType="sco" href="DMBehaviorTest6.htm" xml:base="resources/">
+         <file href="DMBehaviorTest6.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="DMBEHAVIOR07" type="webcontent" adlcp:scormType="sco" href="DMBehaviorTest7.htm" xml:base="resources/">
+         <file href="DMBehaviorTest7.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="DMBEHAVIOR08" type="webcontent" adlcp:scormType="sco" href="DMBehaviorTest8.htm" xml:base="resources/">
+         <file href="DMBehaviorTest8.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="DMBEHAVIOR09" type="webcontent" adlcp:scormType="sco" href="DMBehaviorTest9.htm" xml:base="resources/">
+         <file href="DMBehaviorTest9.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="LMSFNCTS01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/lmsrtefunctions.js"/>
+      </resource>
+      <resource identifier="JAR01" type="webcontent" adlcp:scormType="asset" xml:base="common/">
+         <file href="LMSTest.jar"/> 
+      </resource>
+      <resource identifier="ABOUT01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/About.js"/>
+      </resource>
+      <resource identifier="EMULATION01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/EmulationCode.js"/>
+         <dependency identifierref="BROWSERDETECT01"/>
+      </resource>
+      <resource identifier="BROWSERDETECT01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/BrowserDetect.js"/>
+      </resource>
+      <resource identifier="LMSINCLUDE" type="webcontent" adlcp:scormType="asset">
+         <file href="includes/LMSTestContentPackages_style.css"/>
+      </resource>
+   </resources>
+</manifest>

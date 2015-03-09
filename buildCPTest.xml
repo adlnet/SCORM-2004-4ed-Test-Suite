@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<project name="TestSuite" default="buildCPTest">
+<description>Compiles code for the Utilities.jar</description>
+
+    <!--creates directories if they don&apos;t already exist -->
+    <target name="init">
+    </target>
+
+    <target name="compile" depends="init">
+        <javac destdir="${buildDir}" srcdir="${src}" includes="org/adl/testsuite/contentpackage/">
+            <classpath>
+                <pathelement location="${lib}/adlvalidator.jar"/>
+                <pathelement location="${lib}/util.jar"/>
+                <pathelement location="${lib}/checksum.jar"/>
+                <pathelement location="${lib}/joda-time-1.1.jar"/>
+                <pathelement location="${lib}/debug.jar"/>
+				<pathelement location="${lib}/java40.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="buildCPTestJar" depends="compile">
+        <echo message="building jar file from class files"/>
+
+       <copy todir="${buildDir}/org/adl/util/resources">
+          <fileset dir="${resources}/org/adl/util/resources">
+             <include name="*.properties"/>
+          </fileset>
+       </copy>
+
+        <jar destfile="${buildDir}/${ContentPackageTestJar}" basedir="${buildDir}" includes="org/adl/parsers/dom/**,       org/adl/testsuite/contentpackage/**,                              org/adl/util/MessageType.class,                              org/adl/util/Messages.class,                              org/adl/util/resources/*.properties"/>
+
+        <echo message="signing jar file"/>
+        <signjar jar="${buildDir}/${ContentPackageTestJar}" alias="${keystoreAlias}" storepass="${keystorePassword}" keystore="${keystore}" signedjar="${lib}/${ContentPackageTestJar}"/>
+    </target>
+
+    <!--If just the debug.jar is being built, then this will delete the temp build directory after the jar is copied to the lib folder.-->
+    <target name="buildCPTest" depends="buildCPTestJar"/>
+
+    <target name="buildTestSuite" depends="buildCPTestJar"/>
+
+</project>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <title>LMS Controls</title>
+      <link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+      <script type="text/javascript" src="../scripts/EmulationCode.js"></script>      	  
+       <script type="text/javascript" src="../scripts/BrowserDetect.js"></script>	
+       <script type="text/javascript" src="../scripts/LMSInstructionFunctions.js"></script>
+       
+      <script type="text/javascript">
+      //<!-- [CDATA[
+	  	 /**
+		  * This method calls to the applet to get the value to be displayed on each control button. Intended to be
+		  * used for internationalization.
+		  */ 
+		 function buttonValues()
+		 {
+		 		document.getElementById('continue').value = lmsApplet.buttonText('continue');
+				document.getElementById('retry').value = lmsApplet.buttonText('retry');
+				document.getElementById('save').value = lmsApplet.buttonText('save');
+				document.getElementById('abort').value = lmsApplet.buttonText('abort');
+				document.getElementById('viewLog').value = lmsApplet.buttonText('viewLog');			
+		 }
+		 
+		 /**
+		  * This method enables only the continue button. This state is used during all steps before running tests (entering  
+		  * user/test information, etc) and prevents the user from doing anything other than progressing through each step.
+		  */
+		 function initState()
+		 {
+		    document.getElementById('continue').disabled=false;
+			document.getElementById('retry').disabled=true;
+			document.getElementById('save').disabled=true;
+			document.getElementById('abort').disabled=true;
+			document.getElementById('viewLog').disabled=true;
+			buttonValues();
+		 }
+		 
+		 /**
+		 * This method enables all buttons, allowing users to perform any function they may need. Used after a test has been run, 
+		 * but before loading the next test.
+		 */
+		 function waitingState()
+		 {
+		    document.getElementById('continue').disabled=false;
+			document.getElementById('retry').disabled=false;
+			document.getElementById('save').disabled=false;
+			document.getElementById('abort').disabled=false;
+			document.getElementById('viewLog').disabled=false;
+			buttonValues();
+		 }
+		 
+		 /**
+          * This method enables all buttons except for save,preventing users from 
+          * saving the session after running all the tests. Used after all tests 
+          * have been run, but before continuing to the 'final step'.
+          */
+          function allTestsCompletedWaitingState()
+          {
+             document.getElementById('continue').disabled=false;
+             document.getElementById('retry').disabled=false;
+             document.getElementById('save').disabled=true;
+             document.getElementById('abort').disabled=false;
+             document.getElementById('viewLog').disabled=false;
+             buttonValues();
+          }
+		 
+		 /**
+		  * This method creates a control state suitable for testing. It prevents users from doing certain tasks 
+		  * (continue, retry, save) while a test is being performed.
+		  */
+		 function testingState()
+		 {
+		    document.getElementById('continue').disabled=true;
+			document.getElementById('retry').disabled=false;
+			document.getElementById('save').disabled=true;
+			document.getElementById('abort').disabled=false;
+			document.getElementById('viewLog').disabled=false;
+			buttonValues();
+		 }
+		 
+		 /**
+		  * This method disables the retry, save and view detailed logs control 
+		  * buttons to limit user control directly after saving a test. 
+		  */
+		 function saveState()
+		 {
+		    document.getElementById('continue').disabled=false;
+			document.getElementById('retry').disabled=true;
+			document.getElementById('save').disabled=true;
+			document.getElementById('abort').disabled=false;
+			document.getElementById('viewLog').disabled=true;
+			buttonValues();
+		 }
+		 
+		 /**
+		  * This method disables all control buttons. Used in initial and final pages of the test.
+		  *
+		  */
+		 function blankState()
+		 {
+		    document.getElementById('continue').disabled=true;
+			document.getElementById('retry').disabled=true;
+			document.getElementById('save').disabled=true;
+			document.getElementById('abort').disabled=true;
+			document.getElementById('viewLog').disabled=true;
+			buttonValues();
+		 }
+		 
+		 /**
+		  * This method is called when the 'Retry' control button is pressed. 
+		  * It's purpose is to "refresh" the test package that was last run, in the case of any errors/problems,
+		  * and allow the user to run that test again.
+		  */
+		 function retry()
+		 {
+		    var retry = confirm('Are you sure you want to retry this LMS Test Content Package?');
+			if (retry)
+			{
+               lmsApplet.retry();
+               parent.instructions.writeToInstruction();
+			}
+		 }
+		 
+         /**
+          * sends the browser version, browser name, and whether or not the browser is supported to 
+          * LMSTestApplet
+          */ 
+         function writeEnvInfo()
+         {
+            lmsApplet.writeEnvInfo(browserVersion, browserName, browserOK);
+         }
+
+         /**
+          * starts brand new logs for a brand new test (i.e. not loading old logs from a saved test)
+          */ 
+         function startNewTest()
+         {
+            lmsApplet.startNewTest();
+         }
+
+         /**
+          * takes the user entered data TestIdentificationStep.htm (LMS Name, LMS Version, LMS Vendor Name)
+          * and passes it through LMSTestApplet to be stored in the TestSubjectData object
+          */
+         function setNameVersionVendor(name, ver, vend)
+         {
+            lmsApplet.setTestingInfo(name,ver,vend);
+            writeEnvInfo();
+         }
+		 
+		 function save()
+         {
+            lmsApplet.saveSession();
+         }
+		 
+		 /**
+		  * This method is called when the 'Abort' control button is pressed. 
+		  * It's purpose is to warn the user of what aborting a test means to their testing process and 
+		  * prompt them for confirmation that they really wish to abort.
+		  */
+		 function abort()
+		 {
+		    var abort = confirm('Choosing to abort the test will delete \nall progress of this test.\n\n'+
+			                    'Are you sure you wish to abort at this time?');
+		    if (abort)
+			{
+               blankState();
+               parent.document.getElementById("instructions").src="FinalInstructions.htm";
+               lmsApplet.abort();
+			}
+		 }
+		//]]-->      
+      </script>
+   </head>
+   
+   <body onload="initializeApplet(); blankState();" style="background-color:#363C54; width: 100%;">
+      <div style="width: 100%;">
+         <div id="buttons" style="text-align: center; margin-left: auto; margin-right: auto; width: 100%;">
+            <input type="button" title="Continue" id="continue" onclick="parent.instructions.cont();" />
+            <input type="button" title="Retry" id="retry" onclick="retry()" />
+            <input type="button" title="Save" id="save" onclick="save()" />
+            <input type="button" title="Abort" id="abort" onclick="abort();" />
+            <input type="button" title="View Current Detailed Log" id="viewLog" onclick="window.open(lmsApplet.viewLog())" />
+               
+
+                <!-- LMSTestApplet -->
+            <!--[if !IE]> Firefox and others will use outer object -->
+         <object
+            classid="java:org/adl/testsuite/rte/lms/LMSTestApplet.class"
+            type="application/x-java-applet"
+            archive="debug.jar,util.jar,testsuiteutil.jar,java40.jar,cmidatamodel.jar,LMSTest.jar,joda-time-1.1.jar"
+            height="0" width="0" 
+            name = "NNLMSTestApplet" 
+            id = "NNLMSTestApplet"
+            codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+            >
+            <!-- Konqueror browser needs the following param -->
+            <param name="archive" value="debug.jar,util.jar,testsuiteutil.jar,java40.jar,cmidatamodel.jar,LMSTest.jar,joda-time-1.1.jar" />
+            <param name="code" value="org/adl/testsuite/rte/lms/LMSTestApplet.class" />
+            <param name="MAYSCRIPT" value="true" />
+            <param name="scriptable" value="true" />
+            <param name="java_codebase" value="../../lib/" />
+                  
+            <!--<![endif]-->
+
+            <!-- MSIE (Microsoft Internet Explorer) will use inner object -->
+            <object name="LMSTestApplet" id="LMSTestApplet"
+               classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+               height="0" width="0"
+               codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+               >
+               <param name="code" value="org/adl/testsuite/rte/lms/LMSTestApplet.class" />
+               <param name="archive" value="debug.jar,util.jar,testsuiteutil.jar,java40.jar,cmidatamodel.jar,LMSTest.jar,joda-time-1.1.jar" />
+               <param name="codebase" value="../../lib" />
+               <param name="name" value="LMSTestApplet" />
+               <param name="id" value="LMSTestApplet" />
+               <param name="type" value="application/x-java-applet" />
+      
+               <strong> This browser does not have a Java Plug-in. <br />
+                  <a href="http://java.sun.com/products/plugin/downloads/index.html">
+                     Get the latest Java Plug-in here. </a> </strong>
+            </object>
+
+
+            <!--[if !IE]> close outer object -->
+         </object>
+         <!--<![endif]-->        
+          
+        
+         </div>
+      </div>
+   </body>
+</html>

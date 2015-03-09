@@ -1,0 +1,128 @@
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+	<link href="../includes/LMSTestContentPackages_style.css" rel="stylesheet" type="text/css"/>
+      <script type="text/javascript" src="../common/EmulationCode.js"></script>
+      <script type="text/javascript" src="../common/BrowserDetect.js"></script>
+      <script type="text/javascript" src="../common/About.js"></script>
+      <script type="text/javascript" src="../common/lmsrtefunctions.js"></script>
+
+      <title>Sequencing Test SCO </title>
+
+      <script type="text/javascript">
+         //<!-- [CDATA[
+         var driver = null;
+         
+         function performTest()
+         {
+            DetectBrowser();
+            
+            if ( ! IE )
+            {
+               driver = document.getElementById('NNLMSTestCODriver');
+            }
+            else 
+            {
+               driver = document.getElementById('LMSTestCODriver');
+            }
+
+						testSCOLaunch();
+            
+						driver.alertFailure();
+						writeLogEntry( _BOTH_LOG, _FAILED, "The LMS launched an unexpected resource. The identifier associated with this resouce is Seq01. The expected resource identifier is SEQ01." );
+						doInitialize("");
+						doSetValue("adl.nav.request","exitAll");
+						doTerminate("");
+						//terminateTest();
+            
+            return;
+         }
+         //]]-->
+      </script>
+   </head>
+
+   <body onload="performTest();">
+      <div>
+     <!-- LMSTestSCODriver -->
+			<!--[if !IE]> Firefox and others will use outer object -->
+			<object
+				classid="java:org/adl/testsuite/rte/lms/comm/LMSTestSCOApplet.class"
+				codetype="application/x-java-applet"
+				codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+				type="application/x-java-applet"
+				archive="LMSTest.jar" height="0" width="0" 
+				name="NNLMSTestSCODriver"
+				id="NNLMSTestSCODriver">
+
+				<!-- Konqueror browser needs the following param -->
+				<param name="archive" value="./LMSTest.jar" />
+				<param name="code" value="org/adl/testsuite/rte/lms/comm/LMSTestSCOApplet.class" />
+				<param name="MAYSCRIPT" value="true" />
+				<param name="scriptable" value ="true" />
+				<param name="java_codebase" value="../common" />
+            <param name="separate_jvm" value="true">
+
+				<!--<![endif]-->
+
+				<!-- MSIE (Microsoft Internet Explorer) will use inner object -->
+				<object name="LMSTestSCODriver" id="LMSTestSCODriver"
+					classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+					codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+					height="0" width="0">
+
+					<param name="code" value="org/adl/testsuite/rte/lms/comm/LMSTestSCOApplet.class" />
+					<param name="codebase" value="../common" />
+					<param name="archive" value="LMSTest.jar" />
+					<param name="name" value="SCO" />
+					<param name="type" value="application/x-java-applet" />
+               <param name="separate_jvm" value="true">
+
+					<strong> This browser does not have a Java Plug-in. <br />
+						<a href="http://java.sun.com/products/plugin/downloads/index.html">
+							Get the latest Java Plug-in here. </a> </strong>
+				</object>
+
+
+				<!--[if !IE]> close outer object -->
+			</object>
+			<!--<![endif]-->
+			</div>
+
+		<div id="scoPage">
+			<p class="darkBlue_text" > <!-- align="left" -->
+
+
+				Learning Management System (LMS) Conformance Test
+
+				<br />
+				<br />
+				Sequencing Test SCO
+				<br />
+				<br />
+				</p>
+			<div id="teststatus">
+				Status:&nbsp;&nbsp;Failed
+			</div>
+			<br />
+			<br />
+			<div id="boxTitle"></div>
+			<br />
+			<div id="currentDirections">
+				<div id="directionText">The LMS launched an unexpected resource. 
+				The identifier associated with this resouce is Seq01. The expected resource 
+				identifier is SEQ01.</div>
+			</div>
+		</div>
+
+		<hr />
+    
+      <p>
+
+         This test may take <span id="red">several minutes</span> to complete.
+      </p>
+      </body>
+</html>

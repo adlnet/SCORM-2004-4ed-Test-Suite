@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<project name="TestSuite" default="buildSCOTest">
+<description>Compiles code for the TestSuite</description>
+
+    <!--creates directories if they don&apos;t already exist -->
+    <target name="init">
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" includes="org/adl/testsuite/rte/sco/, org/adl/testsuite/Messages.java" destdir="${buildDir}">
+            <classpath>
+                <pathelement location="${lib}/util.jar"/>
+                <pathelement location="${lib}/debug.jar"/>
+                <pathelement location="${lib}/cmidatamodel.jar"/>
+                <pathelement location="${lib}/java40.jar"/>
+                <pathelement location="${lib}/testsuiteutil.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="buildSCOTestJar" depends="compile">
+        <echo message="building jar file from class files"/>
+
+       <copy todir="${buildDir}/org/adl/util/resources">
+          <fileset dir="${resources}/org/adl/util/resources">
+             <include name="*.properties"/>
+          </fileset>
+       </copy>
+                                                                                     
+        <jar destfile="${buildDir}/${SCOTestJar}" basedir="${buildDir}" includes="org/adl/testsuite/rte/sco/**,                              org/adl/util/EnvironmentVariable.class,                              org/adl/util/Messages.class                              org/adl/util/resources/*.properties"/>      
+
+        <echo message="signing jar file"/>
+        <signjar jar="${buildDir}/${SCOTestJar}" alias="${keystoreAlias}" storepass="${keystorePassword}" keystore="${keystore}" signedjar="${ccHome}/software_development/lib/${SCOTestJar}"/>
+    </target>
+
+    <!--If just the debug.jar is being built, then this will delete the temp build directory after the jar is copied to the lib folder.-->
+    <target name="buildSCOTest" depends="buildSCOTestJar"/>
+
+    <!--If the entire TestSuite is being built this is the call that will be made.  The class files will be copied to the testsuite folder
+            so that the jar file will not have to be unjarred-->
+    <target name="buildTestSuite" depends="buildSCOTestJar">
+       <!-- &lt;copy todir=&quot;${buildDir}/testsuite&quot; &gt;
+            &lt;fileset dir=&quot;${buildDir}/cmid&quot; /&gt;
+        &lt;/copy&gt;
+        &lt;delete dir=&quot;${buildDir}/cmid&quot; /&gt;   -->
+    </target>
+
+
+</project>

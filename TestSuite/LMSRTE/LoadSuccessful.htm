@@ -1,0 +1,38 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <title>Load Success</title>
+         <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+         <meta http-equiv="Pragma" content="no-cache" />
+         <link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+		 <script type="text/javascript">
+		 //<!-- [CDATA[
+		 function initPage()
+		 {
+		 	parent.currentInstructions.document.getElementById("userInstruction").innerHTML = "<br />You have successfully loaded a saved LMS Conformance Test. Please click <strong>Continue</strong> to proceed with the LMS Conformance Test.";
+		 }
+		 
+		   /**
+		   * This method is called when the Continue control button is pressed. 
+		   * 
+		   */
+		   function cont()
+		   {
+		      parent.document.getElementById("instructions").src='LMSInstructionStep.htm';
+		   }
+			//]]-->
+		 </script>
+   </head>
+
+   <body style="width:400px" onload="initPage();">
+      <div style="width:400px">
+	     <div class="stepTextImportant">
+		    
+		 </div>
+	  </div>
+   </body>
+</html>

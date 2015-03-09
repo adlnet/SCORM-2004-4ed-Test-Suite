@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+   <link rel="stylesheet" href="README.css" type="text/css" />
+   <title>SCORM 2004 4th Edition Test Suite Version 1.1.1 Readme</title>   
+</head>
+<body class="bg">
+<div class="bg">
+<a name="runCP"></a>
+
+<table width="100%" cellpadding="3">
+   <tr>
+      <td class="stagebar">Running the Content Package Conformance Test</td>
+   </tr>
+</table>
+<table>
+      <tr>
+         <td>
+<p>
+   To run the Content Package Conformance Test, click the corresponding
+   link from the main Test Suite menu. A Java Plug-in Security
+   Warning dialog box will appear since the Test Suite is reading and writing
+   files from/to the local file system via a Java Applet. Click <strong>Grant this
+   Session</strong> or <strong>Grant Always</strong> to allow the Test Suite
+   applet to run. Clicking <strong>Deny</strong> 
+   will cause the Test Suite software to not function properly.   
+   </p>
+   <a name="CPOverview"></a>
+   <h5 class="title">Content Package Overview</h5>
+   <p>
+   The Content Package Conformance Test verifies that the content 
+   package test subject complies with the SCORM 2004 4<sup>th</sup> Ed.
+   Testing Requirements.
+   <br />
+   <br />
+   The purpose of this test is to verify that the Content Package
+   test subject:
+   </p>
+   <ul>
+      <li>
+         Contains an IMS Manifest at the root of the content package 
+         that:
+         <ul>
+            <li>Is named imsmanifest.xml.</li>
+            <li>Is well-formed.</li>
+            <li>
+               Validates against the IMS Content Packaging XML Schema
+               Definition (XSD) Version 1.1.4 ( imscp_v1p1.xsd found at 
+               http://www.imsglobal.org/ ).
+            </li>
+            <li>
+               Complies to the rules specified in the SCORM 2004 4<sup>th</sup> Ed.
+               Content Package Application Profiles.
+            </li>
+            <li>
+               Uses extensions elements and if they are used, they are
+               valid to their respective controlling document.
+            </li>
+            <li>
+               Verifies that the sequencing information is 
+               valid according to the IMS Simple Sequencing XML Schema 
+               Definition (XSD) ( imsss_v1p0.xsd and supporting files 
+               found at http://www.imsglobal.org/ ) if the IMS Manifest contains
+               IMS Simple Sequencing Information.
+      </li>
+      <li>
+         If the IMS Manifest contains SCORM CAM Content Packaging 
+         extensions, verifies that the content packaging extensions are 
+         valid according to the SCORM 2004 4<sup>th</sup> Edition Content Packaging Extensions 
+         XML XSD Version 2.0 ( adlcp_v1p3.xsd found at http://www.adlnet.gov/ ).
+      </li>
+      <li>
+         Verifies that the sequencing extensions are valid according to 
+         the SCORM 2004 4<sup>th</sup> Ed. Sequencing Extensions XML XSD Version 2.0
+         ( adlseq_v1p3.xsd found at http://www.adlnet.gov/ ) if the IMS Manifest
+         contains SCORM CAM Sequencing extensions.
+      </li>
+      <li>
+         Verifies that the navigation extensions are valid according to 
+         the SCORM 2004 4<sup>th</sup> Edition Navigation Extensions XML XSD Version 1.0 
+         ( adlnav_v1p3.xsd found at http://www.adlnet.gov/ ) if the IMS
+         Manifest contains SCORM CAM Navigation extensions.
+      </li>
+         </ul>
+      </li>
+      <li>
+         Contains all supporting controlling documents required for 
+         XML Parsing at the root of the content package.
+      </li>
+      <li>
+         Contains optional Metadata XML Instances that are 
+         well-formed and valid according to the corresponding provided 
+         Controlling Document (e.g., XSD, DTD).
+      </li>
+      <li>
+         Contains conformant SCOs as determined by the SCO RTE 
+         Conformance Utility Test.
+      </li>
+   </ul>
+   
+   <a name="opInstr"> </a>
+   <h5 class="title">Operational Instructions</h5>
+   <ol>
+      <li>
+         Provide the Content Package Name, Content Package Version/Release Number 
+         and Content Package Vendor/Developer information.
+      </li>
+      <li>
+         Click <strong>Continue</strong>.
+      </li>
+      <li>
+         Select the type of test to be performed by selecting the
+         appropriate radio button.  You can test a Package
+         Interchange File (PIF) in the form of a PKZIP 2.0.4
+         (or compatible), or an uncompressed Content Package (non-PIF).  
+      </li>
+      <li>
+         Click <strong>Continue</strong>.
+      </li>
+      <li>
+         Select the type of SCORM Content Package Application Profile
+         to be tested (i.e., Content Aggregation Content Package or Resource
+         Content Package) by selecting the appropriate radio button.
+      </li>
+      <li>
+         Click <strong>Continue</strong>.
+      </li>
+      <li>
+         Click <strong>Browse</strong> to select the
+         PIF zip file or the imsmanifest.xml file (for the non-PIF) that is to be 
+         tested.
+      </li>
+      <li>
+         After clicking <strong>Begin Test</strong> the
+         Test Suite will test the IMS Manifest and any referenced or
+         inline metadata for schema validation only.
+      </li>
+      <li>
+         Any SCOs or assets referenced by the IMS Manifest will be tested. 
+         If any SCOs or assets are listed in the IMS Manifest, the test will continue.
+         Otherwise, testing is complete. If SCOs or assets exist: 
+         <ol type="a">
+            <li>
+              Enter a SCO Timeout Value (default is 20 seconds). This 
+              is the number of seconds the Test Suite will wait for the API 
+              method Initialize(&quot;&quot;) to be called. If the call is not made within
+               this time, the Test Suite will end and the SCO will NOT be 
+               deemed conformant.  
+            </li>
+            <li>
+            Enter an &quot;Asset Timeout Value&quot; (default is 8 seconds).  This is the 
+            amount of time the Test Suite will wait to verify that an Asset does not make 
+            any calls to the SCORM API.
+            </li>
+            <li>
+               Click <strong>Continue</strong>.
+            </li>
+            <li>
+               Optionally, you may enter initialization values for any of the following 
+               elements: Learner ID, Learner Name, Credit/No-Credit, Mode, or Launch 
+               Data. These values represent defaults typically provided by the LMS. 
+            </li>
+            <li>
+               Click <strong>Continue</strong>.
+            </li>
+            <li>
+               Click <strong>Launch SCO</strong> to 
+               launch the first SCO or asset for testing.
+            </li>
+            <li>
+               After the first SCO has completed testing, click 
+               <strong>Complete Test</strong> in the Instructions 
+               frame to quit that SCO test.
+            </li>
+            </ol>
+      </li>
+   </ol>
+   
+   <ul>
+      <li>
+               Any following SCO or asset will be launched and tested after
+               you click <strong>OK</strong> on the pop-up window. 
+               Please note that the SCOs and assets are launched by the 
+               Content Package Test in a random order. All SCOs and assets 
+               listed in the manifest will be tested.
+            </li>
+            <li>
+               Use <strong>Abort Test</strong> if a call to 
+               Terminate(&quot;&quot;) is not received from the SCO being tested. 
+               Wait for a period of time to see if the call will 
+               be invoked. If it is not, clicking <strong>Abort Test</strong> will send a call to 
+               Terminate(&quot;&quot;) and end the testing, marking the SCO 
+               as non-conformant.               
+            </li>
+         </ul>
+   
+   <a name="addFun"> </a>
+   
+   <h5 class="title">Additional Functionality</h5>
+   <ul>
+      <li>
+         <strong>Log Legend:</strong> Clicking this link will open
+         a window describing the meaning of the colors and
+         symbols used in the Test Suite log.
+      </li>
+   </ul>
+   
+   <a name="opNotes"> </a>
+   
+   <h5 class="title">Operational Notes</h5>
+             Both Summary and Detailed Logs are automatically saved in the
+             folder:
+             <br />
+                &lt;install_directory&gt;\SCORM_2004_4th_Ed_TS_V1.1.1\TestSuite\Logs\CP\&lt;timestamp-test subject name&gt;\  
+             <br />
+             <br />
+             <strong>Note:</strong> Logs are saved in this folder as a result of a portability enhancement. 
+             If you need to move logs, move the entire folder and its contents since
+             they are required to properly render the logs in the browser.
+             <br />
+             <br />
+   </td>
+  </tr>
+ </table>
+</div>
+</body>
+</html>

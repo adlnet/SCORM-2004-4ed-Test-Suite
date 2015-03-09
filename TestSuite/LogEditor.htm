@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <title>Add Comments to Log</title>
+      <script type="text/javascript">
+      //<!--[CDATA[
+      /****************************************************************************
+                  
+
+    
+      **************************************************************************/
+         function sendToLog()
+         {
+            var data = "";
+
+            if (navigator.appVersion.indexOf("MSIE") != -1)
+             {
+               data += document.forms[0].logInput.value;
+               window.opener.writeLogEntry("6",data);
+               window.close();
+             }
+             else
+             {
+               data += document.forms[0].logInput.value;
+               opener.writeLogEntry("6",data);
+               window.close();
+             }
+         }
+      //]]-->
+      </script>
+      <link rel="stylesheet" href="css/About.css" type="text/css" />
+
+   </head>
+
+   <body>
+      <p>
+         Place comments inside of text box and then click the <strong>Send To
+         Log</strong> button to save the comments to the Test Suite Test Log
+      </p>
+      <form id="textinput" action = "">
+           <p><label for="logInput">Comments</label><br />
+              <textarea id="logInput" name="logInput" rows="15" cols="50">
+              </textarea>
+              <br /><br />
+              <input type="button" value="Send To Log" onclick="sendToLog();" />
+           </p>
+      </form>
+   </body>
+</html>

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<project name="ADL" default="CTS" >
+<description>Compiles code for the Data Model</description>
+
+    <!--creates directories if they don't already exist -->
+    <target name="init">
+    </target>
+
+    <target name="compile" depends="init">
+       <javac destdir="${buildDir}" srcdir="${src}"
+           includes="org/adl/sequencer/SeqNavRequests.java,
+                            org/adl/sequencer/ADLValidRequests.java,
+                            org/adl/sequencer/ADLTOC.java"
+           classpath="${adlDir}/datamodels;
+                              ${adlDir}/datamodels/ieee;
+                              ${ccHome}/software_development/src">
+       </javac>
+     </target>
+
+   <target name="buildFiles" depends="init">
+        <javac destdir="${buildDir}" srcdir="${src}"
+            includes="org/adl/datamodels/"
+            classpath="${lib}/sequencer.jar,${buildDir}/util.jar,${lib}/joda-time-1.1.jar" >
+            <exclude name="SCORM_1_2_DM.java" />
+            <exclude name="SCORM_1_2_DMElement.java" />
+            <exclude name="CMITimespanValidator.java" />
+            <exclude name="CMITimeValidator.java" />
+            <exclude name="ADLDuration.java"/>
+            <exclude name="ADLNavigation.java"/>
+            <exclude name="NavProcessor.java"/>
+        </javac>
+    </target>
+
+   <target name="buildFiles2" depends="buildFiles, compile" >
+        <javac destdir="${buildDir}" srcdir="${src}" includes="org/adl/api/" >
+            <classpath>
+                <pathelement location="${buildDir}/org/adl/datamodels/" />
+            </classpath>
+        </javac>
+   </target>
+
+    <target name="buildCmidJar" depends="buildFiles2">
+        <echo message="building jar file from class files"/>
+        <jar destfile="${buildDir}/${cmidJar}" basedir="${buildDir}"
+            includes="org/adl/datamodels/**/**,
+                             org/adl/sequencer/ADLTOC.class,
+                             org/adl/sequencer/ADLValidRequests.class,
+                             org/adl/sequencer/SeqNavRequests.class,
+                             org/adl/api/ecmascript/**"
+         />
+        <echo message="signing jar file"/>
+        <signjar jar="${buildDir}/${cmidJar}"
+            alias="${keystoreAlias}"
+            storepass="${keystorePassword}"
+            keystore="${keystore}"
+            signedjar="${ccHome}/software_development/lib/${cmidJar}"
+        />
+    </target>
+
+    <!--If the TestSuite is being built this is the call that will be made -->
+    <target name="CTS" depends="buildCmidJar" />
+
+</project>
+

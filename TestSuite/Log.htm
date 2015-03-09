@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+      <!--
+      /************************************************************************
+      **
+      ** Filename:  Log.htm
+      **
+      ** File Description:  Applet that is used for creation of the Summary Log.
+      **
+      ** Author:  ADLI Project
+      **
+      ** References:  SCORM
+      **
+      /************************************************************************
+            
+
+ 
+      ************************************************************************/
+      -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+   <head>
+      <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <link rel="stylesheet" href="css/LogFrame.css" type="text/css" />
+      <title>Test Log</title>
+      <script type="text/javascript" src="./scripts/EmulationCode.js"></script>
+
+      <!--Includes the browser detecting code. -->
+      <script type="text/javascript" src="./scripts/BrowserDetect.js"></script>
+
+      <script type="text/javascript">
+      // <!--[CDATA[
+
+      //variables to control the Test Suite Version
+      var adl;
+      var scorm;
+      var testsuite;
+      var logTitleText;
+      var currPath;
+      var browserOK;
+
+      // Variable used to hold the contents of the Log for Netscape browsers
+      var navTempText = "";
+
+      // variable to hold the html content of the log
+      var htmlcontent;
+
+      // variable to hold the logInterface applet object
+      var appObj;
+
+      var _INFO = 0;     //  0 = informational (diagnostic, trace, etc.)
+      var _WARNING = 1;  //  1 = warning
+
+
+      /**
+       * Function: displayInterface() 
+       * 
+       * Description: This function is responsbile for initalizing the applet
+       * 
+       */ 
+      function displayInterface()
+      {
+         if ( ! IE )
+         { 
+            appObj = document.getElementById('NNlogInterface'); 
+         }
+         else 
+         {
+            appObj = document.getElementById('logInterface'); 
+         }
+
+         
+
+         //Gets the path to construct the img src attribute in write msg
+         currPath = appObj.getPath();
+
+         adl = appObj.getADLTitle();
+         scorm = appObj.getSCORMTitle();
+         testsuite = appObj.getTSTitle();
+
+         var logTitleText = "      <table width=\"500\">\n";
+         logTitleText = logTitleText + "         <tr>\n";
+
+
+         logTitleText += "            <td class=\"ADLTitle\">\n";
+
+
+         logTitleText += adl;
+
+
+         logTitleText += "            </td>\n";
+         logTitleText += "         </tr>\n";
+         logTitleText += "         <tr>\n";
+
+         logTitleText += "            <td class=\"logTitle\">\n";
+
+         logTitleText += scorm;
+
+
+         logTitleText += "            </td>\n";
+         logTitleText += "         </tr>\n";
+         logTitleText += "         <tr>\n";
+
+         logTitleText += "            <td class=\"logTitle\">\n";
+
+         logTitleText += testsuite;
+
+         logTitleText += "            </td>\n";
+         logTitleText += "         </tr>\n";
+         logTitleText += "         <tr>\n";
+
+         logTitleText += "            <td class=\"logTitle\">\n";
+
+         logTitleText += "            </td>\n";
+         logTitleText += "         </tr>\n";
+         logTitleText += "      </table>\n";
+         logTitleText += "      <br />\n";
+
+         document.getElementById("logText").insertAdjacentHTML("BeforeEnd",
+                                                                logTitleText);
+
+         // Write Environment Information to the Screen
+		 appObj.writeEnvInfo(browserVersion,browserName,browserOK);
+		          
+      }
+
+
+      /**
+       * Function: initializeTest()
+       * 
+       * Description:
+       *   This function initializes the testing procedures.  It determines
+       *   the appropriate browser and sets two variables accordingly.
+       *   If a supported browser is used the function begins the test.
+       * 
+       */ 
+      function initializeTest()
+      {
+         //Alerts the user if the browser isn't supported.
+         DetectBrowser();
+         browserOK = DetectUnsupportedBrowser();
+
+         window.setTimeout("displayInterface();", 100);
+      }
+
+
+      /**
+       * Function: writeLogEntry
+       * 
+       * @param type
+       *     category of message
+       * 
+       * @param msg
+       *     actual message text
+       * 
+       * Description:  This function is responsible for formatting and
+       *              writing out the log text to the Log.htm page.
+       */
+      function writeLogEntry(type, msg)
+      {
+         var displayMsg = "<table width=\"600\"><tr>";
+         var logtext_elem = document.getElementById('logText');
+         var needsPrinted = true;
+        
+         if (msg.search("4&lt;sup style=&quot;font-size:0.8em;&quot;&gt;th&lt;/sup&gt;") != -1)
+         {            
+            msg = msg.replace(/4&lt;sup style=&quot;font-size:0.8em;&quot;&gt;th&lt;\/sup&gt;/g,"4<sup>th</sup>");            
+         }
+         if (type == 6)
+         {
+            var bar = "<hr />";
+            displayMsg += "<td>    <div id=\"defaultOther\">&nbsp;&nbsp;&nbsp;";
+            logtext_elem.insertAdjacentHTML("BeforeEnd", displayMsg);
+            logtext_elem.insertAdjacentHTML("BeforeEnd", bar);
+            logtext_elem.insertAdjacentText("BeforeEnd", msg);
+            logtext_elem.insertAdjacentHTML("BeforeEnd", bar);
+            logtext_elem.insertAdjacentHTML("BeforeEnd", 
+                                            "</div></td></tr></table>\n");
+            needsPrinted = false;
+         }
+         else if ( msg == "<hr />" )
+         {
+           logtext_elem.insertAdjacentHTML("BeforeEnd", 
+                                           "<br />" + msg + "<br />");
+           needsPrinted = false;
+         }
+
+         if ( needsPrinted )
+         {
+            displayMsg += msg + "</tr></table>\n";
+            logtext_elem.insertAdjacentHTML("BeforeEnd", displayMsg);
+         }
+
+       //have to hide the applet while scrolling to avoid image refresh problems
+       document.getElementById('logbuttons').style.visibility = "hidden";
+       logtext_elem.scrollIntoView(false);
+       document.getElementById('logbuttons').style.visibility = "visible";
+      }
+
+
+      /**
+       * Function: saveLog()
+       * 
+       * Description
+       *    Function used to save the Log content 
+       */
+      function saveLog()
+        {
+         var currentTime = new Date();
+         var hour = currentTime.getHours();
+         var min = currentTime.getMinutes();
+         var month = currentTime.getMonth();
+         // add one to the Month - JavaScript Months start 0 - Jan, 1 - Feb.
+         month = month + 1;
+         var date = currentTime.getDate()
+
+         // Build Default file name: Example - TestLog_7_12_1059.htm
+         var time = "TestLog_" + month + "_" + date + "_" + hour + min
+
+         readInLog();
+         appObj.saveLogContentIE(htmlcontent,time);
+      }
+
+
+      /**
+       *  Function: readInLog()
+       * 
+       * Description:
+       *    This function reads the contents of the log frame and
+       *    stores them in the "htmlcontent" variable
+       */
+      function readInLog()
+      {
+         htmlcontent = "<html>\n";
+         htmlcontent += "   <head>\n";
+         htmlcontent += "      <meta http-equiv=\"expires\" content=\"Tue, 20 Aug 1999 01:00:00 GMT\">\n";
+         htmlcontent += "      <meta http-equiv=\"Pragma\" content=\"no-cache\">\n\n";
+         htmlcontent += "      <title>Test Log</title>\n";
+         htmlcontent += "      <style>\n";
+         htmlcontent += "         table.logTitle\n";
+         htmlcontent += "         {\n";
+         htmlcontent += "            font-size: 12px;\n";
+         htmlcontent += "            font-family :  Arial, Helvetica, sans-serif;\n";
+         htmlcontent += "            color: Purple;\n";
+         htmlcontent += "            text-align: center;\n";
+         htmlcontent += "         }\n";
+         htmlcontent += "      </style>\n";
+         htmlcontent += "   </head>\n\n";
+         htmlcontent += "   <body>\n ";
+
+         htmlcontent += document.getElementById("logText").innerHTML;
+         htmlcontent += "   </body>\n</html>";
+      }
+
+      /**
+       * Function: setUp()
+       * 
+       * Description
+       *     This function sets up the variable used to hold the Log's content 
+       *     (if using Netscape)
+       * 
+       */
+      function setUp()
+      {
+         navTempText = "<html>\n";
+         navTempText += "   <head>\n";
+         navTempText += "      <meta http-equiv=\"expires\" content=\"Tue, 20 Aug 1999 01:00:00 GMT\">\n";
+         navTempText += "      <meta http-equiv=\"Pragma\" content=\"no-cache\">\n\n";
+         navTempText += "      <title>Test Log</title>\n";
+         navTempText += "      <style>\n";
+         navTempText += "         table.logTitle\n";
+         navTempText += "         {\n";
+         navTempText += "            font-size: 12px;\n";
+         navTempText += "            font-family :  Arial, Helvetica, sans-serif;\n";
+         navTempText += "            color: Purple;\n";
+         navTempText += "            text-align: center;\n";
+         navTempText += "         }\n";
+         navTempText += "      </style>\n";
+         navTempText += "   </head>\n\n";
+         navTempText += "   <body>\n ";
+         navTempText += logTitleText;
+      }
+
+
+      /**
+       * Function: editLog()
+       * 
+       * Description
+       *    Function used to edit the Log. 
+       * 
+       */
+      function editLog()
+      {
+         var logeditor = "";
+
+         logeditor = window.open("LogEditor.htm","LogEditor",
+                                 "HEIGHT=375,WIDTH=600,scrollbars=yes");
+      }
+
+      /**
+       * Function: legendLog()
+       * 
+       * Description
+       *    Function used to view a pop-up of the legend for the log.
+       * 
+       */
+      function legendLog()
+      {
+         window.open("LogLegend.htm", "LogLegend", "height=325, width=420");
+      }
+ 		//]]-->
+      </script>
+
+
+   </head>
+
+   <body onload="initializeTest();">
+      <table width="500">
+         <tr id="logbuttons" style="VISIBILITY: visible">
+            <td>
+               <p>
+                  <!--LogManagerInterfaceApplet  -->
+                  <!--[if !IE]> Firefox and others will use outer object -->
+                  <object
+                     classid="java:org/adl/logging/LogManagerInterfaceApplet.class"
+                     codebase="http://java.sun.com/update/1.5.0/jre-1_5_0_16-windows-i586.xpi"
+                     type="application/x-java-applet"
+                     archive="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar"
+                     height="0" width="0" 
+                     name="NNlogInterface" id="NNlogInterface">
+
+                     <!-- Konqueror browser needs the following param -->
+                     <param name="archive" value="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar" />
+                     <param name="data" value="org/adl/testsuite/rte/lms/comm/LMSTestSCOApplet.class" />
+                     <param name="MAYSCRIPT" value="true" />
+                     <param name="java_codebase" value="../lib/" />
+                     <param name="scriptable" value="true" />
+                     <!--<![endif]-->
+
+                     <!-- MSIE (Microsoft Internet Explorer) will use inner object -->
+                     <object name="logInterface" id="logInterface"
+                        classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+                        codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+                        height="0" width="0">
+                        
+                        <param name="code" value="org/adl/logging/LogManagerInterfaceApplet.class" />
+                        <param name="codebase" value="../lib" />
+                        <param name="archive" value="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar" />
+                        <param name="type" value="application/x-java-applet" />
+
+                        <strong> This browser does not have a
+                           Java Plug-in. <br /> <a
+                           href="http://java.sun.com/products/plugin/downloads/index.html">
+                              Get the latest Java Plug-in here. </a> </strong>
+                     </object>
+
+
+                     <!--[if !IE]> close outer object -->
+                  </object>
+                  <!--<![endif]-->
+               </p>
+            </td>
+            <td align="center">
+               <a href="LogLegend.htm"
+                  title="Click here for the Log Legend"
+                  onclick="window.open(this.href, 'LogLegend', 'height=325,width=420');return false">
+                  Log Legend</a>
+               <br />
+               <br />
+            </td>
+         </tr>
+      </table>
+
+
+      <div id="logText" />
+   </body>
+</html>

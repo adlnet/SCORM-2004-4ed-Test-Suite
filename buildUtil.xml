@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--&lt;!DOCTYPE project [
+    &lt;!ENTITY properties SYSTEM &quot;file:properties.xml&quot;&gt;
+]&gt; -->
+<project name="ADL" default="CTS">
+<description>Compiles code for the Utilities.jar</description>
+
+<!-- Importing properties from build.properties file -->
+
+    <target name="compile">
+        <javac destdir="${buildDir}" srcdir="${src}" includes="org/adl/testsuite/util/ org/adl/logging/DetailedLogMessageCollection.java"/>
+        <javac destdir="${buildDir}" srcdir="${src}" includes="org/adl/util/" 
+           excludes="org/adl/util/xmltransform/, org/adl/util/debug/">
+	   <classpath>
+                <pathelement location="${lib}/saxon8.jar"/>
+                <pathelement location="${lib}/jdom.jar"/>                
+                <pathelement location="${lib}/jaxen-1.1.1.jar"/>   	   
+                  <pathelement location="${lib}/xercesImpl.jar"/>
+                <pathelement location="${lib}/xml-apis.jar"/>
+                <pathelement location="${lib}/xmlParserAPIs.jar"/>
+                <pathelement location="${lib}/xalan.jar"/>
+                <pathelement location="${lib}/ant.jar"/>                
+           </classpath>
+	</javac>
+    </target>
+
+    <target name="buildUtilJar" depends="compile">
+        <echo message="building jar file from class files"/>
+
+        <!-- Copy the new org/adl/util/message.properties to the appropriate location -->
+        <copy todir="${buildDir}/org/adl/util/resources">
+           <fileset dir="${resources}/org/adl/util/resources">
+              <include name="*.properties"/>
+           </fileset>
+        </copy>
+
+        <jar destfile="${buildDir}/${utilJar}" basedir="${buildDir}/" 
+        	includes="org/adl/util/*.class,                               
+                   org/adl/util/support/**,                               
+        	          org/adl/util/zip/**,                               
+        	          org/adl/util/decode/**,                              
+        	          org/adl/util/servlet/**,          
+        	          org/adl/util/resources/*.properties"/>
+    </target>
+
+    <target name="signJar" depends="buildUtilJar">
+        <echo message="signing jar file"/>
+        <signjar jar="${buildDir}\${utilJar}" alias="${keystoreAlias}" storepass="${keystorePassword}" keystore="${keystore}" signedjar="${lib}\${utilJar}"/>
+    </target>
+
+    <!--If the TestSuite is being built this is the call that will be made -->
+    <target name="CTS" depends="signJar"/>
+
+</project>

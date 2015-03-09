@@ -1,0 +1,302 @@
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+	<link href="../includes/LMSTestContentPackages_style.css" rel="stylesheet" type="text/css"/>
+      <script type="text/javascript" src="../common/EmulationCode.js"></script>
+      <script type="text/javascript" src="../common/BrowserDetect.js"></script>
+      <script type="text/javascript" src="../common/About.js"></script>
+      <script type="text/javascript" src="../common/lmsrtefunctions.js"></script>
+
+      <title>Sequencing Test SCO </title>
+
+      <script type="text/javascript">
+      //<!-- [CDATA[
+         
+         var uiQuestionsFromApplet;
+         var driver = null;
+         var uiTestPassed = true;
+         var launchTestPassed = true;
+         var functionTestPassed = true;
+
+         
+         function performTest()
+         {
+            DetectBrowser();
+            if ( ! IE )
+            {
+               driver = document.getElementById('NNLMSTestSCODriver');
+            }
+            else 
+            {
+               driver = document.getElementById('LMSTestSCODriver');
+            }
+            launchTestPassed = testSCOLaunch();
+            
+            if ( !launchTestPassed )
+            {
+               document.getElementById('teststatus').innerHTML = "Status:  " +
+                  "Testing Stopped.";  
+                                       
+               return;
+            }
+            uiQuestionsFromApplet = driver.getUITestQuestions();
+            var questionUIArray = new Array();
+                        
+            if ( !(uiQuestionsFromApplet == "") )
+            {
+               createUITable();
+            }
+            else
+            {
+               runCommands();
+               checkTerminated();
+              // writeLogEntry( _DETAILED_LOG, _INFO, "Attempting to call " +
+                   //        "Terminate(&quot;&quot;)" );
+
+               doTerminate("");
+             }
+         }
+         
+         function createUITable()
+         {
+            questionUIArray = uiQuestionsFromApplet.split("~");
+               
+            var uiTable = "<table cellspacing='20'>";
+            var uiRowBegin = "<tr>";
+            var uiRowEnd = "</tr>";
+            var uiButtonColBegin = "<td style='width:30;'>";
+            var uiTextColBegin = "<td style='width:400;'><label for='tRadio";
+            var uiColEnd = "</label></td>";
+            var uiCol2Begin = "<td colspan=3>";
+            var submitButton = "<table title='User Interface Questions'><tr><td><button id='submit' title='Submit Answers' name='submit' onclick='gatherAnswers(questionUIArray.length)' disabled='true'>Submit Answers</button></td></tr></table>";
+               
+            // sets up the True and False headings for the radio buttons
+            uiTable += uiRowBegin;
+            uiTable += uiButtonColBegin;
+            uiTable += "Yes";
+            uiTable += uiColEnd;
+            uiTable += uiButtonColBegin;
+            uiTable += "No";
+            uiTable += uiColEnd;
+            uiTable += uiRowEnd;
+               
+            for (var i = 0; i < questionUIArray.length; i++ )
+            {
+               var question = questionUIArray[i];
+               var trueRadio = "<input title='Yes' type='radio' id='tRadio" + i + "' name=" + i + " value='True' onclick='checkButtons(questionUIArray.length)' />";
+               var falseRadio = "<input title='No' type='radio' id='fRadio" + i + "' name=" + i + " value='False' onclick='checkButtons(questionUIArray.length)' />";
+                  
+               // populates the columns and rows with radio buttons and questions
+               uiTable += uiRowBegin;
+               uiTable += uiButtonColBegin;
+               uiTable += trueRadio;
+               uiTable += uiColEnd;
+               uiTable += uiButtonColBegin;
+               uiTable += falseRadio;
+               uiTable += uiColEnd;
+               uiTable += uiTextColBegin;
+               uiTable += i + "'>" + question;
+               uiTable += uiColEnd;
+               uiTable += uiRowEnd;
+            }
+            
+            // adds Submit button
+            uiTable += uiRowBegin;
+            uiTable += uiCol2Begin;
+            uiTable += submitButton;
+            uiTable += uiColEnd;
+            uiTable += uiRowEnd;
+            uiTable += "</table>";                  
+              
+            document.getElementById('currentDirections').style.border = "#890C08 2px solid"; 
+            document.getElementById('directionText').style.color = "#363C54";                
+            document.getElementById('directionText').innerHTML = uiTable;
+            document.getElementById('boxTitle').innerHTML = "UI Inspection Tests:"; 
+            
+         }
+         
+         function checkButtons(numQuestions)
+         {
+            var checkString = "";         
+            
+            for ( var i = 0; i < numQuestions; i++)
+            {
+               var tButton = document.getElementById('tRadio'+i);
+               var fButton = document.getElementById('fRadio'+i);
+                  
+               if ( (tButton.checked == false) && (fButton.checked == false) )
+               {
+                  checkString += "answer found empty";
+                  break;
+               }
+            }
+            
+            if ( checkString == "" )
+            {
+               document.getElementById('submit').disabled = false;
+            }
+         }
+         
+         function gatherAnswers(numQuestions)
+         {
+            var answerList = new Array();
+            for ( var i = 0; i < numQuestions; i++)
+            {
+               var tButton = document.getElementById('tRadio'+i);
+               var fButton = document.getElementById('fRadio'+i);
+                              
+               tButton.disabled = true;
+               fButton.disabled = true;
+               document.getElementById('submit').disabled = true;
+               
+               if ( tButton.checked == true ) 
+               {
+                  answerList[i] = "Y";
+               }
+               else if ( fButton.checked == true )
+               {
+                  answerList[i] = "N";
+               }
+            }
+            answerString = answerList.join("~");
+            uiTestPassed = driver.evaluateUIResults(answerString);
+            
+            runCommands();
+            checkTerminated();
+          //  writeLogEntry( _DETAILED_LOG, _INFO, "Attempting to call " +
+                  //         "Terminate(&quot;&quot;)" );
+            doTerminate("");
+         }
+         
+         function runCommands()
+         {
+            functionTestPassed = driver.runCommands();
+         }
+         
+         function checkTerminated()
+         {
+            if ( getScoStatus() == "terminated" )
+            {
+               //change status display to "Status:  This SCO Test Terminated"
+               document.getElementById('teststatus').innerHTML = "Status:  " +
+                  "Test Terminated.  Please view the log for details.";
+            }
+            else
+            {
+               //change status display to "Status:  This SCO Test Completed"
+               document.getElementById('teststatus').innerHTML = "Status:  " +
+                  "Test Completed.";
+               messageDisplay();                  
+            }
+         }
+         
+         function messageDisplay()
+         {
+            document.getElementById('directionText').innerHTML = driver.curUserInstructions();
+	         if ( document.getElementById('directionText').innerHTML != "" )
+	         {
+               document.getElementById('directionText').style.color = "#890C08";
+	            document.getElementById('boxTitle').innerHTML = "Testing Instructions:"; 
+	            document.getElementById('currentDirections').style.border = "#890C08 2px solid"; 
+	         }
+	         else
+	         {
+	         
+	            document.getElementById('currentDirections').style.border = "#FFFFFF 2px solid"; 
+	           
+	         }
+
+         }
+
+         function completeTest()
+         {
+         	driver.completed();
+         }
+         
+         //]]-->
+      </script>
+   
+   </head>
+
+   <body onload="performTest();" onunload="completeTest();">
+     <div>
+     <!-- LMSTestSCODriver -->
+			<!--[if !IE]> Firefox and others will use outer object -->
+			<object
+				classid="java:org/adl/testsuite/rte/lms/comm/LMSTestSCOApplet.class"
+				codetype="application/x-java-applet"
+				codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+				type="application/x-java-applet"
+				archive="LMSTest.jar" height="0" width="0" 
+				name="NNLMSTestSCODriver"
+				id="NNLMSTestSCODriver">
+
+				<!-- Konqueror browser needs the following param -->
+				<param name="archive" value="./LMSTest.jar" />
+				<param name="code" value="org/adl/testsuite/rte/lms/comm/LMSTestSCOApplet.class" />
+				<param name="MAYSCRIPT" value="true" />
+				<param name="scriptable" value ="true" />
+				<param name="java_codebase" value="../common" />
+				<param name="separate_jvm" value="true">
+
+				<!--<![endif]-->
+
+				<!-- MSIE (Microsoft Internet Explorer) will use inner object -->
+				<object name="LMSTestSCODriver" id="LMSTestSCODriver"
+					classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+					codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+					height="0" width="0">
+
+					<param name="code" value="org/adl/testsuite/rte/lms/comm/LMSTestSCOApplet.class" />
+					<param name="codebase" value="../common" />
+					<param name="archive" value="LMSTest.jar" />
+					<param name="name" value="SCO" />
+					<param name="type" value="application/x-java-applet" />
+					<param name="separate_jvm" value="true">
+
+					<strong> This browser does not have a Java Plug-in. <br />
+						<a href="http://java.sun.com/products/plugin/downloads/index.html">
+							Get the latest Java Plug-in here. </a> </strong>
+				</object>
+
+
+				<!--[if !IE]> close outer object -->
+			</object>
+			<!--<![endif]-->
+			</div>
+		<div id="scoPage">
+			<p class="darkBlue_text"> 
+			<!-- align="left" removed, need a .css to do formatting-->
+
+				Learning Management System (LMS) Conformance Test
+
+				<br />
+				<br />
+				Sequencing Test SCO
+				<br />
+				<br />
+				</p>
+			<div id="teststatus">
+				Status:&nbsp;&nbsp;Testing in progress...
+			</div>
+			<br />
+			<br />
+			<div id="boxTitle"></div>
+			<br />
+			<div id="currentDirections">
+				<div id="directionText"></div>
+			</div>
+		</div>
+
+		<hr />
+       
+      <p>
+<br  />
+         This test may take <span id="red">several minutes</span> to complete.
+      </p>
+      </body>
+</html>

@@ -1,0 +1,186 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+	  <title>Load Step</title>
+      <script type="text/javascript" src="../scripts/EmulationCode.js"></script>	  	  
+      <script type="text/javascript" src="../scripts/BrowserDetect.js"></script>	  	  
+      <script type="text/javascript" src="../scripts/LMSInstructionFunctions.js"></script>	       			  
+	  <script type="text/javascript">
+	  //<!-- [CDATA[
+		  var fileName = "";
+		  
+		 function initPage()
+		 {
+		   parent.currentInstructions.document.getElementById("userInstruction").innerHTML =
+		   "<p class='stepText' >In this step you may choose a saved LMS Conformance Test to continue running."+
+       "<br /><br />To select which LMS Conformance Test to continue, find the "+
+       "Date/Time that you had last saved your LMS Conformance Test from, and "+
+       "click the hyperlink associated with the name of that test. You may use "+
+       "the information from the <b>Test Name</b> and <b>Date Last Saved</b> columns to help determine "+ 
+       "which LMS Conformance Test you need to continue.<br /><br />"+
+       "However, if you do not wish to continue a previous LMS Conformance Test, "+
+       "you may select the <b>New LMS Conformance Test</b> button at the bottom of this "+
+       "page. This will direct you to begin a new LMS Conformance Test.</p>"
+		 } 
+		 /**
+		  * This method is called during 'onload' event of body and performs the loading and displaying of saved test information. 
+		  *
+		  */
+ 		 function loadData()
+		 {    
+		  var saveText = document.getElementById("saveText");
+			var array = new Array();
+			var array2 = new Array();
+			var saves = lmsApplet.getListOfSaves();
+			var rowIndex = 1;
+			if ( saves != "")
+			{	
+				// Breaks string of save information into an array that holds each chunk of saved test information in an index
+				array = saves.split("~");
+				for (i = 0; i < array.length; i++)
+				{
+					// Separates each chunk of saved test information into more definitive pieces.
+					array2 = array[i].split("-");
+					var cellIndex = 0;
+						
+					saveText.insertRow(rowIndex);
+					saveText.rows[rowIndex].insertCell(cellIndex);
+						
+					// Displays saved test name as link that will load that test
+					saveText.rows[rowIndex].cells[cellIndex].insertAdjacentHTML('BeforeEnd', "<a href=" + array2[0] + ">" + array2[1] + "</a>");
+					cellIndex++;
+					// Displays saved test information
+					for (x = 2; x < array2.length; x++)
+					{
+						saveText.rows[rowIndex].insertCell(cellIndex);
+						saveText.rows[rowIndex].cells[cellIndex].insertAdjacentHTML('BeforeEnd', "<a>" + array2[x] + "</a>");
+						cellIndex++;
+						saveText.rows[rowIndex].insertCell(cellIndex);
+						var sessionName = setSessionNameForDelete(array2[1]);
+						saveText.rows[rowIndex].cells[cellIndex].insertAdjacentHTML("BeforeEnd", "<a href=javascript:deleteSession('"+sessionName+"')>Delete</a>");
+						cellIndex++;
+					}
+					rowIndex++;
+				}
+			}
+		}
+			
+		function getFile(name)
+		{			
+		    var loadSuccessful;
+			loadSuccessful = lmsApplet.startSavedTest(name);
+			if (loadSuccessful)
+			{
+				parent.controls.initState();			   
+			    parent.document.getElementById("instructions").src = "LoadSuccessful.htm";
+                alert("Saved Session loaded");
+       			document.getElementById("newTest").disabled = true;
+			}
+			else
+			{
+                alert("Saved Session FAILED to load");
+				parent.currentInstructions.document.getElementById("userInstruction").innerHTML = 
+				"<br />The attempt to load the saved test failed. Please close the browser, relaunch "+
+				"the Test Suite and try again.<br /><br />If this issue persists, "+
+				"it is possible that files needed to continue with this saved test are missing "+
+				"or corrupted and continuing saved this test may not be possible.";
+			}
+
+		}
+				
+		/**
+		 * This method is called when the Continue control button is pressed. 
+		 * 
+		 */
+		function cont()
+		{
+		   parent.document.getElementById("instructions").src='LMSInstructionStep.htm';
+		}
+		
+	   /**
+		* This method loads the TestIdentificationStep page because it is starting a new test.
+		* 
+		*/
+	   function newTest()
+	   {
+		  parent.document.getElementById("instructions").src='TestIdentificationStep.htm';
+	   }
+	   
+	   /**
+	   * This method replaces spaces with %20 in session names that contain spaces to be 
+	   * passed to the deleteSession method.
+	   */ 
+	   function setSessionNameForDelete(fileName)
+	   {
+	      var session;
+	      var arraySpace = new Array();
+	      var file = new Array();
+	      file = fileName;
+	      arraySpace = file.split(" ");
+          for (t = 0; t < arraySpace.length; t++)
+	      {
+		    if (t == 0)
+		    {
+		      session = arraySpace[t];
+		    }
+		    else
+		    {
+		       session = session + "%20" + arraySpace[t];						  
+		    }
+	
+		  }
+		  session = session + ".obj";
+
+		  return session;
+	   }
+	   /**
+	    * This method will remove a saved test from the list of saved tests.
+		*
+		*/
+       function deleteSession(fileName)
+	   {
+	      lmsApplet.deleteSession(fileName);
+		  parent.document.getElementById("instructions").src='LoadData.htm';
+		  window.location.reload();
+
+	   }
+	   
+	 //]]-->	   
+	 </script>
+     <link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+	</head>
+
+   <body style="width:400px" onload="initializeApplet();loadData();initPage();">
+      <div style="width:400px">
+         <div class="adlHeader">
+            Load LMS Conformance Test
+         </div>
+         <div class="cell" id="output">
+            <table class="stepText" title="Saved LMS Conformance Tests" id="saveText" cellpadding="10" cellspacing="10" border="0">
+               <tr>
+               <!-- Removed <td> tags here due to <th> tags -->
+               <!-- Underlined Text (that is not a link) is considered very bad form as users 
+               		expect a clickable link, no matter the color/style. Consider changing this. -->
+                  <th class="ulBold">Test Name</th>
+                  <th class="ulBold">Date Last Saved</th>
+               </tr>
+            </table>
+         </div>
+         <br /><br />
+         <input type="button" title="New LMS Conformance Test" id="newTest" 
+         value="New LMS Conformance Test" onclick="newTest();" />
+         
+		<!--
+		<input type="button" id="delete" value="Delete a Saved LMS Conformance Test" 
+		align="right" onclick="deleteTest(fileName);"
+		-->
+		
+      </div>
+   </body>
+</html>

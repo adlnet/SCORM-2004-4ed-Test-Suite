@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://purl.oclc.org/dsdl/schematron"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   queryBinding="xslt2">
+
+   <title>ADLSubmanifestSchematron</title>
+   
+   <ns prefix="imscp" uri="http://www.imsglobal.org/xsd/imscp_v1p1" />
+   <ns prefix="adlcp" uri="http://www.adlnet.org/xsd/adlcp_v1p3" />
+   
+   <pattern name="main">
+   
+     <!-- REQ PENDING -->  
+	 <!-- PT Issue 11315 -->  
+	 <!-- If a (sub)manifest is detected in an imsmanifest.xml file and is referenced from the <manifest> -->
+	 <!-- element (or child element), then the testing will be terminated and a message displayed.If a -->
+	 <!-- (sub)manifest is detected in a imsmanifest.xml file but is not referenced from in the <manifest> -->
+	 <!-- element then the (sub)manifest will be not be considered for validation and the conformance test -->
+	 <!-- will continue. -->
+
+     <!-- Item element identifierref checks -->   
+     <rule id="identifierref" context="/imscp:manifest/imscp:organizations/imscp:organization//imscp:item[@identifierref]">
+		
+		<let name="idref" value="@identifierref" />
+		<assert test="(count($idref) &gt; 0) and ((count(//imscp:manifest/imscp:manifest/imscp:resources/imscp:resource[normalize-space(@identifier)=$idref]) &gt; 0) or (count(//imscp:manifest/imscp:manifest[normalize-space(@identifier)=$idref]) &gt; 0) or (count(//imscp:manifest/imscp:manifest/imscp:organizations/imscp:organization//imscp:item[normalize-space(@identifier)=$idref]) &gt; 0))">info~Testing the "identifierref" value of [<value-of select="$idref" />] for valid referencing of a valid "identifier" attribute value</assert>
+        <assert test="(count($idref) &gt; 0) and (count(//imscp:manifest/imscp:manifest/imscp:resources/imscp:resource[normalize-space(@identifier)=$idref]) &gt; 0)">warning~The "identifierref" value of [<value-of select="$idref" />] references a valid "identifier" attribute of a &lt;resource&gt; element included in a (sub)manifest</assert>
+		<assert test="(count($idref) &gt; 0) and (count(//imscp:manifest/imscp:manifest[normalize-space(@identifier)=$idref]) &gt; 0)">warning~The "identifierref" value of [<value-of select="$idref" />] references a valid "identifier" attribute of a (sub)manifest &lt;manifest&gt; element</assert>
+		<assert test="(count($idref) &gt; 0) and (count(//imscp:manifest/imscp:manifest/imscp:organizations/imscp:organization//imscp:item[normalize-space(@identifier)=$idref]) &gt; 0)">warning~The "identifierref" value of [<value-of select="$idref" />] references a valid "identifier" attribute of an &lt;item&gt; element included in a (sub)manifest</assert>
+        
+     </rule>
+     
+   </pattern>
+</schema>

@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<project name="TestSuite" default="buildLMSTest">
+<description>Compiles code for the TestSuite</description>
+
+<!-- Temp location for .java files.  when they are compiled the .class files will in the /build/classes folder-->
+<property name="jar" value="LMSTest.jar"/>
+
+
+    <!--creates directories if they don&apos;t already exist -->
+    <target name="init">
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" includes="org/adl/testsuite/rte/lms/" destdir="${buildDir}">
+            <exclude name="org/adl/testsuite/rte/lms/LMSRTEStatus.java"/>
+            <exclude name="org/adl/testsuite/rte/lms/TypeVerifier.java"/>
+            <exclude name="org/adl/testsuite/rte/lms/LMSRTEDriver_OLD.java"/>
+            <exclude name="org/adl/testsuite/rte/lms/Copy of LMSTestSCODriver.java"/>
+            <classpath>
+                <pathelement location="${ccHome}/software_development/lib/util.jar"/>
+                <pathelement location="${ccHome}/software_development/lib/debug.jar"/>
+                <pathelement location="${buildDir}/cmidatamodel.jar"/>
+                <pathelement location="${ccHome}/software_development/lib/java40.jar"/>
+                <pathelement location="${ccHome}/software_development/lib/testsuiteutil.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="buildGenerateTestCaseObj" depends="compile">
+        <echo message="executing LMSTestCaseGenerator"/>
+        <java classname="org.adl.testsuite.rte.lms.util.LMSTestCaseGenerator" fork="true" failonerror="true">
+                  <classpath>
+                      <pathelement location="${buildDir}/"/>
+                  </classpath>
+        </java>
+    </target>
+
+    <target name="buildLMSTestJar" depends="buildGenerateTestCaseObj">
+        <echo message="building jar file from class files for test packages"/>
+
+        <copy todir="${buildDir}/org/adl/testsuite/rte/lms/util/resources">
+           <fileset dir="${resources}/org/adl/testsuite/rte/lms/util/resources">
+              <include name="*.properties"/>
+           </fileset>
+        </copy>
+
+       <!-- This jar file will be included in the test packages, it does not have the LMSTestCases.obj in it -->
+       <jar destfile="${buildDir}/${jar}" basedir="${buildDir}" includes="org/adl/testsuite/rte/lms/comm/,                       org/adl/testsuite/rte/lms/util/resources/*.properties,                 org/adl/testsuite/rte/lms/interfaces/MessageManager.class,                 org/adl/testsuite/rte/lms/interfaces/TestCommunication.class,                 org/adl/testsuite/rte/lms/util/Command.class,                 org/adl/testsuite/rte/lms/util/FailedResult.class,                 org/adl/testsuite/rte/lms/util/LMSMessages.class,                 org/adl/testsuite/rte/lms/util/LMSSocketThread.class,                 org/adl/testsuite/rte/lms/util/Result.class,                 org/adl/testsuite/rte/lms/util/Results.class,                 org/adl/testsuite/rte/lms/util/SpecialResult.class,                 org/adl/util/Messages.class,                 org/adl/util/resources/*.properties"/>
+ 
+       
+        <mkdir dir="${buildDir}/temp"/>
+        <echo message="signing test package jar file"/>
+        <signjar jar="${buildDir}/${jar}" alias="${keystoreAlias}" storepass="${keystorePassword}" keystore="${keystore}" signedjar="${buildDir}/temp/${jar}"/>
+
+        <!-- delete the old jar file to create the new one -->
+        <delete file="${buildDir}/${jar}"/>
+
+        <echo message="jarring and signing CTS jar file (with LMSTestCases.obj)"/>
+        <jar destfile="${buildDir}/${jar}" basedir="${buildDir}" includes="org/adl/testsuite/rte/lms/,              org/adl/testsuite/rte/lms/util/resources/*.properties,              org/adl/util/Messages.class,              org/adl/util/messages.properties" excludes="org/adl/testsuite/rte/lms/util/LMSTestCaseGenerator.class"/>
+ 
+        <echo message="signing test package jar file"/>
+        <signjar jar="${buildDir}/${jar}" alias="${keystoreAlias}" storepass="${keystorePassword}" keystore="${keystore}" signedjar="${ccHome}/software_development/lib/${jar}"/>
+    </target>
+
+    <!--If just the debug.jar is being built, then this will delete the temp build directory after the jar is copied to the lib folder.-->
+    <target name="buildLMSTest" depends="buildLMSTestJar"/>
+
+    <!--If the entire TestSuite is being built this is the call that will be made.  The class files will be copied to the testsuite folder
+            so that the jar file will not have to be unjarred-->
+    <target name="buildTestSuite" depends="buildLMSTestJar">
+       <!-- &lt;copy todir=&quot;${buildDir}/testsuite&quot; &gt;
+            &lt;fileset dir=&quot;${buildDir}/cmid&quot; /&gt;
+        &lt;/copy&gt;
+        &lt;delete dir=&quot;${buildDir}/cmid&quot; /&gt;   -->
+    </target>
+
+
+</project>

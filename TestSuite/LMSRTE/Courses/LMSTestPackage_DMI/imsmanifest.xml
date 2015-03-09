@@ -1,0 +1,146 @@
+<?xml version="1.0" standalone="no"?>
+<manifest identifier="LMSTestPackage_DMI"
+                 version="1.1.1"
+                 xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
+                 xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3"
+                 xmlns:adlseq="http://www.adlnet.org/xsd/adlseq_v1p3"
+                 xmlns:imsss = "http://www.imsglobal.org/xsd/imsss"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:adlnav = "http://www.adlnet.org/xsd/adlnav_v1p3" 
+                 xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd
+                                                      http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd
+                                                      http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd
+                                                      http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd
+                                                      http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd">
+
+   <metadata>
+      <schema>ADL SCORM</schema>
+      <schemaversion>2004 4th Edition</schemaversion>
+   </metadata>
+
+   <organizations default="DMI">
+      <organization identifier="DMI">
+         <title>LMS Test Content Package DMI </title>
+         <item identifier="activity_1" identifierref="DMIMPLEMENTATION01" parameters="?tc=DMI&amp;act=1">
+            <title>Data Model Implementation Test 1</title>
+            <adlcp:dataFromLMS>Launch Data Test</adlcp:dataFromLMS>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+            <adlcp:timeLimitAction>continue,message</adlcp:timeLimitAction>
+            <adlcp:completionThreshold completedByMeasure="true" minProgressMeasure="0.8" />
+            <adlcp:data>
+                <adlcp:map targetID = "tarID1" />
+                <adlcp:map targetID = "tarID2" writeSharedData="false" />
+                <adlcp:map targetID = "tarID3" readSharedData="false" />
+                <adlcp:map targetID = "tarID4" readSharedData="false" writeSharedData="false" />                
+            </adlcp:data>            
+         </item>
+         <item identifier="activity_2" identifierref="DMIMPLEMENTATION02" parameters="?tc=DMI&amp;act=2">
+            <title>Data Model Implementation Test 2</title>
+            <adlcp:dataFromLMS>thisstringislength20qwertyuiop0123456789thisstringislength60qwertyuiop0123456789thisstringislengt100thisstringislengt120qwertyuiop0123456789thisstringislengt160qwertyuiop0123456789thisstringislengt200thisstringislengt220qwertyuiop0123456789thisstringislengt260qwertyuiop0123456789thisstringislengt300thisstringislengt320qwertyuiop0123456789thisstringislengt360qwertyuiop0123456789thisstringislengt400thisstringislengt420qwertyuiop0123456789thisstringislengt460qwertyuiop0123456789thisstringislengt500thisstringislengt520qwertyuiop0123456789thisstringislengt560qwertyuiop0123456789thisstringislengt600thisstringislengt620qwertyuiop0123456789thisstringislengt660qwertyuiop0123456789thisstringislengt700thisstringislengt720qwertyuiop0123456789thisstringislengt760qwertyuiop0123456789thisstringislengt800thisstringislengt820qwertyuiop0123456789thisstringislengt860qwertyuiop0123456789thisstringislengt900thisstringislengt920qwertyuiop0123456789thisstringislengt960qwertyuiop0123456789thisstringisleng1000thisstringisleng1020qwertyuiop0123456789thisstringisleng1060qwertyuiop0123456789thisstringisleng1100thisstringisleng1120qwertyuiop0123456789thisstringisleng1160qwertyuiop0123456789thisstringisleng1200thisstringisleng1220qwertyuiop0123456789thisstringisleng1260qwertyuiop0123456789thisstringisleng1300thisstringisleng1320qwertyuiop0123456789thisstringisleng1360qwertyuiop0123456789thisstringisleng1400thisstringisleng1420qwertyuiop0123456789thisstringisleng1460qwertyuiop0123456789thisstringisleng1500thisstringisleng1520qwertyuiop0123456789thisstringisleng1560qwertyuiop0123456789thisstringisleng1600thisstringisleng1620qwertyuiop0123456789thisstringisleng1660qwertyuiop0123456789thisstringisleng1700thisstringisleng1720qwertyuiop0123456789thisstringisleng1760qwertyuiop0123456789thisstringisleng1800thisstringisleng1820qwertyuiop0123456789thisstringisleng1860qwertyuiop0123456789thisstringisleng1900thisstringisleng1920qwertyuiop0123456789thisstringisleng1960qwertyuiop0123456789thisstringisleng2000thisstringisleng2020qwertyuiop0123456789thisstringisleng2060qwertyuiop0123456789thisstringisleng2100thisstringisleng2120qwertyuiop0123456789thisstringisleng2160qwertyuiop0123456789thisstringisleng2200thisstringisleng2220qwertyuiop0123456789thisstringisleng2260qwertyuiop0123456789thisstringisleng2300thisstringisleng2320qwertyuiop0123456789thisstringisleng2360qwertyuiop0123456789thisstringisleng2400thisstringisleng2420qwertyuiop0123456789thisstringisleng2460qwertyuiop0123456789thisstringisleng2500thisstringisleng2520qwertyuiop0123456789thisstringisleng2560qwertyuiop0123456789thisstringisleng2600thisstringisleng2620qwertyuiop0123456789thisstringisleng2660qwertyuiop0123456789thisstringisleng2700thisstringisleng2720qwertyuiop0123456789thisstringisleng2760qwertyuiop0123456789thisstringisleng2800thisstringisleng2820qwertyuiop0123456789thisstringisleng2860qwertyuiop0123456789thisstringisleng2900thisstringisleng2920qwertyuiop0123456789thisstringisleng2960qwertyuiop0123456789thisstringisleng2000thisstringisleng3020qwertyuiop0123456789thisstringisleng3060qwertyuiop0123456789thisstringisleng3100thisstringisleng3120qwertyuiop0123456789thisstringisleng3160qwertyuiop0123456789thisstringisleng3200thisstringisleng3220qwertyuiop0123456789thisstringisleng3260qwertyuiop0123456789thisstringisleng3300thisstringisleng3320qwertyuiop0123456789thisstringisleng3360qwertyuiop0123456789thisstringisleng3400thisstringisleng3420qwertyuiop0123456789thisstringisleng3460qwertyuiop0123456789thisstringisleng3500thisstringisleng3520qwertyuiop0123456789thisstringisleng3560qwertyuiop0123456789thisstringisleng3600thisstringisleng3620qwertyuiop0123456789thisstringisleng3660qwertyuiop0123456789thisstringisleng3700thisstringisleng3720qwertyuiop0123456789thisstringisleng3760qwertyuiop0123456789thisstringisleng3800thisstringisleng3820qwertyuiop0123456789thisstringisleng3860qwertyuiop0123456789thisstringisleng3900thisstringisleng3920qwertyuiop0123456789thisstringisleng3960qwertyuiop0123456789thisstringisleng4000</adlcp:dataFromLMS> 
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+            <adlcp:completionThreshold completedByMeasure="true" />
+            <adlcp:data>
+               <adlcp:map targetID = "tarID1" />
+               <adlcp:map targetID = "tarID2" />
+               <adlcp:map targetID = "tarID3" />
+               <adlcp:map targetID = "tarID4" />
+               <adlcp:map targetID = "tarID5" writeSharedData="false" />
+               <adlcp:map targetID = "tarID6" readSharedData="false" />
+               <adlcp:map targetID = "tarID7" />
+            </adlcp:data>            
+         </item>
+         <item identifier="activity_3" identifierref="DMIMPLEMENTATION03" parameters="?tc=DMI&amp;act=3">
+            <title>Data Model Implementation Test 3</title>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+            <adlcp:data>
+               <adlcp:map targetID = "tarID5" />
+               <adlcp:map targetID = "tarID6" writeSharedData="false" />
+               <adlcp:map targetID = "tarID7" readSharedData="false" />
+            </adlcp:data>            
+         </item>
+         <item identifier="activity_4" identifierref="DMIMPLEMENTATION04" parameters="?tc=DMI&amp;act=4">
+            <title>Data Model Implementation Test 4</title>
+            <adlnav:presentation>
+               <adlnav:navigationInterface>
+                  <adlnav:hideLMSUI>suspendAll</adlnav:hideLMSUI>
+               </adlnav:navigationInterface>
+            </adlnav:presentation>
+            <adlcp:data>
+               <adlcp:map targetID = "tarID1" />
+               <adlcp:map targetID = "tarID2" />
+               <adlcp:map targetID = "tarID3" />
+               <adlcp:map targetID = "tarID4" />
+               <adlcp:map targetID = "tarID5" />
+               <adlcp:map targetID = "tarID6" />
+               <adlcp:map targetID = "tarID7" />
+               <adlcp:map targetID = "tarID8" />
+            </adlcp:data>            
+         </item>
+      </organization>
+   </organizations>
+   <resources>
+      <resource identifier="DMIMPLEMENTATION01" type="webcontent" adlcp:scormType="sco" href="DMImplementationTest1.htm" xml:base="resources/">
+         <file href="DMImplementationTest1.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="DMIMPLEMENTATION02" type="webcontent" adlcp:scormType="sco" href="DMImplementationTest2.htm" xml:base="resources/">
+         <file href="DMImplementationTest2.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="DMIMPLEMENTATION03" type="webcontent" adlcp:scormType="sco" href="DMImplementationTest3.htm" xml:base="resources/">
+         <file href="DMImplementationTest3.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="DMIMPLEMENTATION04" type="webcontent" adlcp:scormType="sco" href="DMImplementationTest4.htm" xml:base="resources/">
+         <file href="DMImplementationTest4.htm"/>
+         <dependency identifierref="LMSFNCTS01"/>
+         <dependency identifierref="JAR01"/>
+         <dependency identifierref="ABOUT01"/>
+         <dependency identifierref="EMULATION01"/>
+         <dependency identifierref="LMSINCLUDE"/>
+      </resource>
+      <resource identifier="LMSFNCTS01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/lmsrtefunctions.js"/>
+      </resource>
+      <resource identifier="JAR01" type="webcontent" adlcp:scormType="asset" xml:base="common/">
+         <file href="LMSTest.jar"/>
+      </resource>
+      <resource identifier="ABOUT01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/About.js"/>
+      </resource>
+      <resource identifier="EMULATION01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/EmulationCode.js"/>
+         <dependency identifierref="BROWSERDETECT01"/>
+      </resource>
+      <resource identifier="BROWSERDETECT01" type="webcontent" adlcp:scormType="asset">
+         <file href="common/BrowserDetect.js"/>
+      </resource>
+      <resource identifier="LMSINCLUDE" type="webcontent" adlcp:scormType="asset">
+         <file href="includes/LMSTestContentPackages_style.css"/>
+      </resource>
+   </resources>
+</manifest>

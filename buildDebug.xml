@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<project name="ADL" default="CTS">
+<description>Compiles code for the TestSuite</description>
+
+    <!--creates directories if they don't already exist -->
+    <target name="init">
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" destdir="${buildDir}" includes="org/adl/util/debug/"/>
+    </target>
+
+    <target name="buildDebugJar" depends="compile">
+        <echo message="building jar file from class files"/>
+        <jar destfile="${buildDir}\${debugJar}" basedir="${buildDir}"
+            includes="org/adl/util/debug/**"/>
+    </target>
+
+    <target name="signJar" depends="buildDebugJar" >
+        <echo message="signing jar file"/>
+        <signjar jar="${buildDir}\${debugJar}"
+            alias="${keystoreAlias}"
+            storepass="${keystorePassword}"
+            keystore="${keystore}"
+            signedjar="${lib}/${debugJar}"
+        />
+    </target>
+
+    <target name="CTS" depends="signJar" />
+
+</project>
+

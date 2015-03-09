@@ -1,0 +1,38 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<title>UI State Tester</title>
+		<script type="text/javascript">
+		//<!-- [CDATA[
+		/**
+		* This file is intended to be used as a way to test the functionality of the control buttons (contained
+		* in the 'controls' frame) and the functions that perform their desired actions (located in the LMSControls.htm
+		* page). This file will not necessarily be used in the final code; it is a testing tool.
+		* 
+		*/
+		//]]-->
+		</script>
+		<link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+	</head>
+	
+	<body>
+	<div><!-- class="userInteraction" ?? -->
+		<input type="button" id="waitingButton" value="Waiting" 
+		onclick="parent.controls.waitingState();" />
+		<input type="button" id="testingButton" value="Testing" 
+		onclick="parent.controls.testingState();" />
+		<input type="button" id="initButton" value="Init" 
+		onclick="parent.controls.initState();" />
+		<input type="button" id="saveButton" value="Save" 
+		onclick="parent.controls.saveState();" />
+		<input type="button" id="completeButton" value="Complete" 
+		onclick="parent.controls.completeState();" />
+	</div>
+	</body>
+</html>

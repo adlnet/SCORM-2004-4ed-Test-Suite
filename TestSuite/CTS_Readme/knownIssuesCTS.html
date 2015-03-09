@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+   <title>SCORM 2004 4th Edition Test Suite Version 1.1.1 Readme</title>
+   <link rel="stylesheet" href="README.css" type="text/css" />
+</head>
+<body class="bg">
+<a name="knownIssuesCTS" />
+<table width="100%" cellpadding="3">
+   <tr>
+      <td class="stagebar">Additional Information</td>
+   </tr>
+</table>
+<br />
+   <table>
+      <tr>
+         <td>
+         		<a name="knownIssues"></a>
+            <h5 class="title">Known Issues</h5>
+            <ul>
+               <li>
+                  For security reasons Microsoft Internet Explorer
+                  requires that content that performs cross frame or
+                  cross-window scripting be loaded from the same domain (
+                  <a href="http://msdn2.microsoft.com/en-us/library/ms533028.aspx"
+                  onclick="window.open(this.href);return false">
+                  http://msdn2.microsoft.com/en-us/library/ms533028.aspx</a>).  
+                  Because of this restriction, when testing a SCO in the 
+                   SCO RTE Conformance Utility Test, the SCO that is being tested 
+                   must be from the same domain as the domain for which the 
+                   Test Suite is running.  The SCOs use JavaScript 
+                   to locate the LMS-provided API Instance, which requires the 
+                   use of cross frame and/or cross-window scripting.  For 
+                   example, if the Test Suite is installed on 
+                   your local machine on the C: drive, the SCO must be 
+                   physically located on the C: drive also.           
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  The Content Package Conformance Test 
+                  <!-- and Metadata Conformance Utility Test are -->
+                  is unable to test a content package 
+                  <!-- or metadata document -->
+                  using the http or ftp protocol.
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  When starting the LMS Conformance Test, check the Java Console. 
+                  If there are any Java exceptions reported, close all browser
+                  windows and start the test again.
+                  <br />
+                  <br />
+               </li>        
+               <li>
+                  The links to the Detailed Logs contained in the Summary Logs 
+                  will not be fully functional until the Test Suite 
+                  completes the entire test.  
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  Due to the design of the IMS Content Packaging 
+                  Version 1.1.4 XML Schema Definition (XSD), an Internet 
+                  connection may be required to perform the schema validation test 
+                  in the Content Package Conformance Test.
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  Close the browser completely after each
+                  test before starting another Test Suite test.
+                  <br />
+                  <br />
+               </li>               
+               <li>
+                  If LMS Conformance Test is closed and reopened while having another 
+                  internet browser open, the JVM may not be shut down 
+                  and the socket may not be released. If this happens, the Applet 
+                  that utilizes the socket throws an exception and fails to start. 
+                  The following exception will be found in the Java Console if it encounters
+                  this issue:
+                  <ul>
+                     <li>
+                        <code>SEVERE: Exception caught: java.net.BindException: Address already in use: JVM_Bind
+                                 <br />
+                                 java.net.BindException: Address already in use: JVM_Bind</code>
+                     </li>
+                  </ul>
+                  Close all internet browsers, 
+                  ensure that no JVMs are running (no Java icons are found in the 
+                  task manager), and restart the Test Suite.
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  It is possible for a java.io.IOException to be thrown during the second activity
+                  of LMS Test Content Package DMI.  The exception stems from issues with
+                  certain versions of the Java JRE and the joda.time plugin.  The exception does
+                  not have any affect on conformance or the operation of the Test Suite.
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  When running the Test Suite Content Package Test or Manifest Test, 
+                  the package will fail if the manifest or a schema listed in the manifest directly 
+                  references a schema or sub-schema in a directory with non-English characters. 
+                  For the purpose of this issue, a non-English character is any character 
+                  outside of the Basic Latin Unicode code chart. 
+                  <br />
+               </li>
+            </ul>
+         </td>
+      </tr>
+      <tr>
+         <td>
+         		<a name="implementationDecisions"></a>
+            <h5 class="title">Implementation Decisions</h5>
+            <ul>
+               <li>
+                  Both the Summary and Detailed logs are automatically saved to folder:
+                  <br />
+                  &lt;install_directory&gt;\SCORM_2004_4th_Ed_TS_V1.1.1\TestSuite\Logs\[LMS|CP|SCO]\&lt;timestamp-test subject name&gt;\
+                  <br />
+               <br />
+               </li>
+               
+               <li>
+                  The Detailed Logs can be searched to quickly find errors and
+                  warnings by using the browsers find function with the "ERROR"
+                  or "WARNING" search words.
+                  <br />
+                  <br />
+               </li>
+               <li>
+                  The following list describes Java versions that were tested 
+                  with the Test Suite as of the date of this 
+                  release:
+                  <ul>
+                     <li>Java SE 6, Update 1 or later</li>
+                  </ul>
+                  <br />
+                  <br />
+               </li>
+            </ul>
+         </td>
+      </tr>
+      
+      <tr>
+         <td>
+         		<a name="environmentVariable"></a>
+            <h5 class="title">Environment Variable</h5>
+            <ul>
+               <li>
+                  An Environment Variable is set when the Test Suite
+                  is installed.  If for any reason it would need manually reset, please
+                  follow these instructions.
+                  <ol>
+                     <li>Right-click My Computer and select &quot;Properties&quot;.</li>
+                     <li>Click the Advanced Tab.</li>
+                     <li>Click <strong>Environment Variables</strong>.</li>
+                     <li>Click <strong>New</strong>.</li>
+                     <li>Set the Variable name to SCORM4ED_TS111_HOME.</li>
+                     <li>Set the Variable value to &lt;install_directory&gt;.</li>
+                     <li>Click <strong>OK</strong> on the New Variable window.</li>
+                     <li>Click <strong>OK</strong> on the Environment Variables window.</li>
+                     <li>Click <strong>OK</strong> on the Systems Properties window.</li>
+                  </ol>
+               <br />
+               <br />
+               </li>
+               
+            </ul>
+         </td>
+      </tr>
+      <tr>
+         <td>
+            <a name="systemRequirements"></a>
+            <h5 class="title">System Requirements</h5>
+            <ul>
+               <li>
+                  Minimum System Requirements for operation of the Test Suite:
+                  <ul>
+                     <li>Windows XP or Windows Vista (32-bit)</li>
+                     <li>1 GHz Processor</li>
+                     <li>1 GB of RAM</li>
+                     <li>25 MB of free disk space </li>
+                  </ul>
+               <br />
+               <br />
+               </li>
+               
+               <li>
+                  Recommended System Requirements for operation of the Test Suite:
+                  <ul>
+                     <li>Windows XP or Windows Vista (32-bit)</li>
+                     <li>4 GHz Processor</li>
+                     <li>2 GB of RAM</li>
+                     <li>25 MB of free disk space </li>
+                  </ul>
+               </li>
+            </ul>
+         </td>
+      </tr>
+      <tr>
+         <td>
+         		<a name="manifestTester"></a>
+            <h5 class="title">Manifest Tester Utility</h5>
+            <ul>
+               <li>
+                  The Manifest Tester Utility allows the user to run the same Content Package
+                  validation checks as the Manifest Utility Test from a command line interface.
+               </li>             
+               <li>
+                  Instructions:
+                  
+                  <ul>
+                     <li>From the command prompt, navigate to the folder:
+                     &lt;install_directory&gt;\SCORM_2004_4th_Ed_TS_V1.1.1\lib</li>
+                     <li>Enter the command <b>java -jar adlvalidator.jar</b> with the following possible 
+                     parameters:                     
+                     <ul>
+                        <li>
+                     	   Filename
+                     	   <ul>
+                              <li>
+                     	         The path of a PIF(.zip) Content Package, the path of a non-PIF(.xml) Content 
+                     	         Package manifest file, or the path of a directory containing PIF(.zip) Content 
+                     	         Package files.
+                     	      </li>
+                     	      <li>
+                     	         Multiple filenames can be provided to allow sequential validation of multiple 
+                     	         Content Packages or Content Package manifests.
+                     	      </li>
+                           </ul>
+                     	</li>
+                     	<li>
+                     	   Application Profile Type
+                     	   <ul>
+                              <li>
+                     	         The given file(s) or folder contents can be validated against the Resource Application 
+                     	         Profile if the option <b>-r</b> is entered after the file(s) or folder(s).
+                     	      </li>
+                     	      <li>
+                     	         If no Application Profile Type option is provided, the Manifest Tester Utility, by default,
+                     	         will validate the entered file(s) and or folder contents against the Content Aggregation
+                     	         Application Profile.
+                     	      </li>
+                           </ul>
+                     	</li>
+                     	<li>
+                     	   Help
+                     	   <ul>
+                              <li>
+                     	         A brief summary of the Manifest Tester Utility instructions will be displayed at the 
+                     	         command prompt if only the <b>-h</b> or <b>-help</b> options are entered.
+                     	      </li>
+                           </ul>
+                     	</li>
+                     </ul>
+                     </li>                                         
+                  </ul>
+               </li>
+               <li>
+                  Examples
+                  <ul>
+                     <li>
+                        java -jar adlvalidator.jar C:\MyFiles\MyContentPackage.zip
+                     </li>
+                     <li>
+                        java -jar adlvalidator.jar C:\MyFiles\MyContentPackage1.zip C:\MyFiles\MyContentPackage2.zip
+                     </li>
+                     <li>
+                        java -jar adlvalidator.jar C:\MyFiles\MyResourceContentPackage.zip -r
+                     </li>
+                     <li>
+                        java -jar adlvalidator.jar C:\MyFiles\MyContentPackage.zip C:\MyFiles\nonPIF\imsmanifest.xml
+                     </li>
+                     <li>
+                        java -jar adlvalidator.jar &quot;C:\MyFiles\My ContentPackages\\&quot;
+                     </li>
+                  </ul>
+               </li>               
+            </ul>
+         </td>
+      </tr>
+  </table>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://purl.oclc.org/dsdl/schematron"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   queryBinding="xslt2">
+
+   <title>ADLSchematron</title>
+   
+   <ns prefix="imscp" uri="http://www.imsglobal.org/xsd/imscp_v1p1" />
+   <ns prefix="adlcp" uri="http://www.adlnet.org/xsd/adlcp_v1p3" />
+   
+   <pattern name="main">
+   
+     <!-- Item element identifierref checks -->   
+     <rule id="identifierref" context="/imscp:manifest/imscp:organizations/imscp:organization//imscp:item[@identifierref]">
+
+		<!-- REQ_30.6.3.6.2.2 -->    
+		<!-- The identifierref attribute shall match either an idendtifier attribute of a resource --> 
+		<!-- in a sub-manifest, an identifier attribute of manifest (sub-manifest in  the scope of -->
+		<!-- the current manifest -->
+		<let name="idref" value="@identifierref" />
+		<assert test="count($idref) &gt; 0">info~Testing the "identifierref" value of [<value-of select="$idref" />] for valid referencing of a valid "identifier" attribute value</assert>		
+		<assert test="(count(.) &gt; 0) and (count(//imscp:resource[@identifier=$idref]) &gt; 0)">passed~The "identifierref" value of [<value-of select="$idref" />] references a valid "identifier" attribute of a &lt;resource&gt; element</assert>
+		<assert test="(count(.) &gt; 0) and (count(//imscp:manifest/imscp:manifest[@identifier=$idref]) &gt; 0)">passed~The "identifierref" value of [<value-of select="$idref" />] references a valid "identifier" attribute of a &lt;manifest&gt; element</assert>
+		<assert test="(count(.) &gt; 0) and ((count(//imscp:resource[@identifier=$idref]) = 0) and (count(//imscp:manifest/imscp:manifest[@identifier=$idref]) = 0))">failed~The "identifierref" value of [<value-of select="$idref" />] does not reference a valid "identifier" attribute value</assert>
+        
+        <!-- REQ_31.2.1 -->
+        <!-- If a leaf <item> element references a (sub)manifest, that leaf <item> element shall not have a <sequencing> element as a child. -->
+		<!-- This REQ is currently not being tested due to uncertainty dealing with the handling -->
+		<!-- of sub-manifests -->
+        
+     </rule>     
+     
+   </pattern>
+</schema>

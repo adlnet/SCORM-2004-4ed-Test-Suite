@@ -1,0 +1,239 @@
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+	<link href="../includes/LMSTestContentPackages_style.css" rel="stylesheet" type="text/css"/>
+      <script type="text/javascript" src="../common/EmulationCode.js"></script>
+      <script type="text/javascript" src="../common/BrowserDetect.js"></script>
+      <script type="text/javascript" src="../common/About.js"></script>
+      <script type="text/javascript" src="../common/lmsrtefunctions.js"></script>
+
+      <title>Sequencing Test SCO </title>
+
+      <script type="text/javascript">
+      //<!-- [CDATA[
+         
+         var uiQuestionsFromApplet;
+         var driver = null;
+         var uiTestPassed = true;
+         var launchTestPassed = true;
+         var functionTestPassed = true;
+
+         
+         function performTest()
+         {
+            DetectBrowser();
+            if ( ! IE )
+            {
+               driver = document.getElementById('NNLMSTestSCODriver');
+            }
+            else 
+            {
+               driver = document.getElementById('LMSTestSCODriver');
+            }
+            launchTestPassed = testSCOLaunch();
+            
+            if ( !launchTestPassed )
+            {
+               document.getElementById('teststatus').innerHTML = "Status:  " +
+                  "Testing Stopped.";  
+                                       
+               return;
+            }
+
+			runCommands();
+			doTerminate("");
+			setTimeout("runQuestions()",5000);
+		 }
+
+		 function runQuestions()
+		 {
+            uiQuestionsFromApplet = driver.getUITestQuestions();
+            var questionUIArray = new Array();
+                        
+            if ( !(uiQuestionsFromApplet == "") )
+            {
+               createUITable();
+            }
+            
+         }
+         
+         function createUITable()
+         {
+            questionUIArray = uiQuestionsFromApplet.split("~");
+               
+            var uiTable = "<table cellspacing='20'>";
+            var uiRowBegin = "<tr>";
+            var uiRowEnd = "</tr>";
+            var uiTextColBegin = "<td style='width:400;'>";
+            var uiColEnd = "</td>";
+            var submitButton = "<table title='User Interface Questions'><tr><td><button id='continue' title='Continue Test' name='continue' onclick='reportResult()'>Continue Test</button></td></tr></table>";
+               
+            // sets up the True and False headings for the radio buttons
+            uiTable += uiRowBegin;
+            uiTable += uiTextColBegin;
+            uiTable += questionUIArray[0];
+            uiTable += uiColEnd;
+            uiTable += uiRowEnd;
+            
+            // adds Submit button
+            uiTable += uiRowBegin;
+            uiTable += uiTextColBegin;
+            uiTable += submitButton;
+            uiTable += uiColEnd;
+            uiTable += uiRowEnd;
+            uiTable += "</table>";                  
+              
+            document.getElementById('currentDirections').style.border = "#890C08 2px solid"; 
+            document.getElementById('directionText').style.color = "#363C54";                
+            document.getElementById('directionText').innerHTML = uiTable;
+            document.getElementById('boxTitle').innerHTML = "Testing Instructions:"; 
+            
+         }
+         
+         
+         
+         function reportResult()
+         {
+            uiTestPassed = driver.evaluateUIResults("Y");
+            messageDisplay();
+            displaySCOStatus(checkTerminated());
+         }
+         
+         function runCommands()
+         {
+            functionTestPassed = driver.runCommands();
+         }
+         
+         function checkTerminated()
+         {
+            return getScoStatus() == "terminated";
+         }
+         
+		 function displaySCOStatus(t)
+		 {
+		    if ( t )
+            {
+               //change status display to "Status:  This SCO Test Terminated"
+               document.getElementById('teststatus').innerHTML = "Status:  " +
+                  "Test Terminated.  Please view the log for details.";
+            }
+            else
+            {
+               //change status display to "Status:  This SCO Test Completed"
+               document.getElementById('teststatus').innerHTML = "Status:  " +
+                  "Test Completed.";
+                                 
+            }
+		 }
+
+         function messageDisplay()
+         {
+            document.getElementById('directionText').innerHTML = driver.curUserInstructions();
+	         if ( document.getElementById('directionText').innerHTML != "" )
+	         {
+               document.getElementById('directionText').style.color = "#890C08";
+	            document.getElementById('boxTitle').innerHTML = "Testing Instructions:"; 
+	            document.getElementById('currentDirections').style.border = "#890C08 2px solid"; 
+	         }
+	         else
+	         {
+	         
+	            document.getElementById('currentDirections').style.border = "#FFFFFF 2px solid"; 
+	           
+	         }
+
+         }
+
+         function completeTest()
+         {
+         	
+			driver.completed();
+         }
+         
+         //]]-->
+      </script>
+   
+   </head>
+
+   <body onload="performTest();" onunload="completeTest();">
+     <div>
+     <!-- LMSTestSCODriver -->
+			<!--[if !IE]> Firefox and others will use outer object -->
+			<object
+				classid="java:org/adl/testsuite/rte/lms/comm/LMSTestSCOApplet.class"
+				codetype="application/x-java-applet"
+				codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+				type="application/x-java-applet"
+				archive="LMSTest.jar" height="0" width="0" 
+				name="NNLMSTestSCODriver"
+				id="NNLMSTestSCODriver">
+
+				<!-- Konqueror browser needs the following param -->
+				<param name="archive" value="./LMSTest.jar" />
+				<param name="code" value="org/adl/testsuite/rte/lms/comm/LMSTestSCOApplet.class" />
+				<param name="MAYSCRIPT" value="true" />
+				<param name="scriptable" value ="true" />
+				<param name="java_codebase" value="../common" />
+            <param name="separate_jvm" value="true">
+
+				<!--<![endif]-->
+
+				<!-- MSIE (Microsoft Internet Explorer) will use inner object -->
+				<object name="LMSTestSCODriver" id="LMSTestSCODriver"
+					classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+					codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+					height="0" width="0">
+
+					<param name="code" value="org/adl/testsuite/rte/lms/comm/LMSTestSCOApplet.class" />
+					<param name="codebase" value="../common" />
+					<param name="archive" value="LMSTest.jar" />
+					<param name="name" value="SCO" />
+					<param name="type" value="application/x-java-applet" />
+               <param name="separate_jvm" value="true">
+
+					<strong> This browser does not have a Java Plug-in. <br />
+						<a href="http://java.sun.com/products/plugin/downloads/index.html">
+							Get the latest Java Plug-in here. </a> </strong>
+				</object>
+
+
+				<!--[if !IE]> close outer object -->
+			</object>
+			<!--<![endif]-->
+			</div>
+		<div id="scoPage">
+			<p class="darkBlue_text"> 
+			<!-- align="left" removed, need a .css to do formatting-->
+
+				Learning Management System (LMS) Conformance Test
+
+				<br />
+				<br />
+				Sequencing Test SCO
+				<br />
+				<br />
+				</p>
+			<div id="teststatus">
+				Status:&nbsp;&nbsp;Testing in progress...
+			</div>
+			<br />
+			<br />
+			<div id="boxTitle"></div>
+			<br />
+			<div id="currentDirections">
+				<div id="directionText"></div>
+			</div>
+		</div>
+
+		<hr />
+       
+      <p>
+<br  />
+         This test may take <span id="red">several minutes</span> to complete.
+      </p>
+      </body>
+</html>

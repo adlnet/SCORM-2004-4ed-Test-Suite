@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<project name="ADL" default="buildLMSTest" >
+
+    <property name="docDir" location="${ccHome}\software_development\build\doc" />
+    <property name="thirdPartyJarDir" location="${ccHome}\software_development\build\thirdParty"/>
+
+    <target name="init" >
+        <mkdir dir="${buildDir}" />
+        <mkdir dir="${testDir}" />
+        <mkdir dir="${docDir}" />
+        <echo message="deleting existing jar files" />
+        <delete >
+            <fileset dir="${buildDir}" >
+                <include name="*.jar" />
+            </fileset >
+        </delete >
+    </target >
+    <!--******************************************************************************************************
+    The next 5 targets are used to build each jar file independently (except cmi, it needs debug)
+    *******************************************************************************************************-->
+    <target name="buildDebug" depends="init" >
+        <ant antfile="buildDebug.xml" target="CTS" />
+    </target >
+    
+    <target name="buildUtil" depends="buildDebug" >
+        <ant antfile="buildUtil.xml" target="CTS" />
+     </target >
+
+    <target name="buildChecksum" depends="buildUtil" >
+        <ant antfile="buildChecksum.xml" target="CTS" />
+     </target >
+
+    <!--The cmi data model requires the debug.jar file to be present in order to compile-->
+    <target name="buildCmiDataModel" depends="buildChecksum" >
+        <ant antfile="buildcmid.xml" target="CTS" />
+    </target >                                              
+
+    <target name="buildAdlValidator"  depends="buildCmiDataModel" >
+        <ant antfile="buildAdlValidator.xml" target="CTS"  />
+    </target >
+
+    <target name="buildTSUtil" depends="buildAdlValidator" >
+        <ant antfile="buildTSUtil.xml" />
+    </target >
+
+   <target name="buildCPTest" depends="buildTSUtil" >
+       <ant antfile="buildCPTest.xml" />
+   </target >
+
+    <target name="buildSCOTest" depends="buildCPTest" >
+        <ant antfile="buildSCOTest.xml" />
+    </target >
+
+   <target name="buildLMSTest" depends="buildSCOTest" >
+        <ant antfile="buildLMSTest.xml" />
+    </target >
+
+   <target name="buildCPTestPackages" depends="buildLMSTest" >
+       <ant antfile="buildCPTestPackages.xml" />
+   </target >
+
+
+   <!--*************************************************************************
+    The next group of targets will be used to build the entire TestSuite
+    *************************************************************************-->
+    <target name="TSbuildDebug" depends="init" >
+        <ant antfile="buildDebug.xml" target="buildTestSuite" />
+    </target>
+
+    <target name="TSbuildUtil" depends="TSbuildDebug" >
+        <ant antfile="buildUtil.xml" target="buildTestSuite" />
+    </target>
+
+    <!--The cmi data model requires the debug.jar file to be present in order to compile-->
+
+    <target name="TSbuildCmiDataModel" depends="TSbuildUtil" >
+        <ant antfile="buildcmid.xml" target="buildTestSuite" />
+    </target>
+
+    <target name="TSbuildAdlValidator" depends="TSbuildCmiDataModel" >
+        <ant antfile="buildAdlValidator.xml" target="buildTestSuite" />
+    </target>
+
+    <target name="TSbuildTSUtil" depends="TSbuildAdlValidator" >
+        <ant antfile="buildTSUtil.xml" target="buildTestSuite" />
+    </target>
+
+    <target name="TSbuildTSChecksum" depends="TSbuildTSUtil" >
+        <ant antfile="buildChecksum.xml" target="buildTestSuite" />
+    </target>
+
+    <target name="TSbuildSCOTest" depends="TSbuildTSChecksum">
+        <ant antfile="buildSCOTest.xml" target="buildTestSuite" />
+    </target>
+
+    <target name="TSbuildCPTest" depends="TSbuildSCOTest" >
+        <ant antfile="buildCPTest.xml" target="buildTestSuite" />
+    </target>
+
+    <target name="TSbuildLMSTest" depends="TSbuildCPTest">
+        <ant antfile="buildLMSTest.xml" target="buildTestSuite" />
+    </target>
+
+    <target name="buildTestSuite" depends="TSbuildLMSTest">
+
+    </target>
+
+
+    <!--This is just to sign the third party jars, will probably be called once.-->
+    <target name="unjar">
+        <mkdir dir="${ccHome}\software_development\build\thirdParty" />
+
+        <unjar src= "${ccHome}\software_development\lib\java40.jar"
+            dest="${thirdPartyJarDir}" >
+            <patternset>
+                <include name="netscape/**" />
+            </patternset>
+        </unjar>
+
+        <mkdir dir="${ccHome}\software_development\build\classes" />
+        <jar destfile="${buildDir}\java40.jar" basedir="${thirdPartyJarDir}"/>
+
+        <signjar jar="${buildDir}\java40.jar"
+            alias="${keystoreAlias}"
+            storepass="${keystorePassword}"
+            keystore="${keystore}"
+            signedjar="${ccHome}\software_development\lib\java40.jar" />
+        <delete >
+            <fileset dir="${thirdPartyJarDir}" />
+        </delete >
+
+        <unjar src= "${ccHome}\software_development\lib\xercesImpl.jar"
+            dest="${thirdPartyJarDir}" />
+
+        <jar destfile="${buildDir}\xercesImpl.jar" basedir="${thirdPartyJarDir}"/>
+
+        <signjar jar="${buildDir}\xercesImpl.jar"
+            alias="${keystoreAlias}"
+            storepass="${keystorePassword}"
+            keystore="${keystore}"
+            signedjar="${ccHome}\software_development\lib\xercesImpl.jar"
+        />
+        <delete >
+            <fileset dir="${thirdPartyJarDir}" />
+        </delete >
+
+        <unjar src= "${ccHome}\software_development\lib\xmlParserAPIs.jar"
+            dest="${thirdPartyJarDir}" />
+
+        <jar destfile="${buildDir}\xmlParserAPIs.jar" basedir="${thirdPartyJarDir}"/>
+
+        <signjar jar="${buildDir}\xmlParserAPIs.jar"
+            alias="${keystoreAlias}"
+            storepass="${keystorePassword}"
+            keystore="${keystore}"
+            signedjar="${ccHome}\software_development\lib\xmlParserAPIs.jar"
+        />    
+
+        <unjar src= "${ccHome}\software_development\lib\ant.jar"
+            dest="${thirdPartyJarDir}" />
+
+        <jar destfile="${buildDir}\ant.jar" basedir="${thirdPartyJarDir}"/>
+
+        <signjar jar="${buildDir}\ant.jar"
+            alias="${keystoreAlias}"
+            storepass="${keystorePassword}"
+            keystore="${keystore}"
+            signedjar="${ccHome}\software_development\lib\ant.jar"
+        />
+        
+        <unjar src= "${ccHome}\software_development\lib\saxon8.jar"
+            dest="${thirdPartyJarDir}" />
+
+        <jar destfile="${buildDir}\saxon8.jar" basedir="${thirdPartyJarDir}"/>
+
+        <signjar jar="${buildDir}\saxon8.jar"
+            alias="${keystoreAlias}"
+            storepass="${keystorePassword}"
+            keystore="${keystore}"
+            signedjar="${ccHome}\software_development\lib\saxon8.jar"
+        />
+
+        <unjar src= "${ccHome}\software_development\lib\jdom.jar"
+            dest="${thirdPartyJarDir}" />
+
+        <jar destfile="${buildDir}\jdom.jar" basedir="${thirdPartyJarDir}"/>
+
+        <signjar jar="${buildDir}\jdom.jar"
+            alias="${keystoreAlias}"
+            storepass="${keystorePassword}"
+            keystore="${keystore}"
+            signedjar="${ccHome}\software_development\lib\jdom.jar"
+        />
+        
+         <unjar src= "${ccHome}\software_development\lib\jaxen-1.1.1.jar"
+            dest="${thirdPartyJarDir}" />
+
+        <jar destfile="${buildDir}\jaxen-1.1.1.jar" basedir="${thirdPartyJarDir}"/>
+
+        <signjar jar="${buildDir}\jaxen-1.1.1.jar"
+            alias="${keystoreAlias}"
+            storepass="${keystorePassword}"
+            keystore="${keystore}"
+            signedjar="${ccHome}\software_development\lib\jaxen-1.1.1.jar"
+        />
+        
+    </target>
+
+    <!-- This is to remove the build files to allow for a clean build -->
+    <target name="clean">
+       <delete includeEmptyDirs = "true" quiet="true">
+              <fileset dir="${ccHome}\software_development\build" />
+              <fileset dir="${ccHome}\software_development\lib"> 
+                           <exclude name="bsf.jar" />
+                           <exclude name="java40.jar" />
+                           <exclude name="joda-time-1.1.jar" />
+                           <exclude name="xalan.jar" />
+                           <exclude name="xerces.jar" />
+                           <exclude name="xercesImpl.jar" />
+                           <exclude name="xml-apis.jar" />
+                           <exclude name="xmlParserAPIs.jar" />
+                           <exclude name="ant.jar" />
+                           <exclude name="saxon8.jar"/>
+                           <exclude name="jdom.jar"/>
+                           <exclude name="jaxen-1.1.1.jar"/>                            
+              </fileset>
+              <fileset dir="${ccHome}\software_development\TestSuite\Logs" />
+              <fileset dir="${ccHome}\software_development\TestSuite\LMSRTE" includes="*.obj" />
+              <fileset dir="${ccHome}\software_development\TestSuite\LMSRTE\Courses">
+                           <exclude name="**\*.xml" />
+                           <exclude name="*.bat" />
+                           <exclude name="SCODepot\*.*" />
+                           <exclude name="scripts\*.*" />
+                           <exclude name="LMSTestPackage_API\resources\*.*" />
+                           <exclude name="LMSTestPackage_DMB\resources\*.*" />
+                           <exclude name="LMSTestPackage_DMI\resources\*.*" />
+              </fileset>
+       </delete>
+    </target>
+
+</project>
+
+
+
+
+
+

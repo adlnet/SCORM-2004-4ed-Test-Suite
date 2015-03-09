@@ -1,0 +1,1285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"  >
+<!--"SCORTEDriver" removed from <DOCTYPE line after ( 1.0 Strict//EN")  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+<meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+<meta http-equiv="Pragma" content="no-cache" />
+
+<title>Content Package Conformance Test</title>
+
+<script type="text/javascript" src="../scripts/BrowserDetect.js"></script>
+<script type="text/javascript" src="../scripts/EmulationCode.js"></script>
+<script type="text/javascript">
+      //<!--[CDATA[
+      /*************************************************************************
+      **
+      ** Filename:  ContentPackageInstructions.htm
+      **
+      ** File Description: ContentPackageInstructions guides the user through 
+      **                   the Content Package Conformance testing process.
+      **
+      ** Browser Compatibility:
+      **
+      ** Author:  ADLI Project
+      **
+      ** References:  SCORM
+      **
+      **************************************************************************
+
+
+      *************************************************************************/
+
+
+      // Global variable declarations
+      var logWindow = top.frames[2];
+      var testComplete;
+      var testType;
+      var pifType;
+      var timeoutValue;
+      var assetTimeoutValue;
+      var doMDTest = true;
+      var extensionSchemaLocation = " ";
+      var allTestingComplete = false;
+
+      // Variables for SCO Test Suite Module
+      var doSCOTest = true;
+      var studentid = "User01";
+      var studentname="Joe Student";
+      var credit = "credit";
+      var mode = "normal";
+      var scoWin=null;
+      var scoToTest;
+      var overallSCOResult = true;
+      var inSCOTest = false;
+      var finishedCalled = false;
+      var scosLaunched = 0;
+
+      var doManifestOnly = false;
+      
+      var supressLabel = true;
+
+      // Variable that holds the reference to the Test Suite API
+      var API_1484_11 = null;
+
+      // Variable that holds the reference to the Content Package Driver
+      var driver = null;
+
+      // Define the log message type constants
+
+      //  0 = informational (diagnostic, trace, etc.)
+      var _INFO = "0";
+      //  1 = warning
+      var _WARNING = "1";
+      //  2 = conformance check passed
+      var _PASSED = "2";
+      //  3 = conformance check failure
+      var _FAILED = "3";
+      //  4 = test suite termination due to
+      var _TERMINATE = "4";
+      //  5 = subject is found to be conformant
+      var _CONFORMANT = "5";
+      //  9 = other
+      var _OTHER = "9";
+      // 10 = header
+      var _HEADER = "10";
+
+      // constants for which log to write to
+      var _BOTH = "0";
+      var _DLOG = "1";
+      var _SLOG = "2";
+
+
+      /**
+       * Method:  initializeTest()
+       * 
+       * Description:
+       *   Set up intitial values and view for this test
+       * 
+       */
+      function initializeTest()
+      {
+         document.getElementById("topOfForm").scrollIntoView();
+         document.getElementById("inst").pname.value = "";
+         document.getElementById("inst").pversion.value = "";
+         document.getElementById("inst").pvname.value = "";
+
+         document.getElementById("end").disabled = true;
+
+         testComplete = false;
+
+         // Set up the API
+         // Set up the content package driver
+         // Delay for netscape 6 compatibilty
+         DetectBrowser();
+         if ( ! IE )
+         { 
+            window.setTimeout(
+             "API_1484_11 = document.getElementById('NNAPIImplementation')", 100);
+            window.setTimeout(
+               "driver = document.getElementById('NNcontentPackageDriver')", 100);  
+         }
+         else 
+         { 
+           API_1484_11 = document.getElementById('APIImplementation');
+           driver = document.getElementById('contentPackageDriver');           
+         }
+
+         // If we will continue supporting netscape this will possibly need to be returned. 
+         // window.setTimeout("driver.setIsBrowserNetscape(Netscape)", 100);
+      }
+
+      /**
+       * Method:  step2(form)
+       * 
+       * @param form
+       *        name of the form.
+       * 
+       * Description
+       *   Handles the interaction of the user for the first step of this test.
+       * 
+       */ 
+      function step2(form)
+      {
+         var type = "";
+
+         for ( i = 0; i < document.getElementById("inst").testTypeChoice.length; 
+               i++ )
+         {
+            if ( document.getElementById("inst").testTypeChoice[i].checked )
+            {
+               type = document.getElementById("inst").testTypeChoice[i].value;
+            }
+         }
+
+         if ( type == "manifest" )
+         {
+             doSCOTest = false;
+         }
+
+         if ( type != "" )
+         {
+            testType = type;
+
+            document.getElementById("status_ok_2").style.visibility = "visible";
+            document.getElementById("row_step_3").style.visibility = "visible";
+            document.getElementById("step_3").visibility = "visible";
+            document.getElementById("row_step_3").scrollIntoView();
+
+            document.getElementById("inst").Continue2.disabled = true;
+            document.getElementById("step2Rad1").disabled = true;
+            document.getElementById("step2Rad2").disabled = true;
+         }
+         else
+         {
+           document.getElementById("status_fail_2").style.visibility = "visible";
+           alert("The type of SCORM Content Package Profile being tested " + 
+                 "must be selected." );
+           document.getElementById("status_fail_2").style.visibility = "hidden";
+         }
+      }
+
+      /**
+       * Method:  step3(form)
+       * 
+       * @param form 
+       *        name of the form.
+       * 
+       * Description
+       *    Handles the interaction of the user for the second step of this test
+       */ 
+      function step3(form)
+      {
+         var type = "";
+         var packageType = "";
+         var stepFour = document.getElementById("step_6");
+
+         for ( i = 0; i < document.getElementById("inst").pifTypeChoice.length; 
+               i++ )
+         {
+            if ( document.getElementById("inst").pifTypeChoice[i].checked )
+            {
+               type = document.getElementById("inst").pifTypeChoice[i].value;
+            }
+         }
+
+         if ( type != "" )
+         {
+            pifType = type;
+
+            document.getElementById("status_ok_3").style.visibility = "visible";
+
+            document.getElementById("row_step_6").style.visibility = "visible";
+            document.getElementById("step_6").style.visibility = "visible";
+            document.getElementById("row_step_6").scrollIntoView();
+
+            document.getElementById("inst").Continue3.disabled = true;
+            document.getElementById("step3Rad1").disabled = true;
+            document.getElementById("step3Rad2").disabled = true;
+            
+            // Text dependent upon radio selection in Step 2
+            for ( i = 0; 
+                  i < document.getElementById("inst").testTypeChoice.length; 
+                  i++ )
+            {
+               if ( document.getElementById("inst").testTypeChoice[i].checked )
+               {
+                  packageType = 
+                     document.getElementById("inst").testTypeChoice[i].value;
+               }
+
+            }
+
+            if (packageType == "non-pif")
+            {
+               stepFour.insertAdjacentHTML("beforeBegin", 
+                                        "<p><div class='question'>Select the" +
+                                        " imsmanifest.xml file to be " +
+                                        "tested:</div></p>");
+            }
+            if (packageType == "pif")
+            {
+               stepFour.insertAdjacentHTML("beforeBegin", 
+                                    "<p><div class='question'>Select the" +
+                                    " Content Package to be tested:</div></p>");
+            }
+         }
+         else
+         {
+          document.getElementById("status_fail_3").style.visibility = "visible";
+          alert( "The type of SCORM Package being tested must be selected." );
+          document.getElementById("status_fail_3").style.visibility = "hidden";
+         }
+      }
+
+      /**
+       * Method:  step7(form)
+       * 
+       * @param form 
+       *    name of the form.
+       * 
+       * Description
+       *     Handles the validation of the time out value entered by the user 
+       *     and prepares the form for the next step of the test.
+       * 
+       */
+      function step7(form)
+      {
+         timeoutValue = document.getElementById("inittimeout").value;
+         assetTimeoutValue = document.getElementById("assetinittimeout").value;
+         var timeouterror = false;
+
+         if (isNaN(timeoutValue) != false | isNaN(assetTimeoutValue) != false)
+         {
+            errMsg += "You must enter a numeric Initialize Timeout " +
+                      "value between 0 and 999.\n";
+            timeouterror = true;
+         }
+         else
+         {
+            // Now check to see if the timeoutValue is a number that is
+            // greater than 0
+            if (timeoutValue < 0 | assetTimeoutValue < 0)
+            {
+               errMsg += "The Initialize Timeout value must be between " +
+                         "0 and 999.\n";
+               timeouterror = true;
+            }
+         }
+
+         if ( timeouterror == false )
+         {
+
+            document.getElementById("status_ok_7").style.visibility = "visible";
+            document.getElementById("row_step_8").style.visibility = "visible";
+            document.getElementById("step_8").style.visibility = "visible";
+            document.getElementById("row_step_8").scrollIntoView();
+
+            document.getElementById("Continue7").disabled = true;
+            document.getElementById("inittimeout").disabled = true;
+            document.getElementById("assetinittimeout").disabled = true;
+         }
+         else
+         {
+          document.getElementById("status_fail_7").style.visibility = "visible";
+          alert( "The Initialize time out value is invalid." );
+          document.getElementById("status_fail_6").style.visibility = "hidden";
+         }
+      }
+
+      /**
+       * Method:  step8(form)
+       * 
+       * @param form
+       *        name of the form.
+       * 
+       * Description:
+       *          Handles the validation of the initialization data entered by 
+       *          the user and prepares the form for the next step of the test.
+       */
+      function step8(form)
+      {
+         if ( document.getElementById("f_studentid").value != "" )
+         {
+            studentid = document.getElementById("f_studentid").value;
+         }
+
+         if ( document.getElementById("f_studentname").value != "" )
+         {
+            studentname = document.getElementById("f_studentname").value;
+         }
+
+         if ( document.getElementById("f_creditflag").value != "" )
+         {
+            credit = document.getElementById("f_creditflag").value;
+         }
+
+         if ( document.getElementById("f_lessonmodeflag").value != "" )
+         {
+            mode = document.getElementById("f_lessonmodeflag").value;
+         }
+
+         document.getElementById("status_ok_8").style.visibility = "visible";
+         document.getElementById("row_step_9").style.visibility = "visible";
+         document.getElementById("step_9").style.visibility = "visible";
+         document.getElementById("row_step_9").scrollIntoView();
+
+         document.getElementById("Continue8").disabled = true;
+         document.getElementById("f_studentid").disabled = true;
+         document.getElementById("f_studentname").disabled = true;
+         document.getElementById("f_creditflag").disabled = true;
+         document.getElementById("f_lessonmodeflag").disabled = true;
+      }
+
+      /**
+       * Method:  startTest()
+       * 
+       * Description
+       *    Set up the view for the first step of this test
+       * 
+       */
+      function startTest()
+      {
+          if(driver != null)
+          { 
+            var cDate = new Date;
+            var spacers =
+                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+   
+            inst_elem = document.getElementById("inst");
+            driver.setTestIDInfo(cDate.toLocaleString(),
+                                 document.getElementById("inst").pname.value,
+                                 document.getElementById("inst").pversion.value,
+                                 document.getElementById("inst").pvname.value);
+   
+            //gets the row step 1 element
+            var rowstep2_Elem = document.getElementById("row_step_2");
+   
+            rowstep2_Elem.style.visibility = "visible";
+   
+            rowstep2_Elem.scrollIntoView();
+            inst_elem.continue0.disabled = true;
+            inst_elem.pname.readOnly = true;
+            inst_elem.pversion.readOnly = true;
+            inst_elem.pvname.readOnly = true;
+   
+            document.getElementById("status_ok_1").style.visibility = "visible";
+         }
+      }
+
+      /**
+       * 
+       * Method:  cp_launchSCO()
+       * 
+       * Description
+       *    Retrieves the next sco location for launch
+       * 
+       */
+      function cp_launchSCO()
+      {
+         inSCOTest = true;
+         var cDate = new Date;
+         var logMsg;
+         var commfrlmscomment = "";
+         var commfrlmslocation = "";
+         var commfrlmsdatetime = "";
+         var masteryscore = "";
+         var maxtimeallowed = "";
+         var timelimitaction = "continue,no message";
+
+         // Disable the Launch SCO button
+         document.getElementById("launchsco").disabled = true;
+         document.getElementById("end").disabled = false;
+
+
+         // Constructs the lms comments string
+         var commentsFromLMS = "[1c]" + commfrlmscomment + "[2l]" + 
+             commfrlmslocation + "[3t]" + commfrlmsdatetime + "[EOC]";
+
+
+         if ( doSCOTest )
+         {
+            logMsg = "Initiating SCO Test Suite <BR>" +
+                  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                  "Test Identification Information:<BR>" +
+                  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date: " +
+                   cDate.toLocaleString() + "<br />" +
+                  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Resource: ";
+
+			var launchInfo = driver.getNextLaunchLine();
+			var launchPath = launchInfo.split("~")[0];
+			var launchType = launchInfo.split("~")[1];
+			
+			driver.writeHeaderInfo(logMsg, launchPath);
+			
+			
+			// Set the launch type in the SCO applet
+			APIImplementation.setResourceType(launchType);
+			APIImplementation.setIsScoPartOfCP(true);
+			
+			var timeVal;
+			if ( launchType.toLowerCase() == "asset" )
+			{
+			   timeVal = assetTimeoutValue;
+			}
+			else
+			{
+			   timeVal = timeoutValue;
+			}
+			
+			var dataFromLMS = driver.getDataFromLMS();
+			var timeLimitAction = driver.getTimeLimitAction();
+			var completionThreshold = driver.getCompletionThreshold();
+			var objectivesData = driver.getObjectivesData();
+			var dataData = driver.getDataData();
+
+			APIImplementation.startTest(
+					 launchPath,
+                     timeVal,
+                     studentid,
+                     studentname,
+                     credit,
+                     mode,
+                     dataFromLMS,
+                     commentsFromLMS,
+                     objectivesData,
+                     dataData,
+                     masteryscore,
+                     maxtimeallowed,
+                     timeLimitAction,
+                     completionThreshold);
+         }
+         else
+         {
+            // Disable sco buttons - no sco to launch
+          document.getElementById("status_fail_6").style.visibility = "visible";
+         }
+      }
+
+
+      /**
+       * 
+       * Method:  launchSCO()
+       * 
+       * @param scoLoc
+       *    Location of the sco being launched
+       * 
+       * @param errors
+       *    Contains the errors that have occured during the sco validation
+       * 
+       * Description
+       *     Launches the scos found in the content package
+       * 
+       * 
+       */
+      function launchSCO( scoLoc, errors )
+      {
+         scoToTest = scoLoc;
+         
+         scosLaunched = scosLaunched + 1;
+         
+         // Replace the lone backslash with forward slash for consistency
+         scoToTest = scoToTest.replace("/","\\");
+
+         writeLogEntry(_BOTH, _INFO, "Attempting to Launch Resource: " + scoToTest);
+         
+         finishedCalled = false;
+
+         scoWin = window.open("CP_SCOWrapper.htm");
+      }
+
+      /**
+       * 
+       * Method:  endTest()
+       * 
+       * @param iReportResults
+       *        true if reporting  Conformance Results (will be false if timeout exceeded)
+       *
+       * Description
+       *    This method completes the Content Package test if there are
+       *    no SCOs remaining to be spawned for validation.
+       * 
+       */
+      function endTest(iReportResults)
+      {
+   	     var scoConformance;
+         if ( ! IE ) 
+         {         	
+            window.setTimeout("APIImplentation.endTest(false, true, iReportResults)",100);
+            window.setTimeout("scoConformance = APIImplementation.isTestConformant()",100);
+         }
+         else
+         {
+            APIImplementation.endTest(false, true, (iReportResults == 'true'));
+            scoConformance = APIImplementation.isTestConformant();             
+         }
+         
+         driver.setSCOConformance(scoConformance);
+         
+         if (scoWin != null)
+         {    
+            scoWin.close();
+
+            // If there are more SCOs to launch and we're still reporting conformance results
+            if (( driver.allScosTested() == "false" ) && (iReportResults == "true") )
+            {
+               // Get information from the SCO RTE Driver on whether or not the
+               // SCO is conformant
+               alert("Ready to test next SCO.");
+               finishedCalled = false;
+               cp_launchSCO();
+            }
+            else
+            {
+               // Disable the all button
+               document.getElementById("launchsco").disabled = true;
+               document.getElementById("end").disabled = true;
+               document.getElementById("abort").disabled = true;
+
+               if (iReportResults == "true")
+               {
+                  if ( ! IE )
+                  {
+                     window.setTimeout("driver.completeTest( doSCOTest, doMDTest, supressLabel )", 150);
+                  }
+                  else
+                  {
+                     driver.completeTest( doSCOTest, doMDTest, supressLabel );                  
+                  }
+               }
+               else
+               {
+                  // Disable the Complete Test button
+                  document.getElementById("end").disabled = true;
+                  // Suppress conformance label as iReportResults is false
+                  driver.completeTest( doSCOTest, doMDTest, true );                  
+               }   
+               document.getElementById("status_ok_9").style.visibility = "visible";
+               allTestingComplete = true;
+            }
+         }
+      }
+
+      /**
+       * Function: abortTest()
+       * 
+       *  Description:
+       *    This function is called when the Abort Test button is pressed on
+       *    the Instructions web page.  This function closes the open SCO 
+       *    window (if it's open), disables the buttons and then calls 
+       *    terminateTest() to end the processing of this package.
+       */ 
+      function abortTest()
+      {
+         // If the SCO Window is open - close it
+         if (scoWin != null)
+         {
+            scoWin.close();
+         }
+         
+         // Disable the buttons
+         document.getElementById("launchsco").disabled = true;
+         document.getElementById("end").disabled = true;
+         document.getElementById("abort").disabled = true;
+         
+         writeLogEntry(_SLOG, _FAILED, 
+                       "Content Package Conformance Test has been " +
+                       "aborted");
+         writeLogEntry(_SLOG, _FAILED, "The Content Package is Non-Conformant");
+
+         terminateTest();
+         document.getElementById("status_fail_9").style.visibility = "visible";
+         abortCPTest();
+      }
+
+      /**
+       *  Method:  abortCPTest()
+       * 
+       * Description:
+       *   Called when the Abort Test button is pressed or when the Test Suite
+       *   is closed while processing (e.g. clicking the "x" while its running).
+       */
+      function abortCPTest()
+      {
+      	 // Add the end tag data for the aborted SCO test log
+         // Only write end tag if a SCO log has been created
+         if ( scosLaunched > 0 )
+         {
+	         writeLogEntry(_DLOG,"8","");
+	     }
+         
+         // Call CP Driver to close Sumamry Log
+         driver.abortCPTest();                  
+      }
+      
+      /**
+       *  Method:  terminateTest()
+       * 
+       * Description:
+       *    This function is called when the test is either completed or an
+       *    unrecoverable condition has been met.  Unrecoverable conditions
+       *    may include fatal test software errors, test step failure, or test
+       *    subject errors.
+       * 
+       */
+      function terminateTest()
+      {
+         // Disable all the controls
+         finishedCalled = true;
+
+         if ( driver.allScosTested() == "false" )
+         {
+            testComplete = true;
+         }
+      }
+
+      /**
+       * Method:  writeLogEntry(log, type, msg)
+       * 
+       * @param log
+       *    log to which to write
+       * 
+       * @param type
+       *    category of message
+       * 
+       * @param msg
+       *      actual message text
+       * 
+       * Description
+       *   Interface function to write messages to the log based on the type. 
+       * 
+       */
+      function writeLogEntry(log, type, msg)
+      {
+       
+       driver.doWriteLogEntry(log, type, msg);
+
+      }
+
+      /**
+       * Method:  confirmQuit(
+       * 
+       * Description:
+       *       Provides an option to cancel a quit.
+       * 
+       */
+      function confirmQuit()
+      {
+         if (testComplete == false || allTestingComplete == false)
+         {
+         	// Writes the end tags to the Logs
+         	abortCPTest();
+            var msg = "The test is not complete.  If you leave this page, \n" +
+                  "the test will be terminated and you will lose the test log.";
+            return msg;
+         }
+      }
+      /**
+       * Method:  loadComplete()
+       * 
+       * Description:
+       *    This function is called when the applets have been loaded for the
+       *    test. The continue button will then be made visible.
+       * 
+       */
+     function loadComplete()
+     {
+        document.getElementById("inst").continue0.disabled = false;
+      
+     }
+
+      /**
+       * Method:  validate()
+       * 
+       * Description:
+       *   Use the applet's public method, passing the name of the file entered
+       *   by the user.  The following is intended to simulate what the
+       *    validation function might do.
+       * 
+       */
+      function validate()
+      {
+         var manifestFile = document.getElementById("xmlfile").value;
+
+         // last index in the array should be the filename we want to verify
+         var splits = manifestFile.split("\\");
+         var filename = splits[splits.length-1];
+
+         // making the extension lower case for easy verification
+         filename = filename.substring(0,(filename.length-3)) + 
+                    filename.substring((filename.length-3),filename.length).toLowerCase();
+
+         var ext = manifestFile.substr((manifestFile.length-4),manifestFile.length);
+         ext = ext.toLowerCase();
+         
+         if ( manifestFile == "" )
+         {
+            return;
+         }
+         else if( (filename == "imsmanifest.xml" && testType == "non-pif") || (ext==".zip" && testType=="pif" ))
+         {
+            document.getElementById("xmlfile").disabled = true;
+            document.getElementById("Continue6").disabled = true;
+   
+            alert("The Content Package Test initiated.  " + 
+                  "This may take a few minutes, please be patient.");
+   
+            driver.startValidateTest( manifestFile, testType, pifType,
+                                      extensionSchemaLocation, doMDTest,
+                                      doSCOTest, doManifestOnly );
+   
+            var isValid = driver.isManifestConformant();
+            supressLabel = !driver.isLabelShown();
+   
+            if ( isValid == true )
+            {
+               document.getElementById("status_ok_6").style.visibility = "visible";
+   
+               if ( doSCOTest  && driver.doSCOsExist() )
+               {
+                  document.getElementById("SCODivide").style.visibility = 
+                                                                         "visible";
+                  document.getElementById("row_step_7").style.visibility = 
+                                                                         "visible";
+                  document.getElementById("step_7").style.visibility = "visible";
+                  document.getElementById("row_step_7").scrollIntoView();
+                  
+                  var type = "";
+         
+                  for ( i = 0; i < document.getElementById("inst").pifTypeChoice.length; i++ )
+                  {
+                     if ( document.getElementById("inst").pifTypeChoice[i].checked )
+                     {
+                        type = document.getElementById("inst").pifTypeChoice[i].value;
+                     }
+                  }
+                  
+                  if ( type != "resource" )
+                  {
+                     document.getElementById("asset").style.visibility = "visible";
+                  }
+               }
+               else
+               {
+                  testComplete = true;
+                  driver.completeTest( doSCOTest, doMDTest, supressLabel );
+               }
+            }
+            else
+            {
+               document.getElementById("status_fail_6").style.visibility = "visible";
+               testComplete = true;
+               driver.completeTest( doSCOTest, doMDTest, supressLabel );
+            }
+         }
+         else
+         {
+            // tell the user the error and reset the file input.
+             if(testType=="non-pif")
+             {
+            	 alert("Please select an imsmanifest.xml file.");
+             }
+             else if(testType=="pif")
+             {
+                alert("Please select a .zip file.");
+             }
+            // reset the file input box
+            document.getElementById("step_6").innerHTML=document.getElementById("step_6").innerHTML;                
+         }
+       }
+       
+       
+    	
+       
+      // -->
+      </script>
+
+<link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+</head>
+
+<body onload="initializeTest();" onunload="return confirmQuit();">
+<p><!-- ContentPackageDriver --> 
+<!--[if !IE]> Firefox and others will use outer object -->
+<object
+   classid="java:org/adl/testsuite/contentpackage/ContentPackageDriver.class"
+   type="application/x-java-applet"
+   archive="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar"
+   height="1" width="1" name="NNcontentPackageDriver"
+   id="NNcontentPackageDriver"
+   codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab">   
+   <param name="archive" value="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar" />
+   <param name="code" value="org/adl/testsuite/contentpackage/ContentPackageDriver.class" />
+   <param name="MAYSCRIPT" value="true" />
+   <param name="codebase" value="../../lib/" />
+   <param name="scriptable" value="true" />
+   <!--<![endif]--> <!-- MSIE (Microsoft Internet Explorer) will use inner object -->
+   <object name="contentPackageDriver" id="contentPackageDriver"
+      classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+      codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0_16-windows-i586.cab"
+      height="0" width="4">
+
+      <param name="code" value="org/adl/testsuite/contentpackage/ContentPackageDriver.class" />
+      <param name="archive" value="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar" />
+      <param name="codebase" value="../../lib" />
+      <param name="name" value="contentPackageDriver" />
+      <param name="type" value="application/x-java-applet" />
+
+      <strong> This browser does not have a Java Plug-in. <br />
+      <a href="http://java.sun.com/products/plugin/downloads/index.html">
+      Get the latest Java Plug-in here. </a> </strong> 
+      </object> 
+      <!--[if !IE]> close outer object -->
+   </object> 
+   <!--<![endif]--> 
+   <!-- APIImplementation --> 
+   <!--[if !IE]> Firefox and others will use outer object -->
+<object classid="java:org/adl/testsuite/rte/sco/SCORTEDriver.class"
+   type="application/x-java-applet"
+   archive="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar"
+   height="0" width="0" name="NNAPIImplementation"
+   id="NNAPIImplementation" data="org/adl/testsuite/rte/sco/">   
+   <param name="archive" value="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar" />
+   <param name="MAYSCRIPT" value="true" />
+   <param name="java_codebase" value="../../lib/" />
+   <param name="scriptable" value="true" />
+   <param name="code" value="org/adl/testsuite/rte/sco/SCORTEDriver.class" />
+   <!--<![endif]-->
+   <!-- MSIE (Microsoft Internet Explorer) will use inner object -->
+   <object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"      
+      height="0" width="0" 
+      name="APIImplementation" id="APIImplementation">
+      <param name="code" value="org/adl/testsuite/rte/sco/SCORTEDriver.class" />
+      <param name="java_codebase" value="../../lib" />
+      <param name="archive" value="saxon8.jar,jdom.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs.jar,xalan.jar,ant.jar,java40.jar,debug.jar,util.jar,checksum.jar,adlvalidator.jar,testsuiteutil.jar,ContentPackageTest.jar,MetadataTest.jar,SCOTest.jar,cmidatamodel.jar,joda-time-1.1.jar,jaxen-1.1.1.jar" />
+      <param name="name" value="APIImplementation" />
+      <param name="type" value="application/x-java-applet" />
+      <strong> This browser does not have a Java Plug-in. <br />
+      <a href="http://java.sun.com/products/plugin/downloads/index.html">
+      Get the latest Java Plug-in here. </a> </strong> 
+      </object> 
+      <!--[if !IE]> close outer object -->
+</object> 
+<!--<![endif]-->
+</p>
+
+<form id="inst" action="">
+<div id="topOfForm" />
+<h2>Instructions</h2>
+
+<p>Before beginning this test, verify that you have access to the
+Content Package Test Subject that is to be tested. <br />
+<br />
+Use the step-by-step instructions below to complete the test. During
+testing, messages indicating the test progress and status will be
+displayed in the Test Suite Log to the right. You may print the log at
+any time during or after the test. <br />
+<br />
+Click the link below each summary section to see the detailed
+messages from the test. <br />
+<br />
+</p>
+
+<table width="100%" border="1" cellspacing="0" cellpadding="6">
+   <thead>
+      <tr>
+         <th scope="col" class="adlHeader"><strong>&nbsp;Step&nbsp;
+         </strong></th>
+         <th scope="col" class="adlHeader"><strong>Instructions
+         </strong></th>
+      </tr>
+   </thead>
+
+   <tbody>
+      <!-- ***********************************************************
+               **
+               ** STEP 1
+               ** Vender Info
+               **
+               ************************************************************ -->
+      <tr id="row_step_1" style="VISIBILITY: visibile">
+         <td scope="row" class="cellStep">
+         <p class="stepCount">1</p>
+
+
+         <div id="status_ok_1" style="VISIBILITY: hidden"><img
+            src="../images/smallcheck.gif" alt="passed" /></div>
+
+         <div id="status_fail_1" style="VISIBILITY: hidden"><img
+            src="../images/smallstop.gif" alt="termination" /></div>
+
+         </td>
+         <td class="cell">
+         <div class="question">Please provide the following
+         information to identify the Content Package Test Subject being
+         tested.</div>
+
+         <br />
+         <br />
+
+         Content Package Test Subject: <br />
+         <br />
+
+         <table width="100%" border="0" cellspacing="0" cellpadding="2">
+            <tr>
+               <td class="cell"><label for="pname" class="products">
+               Content Package Name: </label></td>
+               <td class="cell"><input id="pname" name="pname" />
+               </td>
+            </tr>
+
+            <tr>
+               <td class="cell"><label for="pversion"
+                  class="products"> Content Package
+               Version/Release Number: </label></td>
+               <td class="cell"><input id="pversion"
+                  name="pversion" /></td>
+            </tr>
+
+            <tr>
+               <td class="cell"><label for="pvname"
+                  class="products"> Content Package
+               Vendor/Developer: </label></td>
+               <td class="cell"><input id="pvname" name="pvname" />
+               </td>
+            </tr>
+         </table>
+
+         <p><input type="button" value="Continue" id="continue0"
+            name="continue0" onclick="startTest();" disabled="disabled" />
+         </p>
+         </td>
+      </tr>
+
+      <!-- ***********************************************************
+               **
+               ** STEP 2
+               ** PIF or NON-PIF
+               **
+               ************************************************************ -->
+      <tr id="row_step_2" style="VISIBILITY: hidden">
+         <td scope="row" class="cellStep">
+         <p class="stepCount">2</p>
+
+         <div id="status_ok_2" style="VISIBILITY: hidden"><img
+            src="../images/smallcheck.gif" alt="passed" /></div>
+
+         <div id="status_fail_2" style="VISIBILITY: hidden"><img
+            src="../images/smallstop.gif" alt="termination" /></div>
+         </td>
+         <td class="cell">
+         <div id="step_2">
+         <div class="question">Please select the type of test you
+         want to run.</div>
+         <br />
+         <br />
+         The options are:
+         <ul>
+            <li><strong>Content Package (PIF):</strong> &nbsp;This
+            option will test a Package Interchange File (only supports
+            PKZIP 2.04g format). <br />
+            <br />
+            </li>
+            <li><strong>Content Package (non-PIF):</strong>
+            &nbsp;This option will test a Package that is not a Package
+            Interchange File. The Package (in its entirety) exists on
+            the local file system, media disk or network file system.
+            When selecting this option, the imsmanifest.xml must be
+            entered in Step 4 below. <br />
+            <br />
+            </li>
+         </ul>
+         <input id="step2Rad2" type="radio" name="testTypeChoice"
+            value="pif" /> <label for="step2Rad2"> <span
+            class="userInput">Content Package (PIF)</span> </label> <br />
+         <input id="step2Rad1" type="radio" name="testTypeChoice"
+            value="non-pif" /> <label for="step2Rad1"> <span
+            class="userInput">Content Package (non-PIF) </span> </label> <br />
+         <br />
+         <input type="button" name="Continue2" id="Continue2"
+            value="Continue" onclick="step2();" /></div>
+         </td>
+      </tr>
+
+      <!-- ***********************************************************
+               **
+               ** STEP 3
+               ** Application Profile Type
+               **
+               ************************************************************ -->
+      <tr id="row_step_3" style="VISIBILITY: hidden">
+         <td scope="row" class="cellStep">
+         <p class="stepCount">3</p>
+
+         <div id="status_ok_3" style="VISIBILITY: hidden"><img
+            src="../images/smallcheck.gif" alt="passed" /></div>
+
+         <div id="status_fail_3" style="VISIBILITY: hidden"><img
+            src="../images/smallstop.gif" alt="termination" /></div>
+         </td>
+         <td class="cell">
+         <div id="step_3"><br />
+         <div class="question">Please choose the type of SCORM
+         Application Profile that will be tested:</div>
+         <ul>
+            <li><strong>Content Aggregation Content
+            Package: </strong> &nbsp;A content package that contains one or more
+            organizations. <br />
+            <br />
+            </li>
+            <li><strong>Resource Content Package:</strong> &nbsp;A
+            content package that contains no organizational structure,
+            but instead is a list of resources.</li>
+         </ul>
+
+         <input id="step3Rad1" type="radio" name="pifTypeChoice"
+            value="contentaggregation" /> <label for="step3Rad1">
+         <span class="userInput"> Content Aggregation Content
+         Package</span> </label> <br />
+         <input id="step3Rad2" type="radio" name="pifTypeChoice"
+            value="resource" /> <label for="step3Rad2"> <span
+            class="userInput">Resource Content Package (no
+         defined organizational structure)</span> </label> <br />
+         <br />
+         <input type="button" name="Continue3" id="Continue3"
+            value="Continue" onclick="step3();" /></div>
+         </td>
+      </tr>
+
+      <!-- ***********************************************************
+               **
+               ** STEP 4
+               ** Browse for File and Begin
+               **
+               ************************************************************ -->
+      <tr id="row_step_6" style="VISIBILITY: hidden">
+         <td scope="row" class="cellStep">
+         <p class="stepCount">4</p>
+
+         <div id="status_ok_6" style="VISIBILITY: hidden"><img
+            src="../images/smallcheck.gif" alt="passed" /></div>
+
+         <div id="status_fail_6" style="VISIBILITY: hidden"><img
+            src="../images/smallstop.gif" alt="termination" /></div>
+         </td>
+         <td class="cell">
+         <div id="step_6" style="VISIBILITY: hidden">
+         <p><label for="xmlfile" class="products"> File: </label> <input
+            id="xmlfile" name="xmlfile" type="file" /> <br />
+         <br />
+         <input id="Continue6" name="Continue6" onclick="validate();"
+            type="button" value="Begin Test" /></p>
+         </div>
+         </td>
+      </tr>
+
+      <!-- ***********************************************************
+               **
+               ** STEP 5
+               ** SCO LMSInitialize Time-out
+               **
+               ************************************************************ -->
+      <tr id="SCODivide" style="VISIBILITY: hidden">
+         <td colspan="2" class="scotestcell">
+         <p class="scotestbegin">Entering the SCO Test Suite Portion
+         of the test.</p>
+         </td>
+      </tr>
+      <tr id="row_step_7" style="VISIBILITY: hidden">
+         <td scope="row" class="cellStep">
+         <p class="stepCount">5</p>
+
+         <div id="status_ok_7" style="VISIBILITY: hidden"><img
+            src="../images/smallcheck.gif" alt="passed" /></div>
+
+         <div id="status_fail_7" style="VISIBILITY: hidden"><img
+            src="../images/smallstop.gif" alt="termination" /></div>
+
+         </td>
+         <td class="cell">
+         <div id="step_7" style="VISIBILITY: hidden">
+         <p>Indicate the maximum amount of time the Test Suite
+         should wait for a SCO to call Initialize() (default - 20
+         seconds) <br />
+         <br />
+
+         <label for="inittimeout" class="products"> SCO Timeout
+         Value: </label> <input type="text" id="inittimeout" name="inittimeout"
+            size="5" maxlength="3" value="20" /></p> <br />
+         <br />
+             
+         <div id="asset" style="VISIBILITY: hidden"> 
+         <p>Indicate the maximum amount of time the Test Suite
+         should wait to verify that an asset does not make any calls 
+         to the SCORM API (default - 8  seconds) <br />
+         <br />
+
+         <label for="assetinittimeout" class="products"> Asset Timeout
+         Value: </label> <input type="text" id="assetinittimeout" name="assetinittimeout"
+            size="5" maxlength="3" value="8" /></p> <br />
+            
+         </div>
+         <br />
+         <input id="Continue7" name="Continue7" onclick="step7();"
+            type="button" value="Continue" />
+         </div>
+         </td>
+      </tr>
+
+      <!-- ***********************************************************
+               **
+               ** STEP 6
+               ** SCO Data Model Initialization Values
+               **
+               ************************************************************ -->
+      <tr id="row_step_8" style="VISIBILITY: hidden">
+         <td scope="row" class="cellStep">
+         <p class="stepCount">6</p>
+
+         <div id="status_ok_8" style="VISIBILITY: hidden"><img
+            src="../images/smallcheck.gif" alt="passed" /></div>
+
+         <div id="status_fail_8" style="VISIBILITY: hidden"><img
+            src="../images/smallstop.gif" alt="termination" /></div>
+
+         </td>
+         <td class="cell">
+         <div id="step_8" style="VISIBILITY: hidden">
+         <p>If your SCO requires the following data that would
+         normally be provided by an LMS, please enter the data in the
+         appropriate field. If the following data is not needed for the
+         execution of the SCO, leave the fields as is:</p>
+
+         <table width="90%" border="0" cellspacing="0" cellpadding="2">
+            <tr>
+               <td><label for="f_studentid" class="scodata">
+               Learner ID </label>
+               <div class="scodefault"><strong>(default -
+               User01)</strong></div>
+               </td>
+               <td><input type="text" id="f_studentid"
+                  name="f_studentid" size="20" maxlength="255" /></td>
+            </tr>
+            <tr>
+               <td><label for="f_studentname" class="scodata">
+               Learner Name </label>
+               <div class="scodefault"><strong>(default -
+               Joe Student)</strong></div>
+               </td>
+               <td><input type="text" id="f_studentname"
+                  name="f_studentname" size="20" maxlength="255" /></td>
+            </tr>
+            <tr>
+               <td><label for="f_creditflag" class="scodata">
+               Credit or No Credit </label>
+               <div class="scodefault"><strong>(default -
+               credit)</strong></div>
+               </td>
+               <td><select id="f_creditflag" name="f_creditflag">
+                  <option selected="selected" value="credit">
+                  credit</option>
+                  <option value="no-credit">no-credit</option>
+               </select></td>
+            </tr>
+            <tr>
+               <td><label for="f_lessonmodeflag" class="scodata">
+               Mode </label>
+               <div class="scodefault"><strong>(default -
+               normal)</strong></div>
+               </td>
+               <td><select id="f_lessonmodeflag"
+                  name="f_lessonmodeflag">
+                  <option value="normal" selected="selected">
+                  normal</option>
+                  <option value="browse">browse</option>
+                  <option value="review">review</option>
+               </select></td>
+            </tr>
+
+         </table>
+
+         <br />
+         <br />
+         <input id="Continue8" name="Continue8" onclick="step8();"
+            type="button" value="Continue" /></div>
+         </td>
+      </tr>
+
+      <!-- ***********************************************************
+               **
+               ** STEP 7
+               ** Launch / Complete / Abort SCO Test
+               **
+               ************************************************************ -->
+      <tr id="row_step_9" style="VISIBILITY: hidden">
+         <td scope="row" class="cellStep">
+         <p class="stepCount">7</p>
+
+         <div id="status_ok_9" style="VISIBILITY: hidden"><img
+            src="../images/smallcheck.gif" alt="passed" /></div>
+
+         <div id="status_fail_9" style="VISIBILITY: hidden"><img
+            src="../images/smallstop.gif" alt="termination" /></div>
+
+         </td>
+         <td class="cell">
+
+         <div id="step_9" style="VISIBILITY: hidden">
+         <p>When SCO testing finishes click
+         <b>Complete Test</b> to end the test. Note: If
+         Terminate("") is called upon an onunload or onbeforeunload
+         event, ensure the SCO is closed before clicking <b>Complete
+         Test</b>
+         <br /><br />
+         The test suite will now attempt to complete the following
+         actions:</p>
+         <ul>
+            <li>The Test Suite will simulate an LMS and
+            attempt to launch the SCO.</li>
+            <li>The Test Suite will monitor all API
+            calls made by the launched SCO and report the results.</li>
+         </ul>
+         <hr />
+
+         <p><input type="button" value="Launch SCO(s)"
+            id="launchsco" name="launchsco" onclick="cp_launchSCO();" />
+
+         <input type="button" value="Complete Test" id="end" name="end"
+            onclick="endTest('true');" /></p>
+         <p><label> You may abort the test at any time by
+         clicking <b>Abort Test.<b> </label> <br />
+         <br />
+         <input type="button" value="Abort Test" id="abort" name="abort"
+            onclick="abortTest();" /> <br />
+         <br />
+         </p>
+         </div>
+         </td>
+      </tr>
+   </tbody>
+</table>
+</form>
+</body>
+</html>

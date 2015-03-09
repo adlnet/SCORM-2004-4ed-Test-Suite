@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<title>Content Package Import Step</title>
+		<script type="text/javascript" src="../scripts/BrowserDetect.js"></script>
+
+		<script type="text/javascript"
+			src="../scripts/LMSInstructionFunctions.js"></script>
+		<script type="text/javascript">
+          //<!--  [CDATA[          
+		 function writeToInstruction()
+		  {
+		     parent.controls.initState();
+			 parent.controls.parseArrayFromDriver();
+          parent.currentInstructions.document.getElementById("userInstruction").innerHTML = 
+          "<p class='stepText'>Ensure that the ADL LMS Test Content Packages do not exist in "+
+          "the LMS. Inspect the LMS course catalog, or list of available courses to "+
+          "assure that the ADL LMS Test Content Packages were not previously loaded or "+
+          "imported. If any of the ADL LMS Test Content Packages and associated objectives are "+
+          "present within the LMS, delete them before you continue.<br /><br />"+
+          "Import the ADL LMS Test Content Packages using the Package Interchange Files (PIF) "+
+          "provided at ADLNet.gov</p><p class='stepText'>"+
+          "Observe the content package import process for each course as it executes to "+
+          "determine if the LMS can successfully import the course using "+
+          "the Content Package Manifest.</p><p class='stepText'>To select ADL LMS Test Content "+
+          "Packages click the item then the <b>Add</b> button. To unselect ADL LMS Test  "+
+          "Content Packages click the item then the <b>Remove</b> button. Double-clicking "+ 
+          "the desired ADL LMS Test Content Package also adds or removes the item. "+
+          "To select all or remove all ADL LMS Test Content Packages, use the <b>Add All</b> "+
+          "or <b>Remove All</b> buttons.  Note that multiple ADL LMS Test Content Packages may be "+
+          "selected by holding down the Ctrl key on your keyboard while making the selection." +
+          "</p><p class='stepTextImportant'>If any "+
+          "of the ADL LMS Test Content Packages are not imported and run during this "+
+          "test, a complete SCORM Conformance can not be evaluated; the SCORM Conformance "+
+          "Label will not be produced.</p><p class='stepText'>After import is complete, "+
+          "return here to continue.</p>";
+          
+			}
+					 
+		  function cont()
+		  {
+		     var chosenList = new Array();
+		     chosenList = parent.controls.step02();
+			 var stringList = chosenList.toString();
+			 
+			 if (stringList != "")
+			 {
+      	        lmsApplet.setChosenTestPackages(stringList);
+				
+			       parent.document.getElementById("instructions").src="LMSInstructionStep.htm";
+			 }
+		  }
+		  
+		 function init()
+		 {
+		 // Init is used to clear the lists before population with the test objects
+		 // XHTML requires an element to be included when the "<select>" list is created 
+		 	
+		 	document.forms['inst'].chosen.options[0]=null;
+		 	document.forms['inst'].possible.options[0]=null;		  	
+		 }
+      //]]> -->
+      </script>
+		<link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+
+	</head>
+
+	<body style="width: 400px"
+		onload="initializeApplet();writeToInstruction();"
+		onunload="parent.currentInstructions.document.getElementById('userInstruction').innerHTML ='';">
+
+		<div style="width: 400px">
+			<form id="inst" action="">
+
+				<div class="adlHeader">
+					Import LMS Test Content Packages
+				</div>
+
+				<div class="cell">
+
+
+					<table class="blueTxt" id="table1" cellpadding="7">
+						<tr>
+							<td class='stepText'>
+								<label for="possible">
+									Available Test Packages:
+								</label>
+							</td>
+							<td class='stepText'>
+							</td>
+							<td class='stepText'>
+								<label for="chosen">
+									Selected Test Packages:
+								</label>
+							</td>
+						</tr>
+						<tr>
+							<td class='stepText' rowspan="2">
+								<select class='stepText' title="Possible Test Packages"
+									id="possible" name="possible"
+									ondblclick="parent.controls.addItem(this.form.possible, this.form.chosen)"
+									multiple="multiple" size="15" style="width: 100px">
+
+									<option value="CPImportStep.htm">
+										CPImportStep
+									</option>
+
+								</select>
+
+								<!-- 
+							CPImportStep.htm should be removed from the list of objects 
+							before it is populated. It is there for XHTML conformance only  
+							-->
+								<!-- width="100" removed from attributes(not supported for this element) -->
+							</td>
+							<td>
+							</td>
+							<td class='stepText' rowspan="2">
+
+								<select class='stepText' title="Chosen Test Packages"
+									id="chosen" name="chosen"
+									ondblclick="parent.controls.removeItem(this.form.chosen, this.form.possible)"
+									multiple="multiple" size="15" style="width: 100px">
+
+									<option value="CPImportStep.htm">
+										CPImportStep
+									</option>
+
+								</select>
+
+								<!-- 
+							CPImportStep.htm should be removed from the list of objects 
+							before it is populated. It is there for XHTML conformance only 
+							-->
+								<!-- width="100" removed from attributes(not supported for this element) -->
+
+
+							</td>
+						</tr>
+						<tr>
+							<td class="centered">
+								<input type="button" title="Add >>" id="add" name="add"
+									onclick="parent.controls.addItem(this.form.possible, this.form.chosen)"
+									value="Add >>" />
+								<br />
+								<input type="button" title="Add All >>" id="adAll" name="adAll"
+									onclick="parent.controls.addAll(this.form.possible, this.form.chosen)"
+									value="Add All >>" />
+								<br />
+								<br />
+								<br />
+								<br />
+								<br />
+								<br />
+								<br />
+								<input type="button" title="&lt;&lt; Remove" id="remove"
+									name="remove"
+									onclick="parent.controls.removeItem(this.form.chosen, this.form.possible)"
+									value="&lt;&lt; Remove" />
+								<br />
+								<input type="button" title="&lt;&lt; Remove All" id="rmvAll"
+									name="rmvAll"
+									onclick="parent.controls.removeAll(this.form.chosen, this.form.possible)"
+									value="&lt;&lt; Remove All" />
+							</td>
+						</tr>
+					</table>
+
+					<script type="text/javascript">
+				//<!--[CDATA[
+					init();
+				//	 ]]> -->
+				</script>
+
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

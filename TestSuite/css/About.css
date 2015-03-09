@@ -1,0 +1,228 @@
+/******************************************************************************
+**
+** Filename:  About.css
+**
+** File Description: The About Cascading Style Sheet provides style properties
+**    for all About HTML pages of the Test Suite
+**
+** Author:  ADLI Project
+**
+** Company Name: Concurrent Technologies Corporation (CTC)
+**
+** Module/Package Name:
+** Module/Package Description:
+**
+** Design Issues:
+**
+** Implementation Issues:
+** Known Problems:
+** Side Effects: Changes style settings on HTML tags.
+**
+***************************************************************************     
+
+      
+***************************************************************************
+**
+** Date Changed   Author of Change  Reason for Changes
+** ------------   ----------------  -------------------------------------------
+**
+** 05/08/2001     J. Falls          PT #753 - Netscape conformance.  Changed
+**                                  td.adlTitle.
+**
+** 11/15/2001     S. Thropp         Added td.adlVersionTitle, td.matrixBodyHeader
+**
+******************************************************************************/
+
+/* ********************************************************************** -->
+<!-- Re-defined Tags -->
+<!-- ********************************************************************** -->*/
+
+body
+{
+	font-family : Verdana;
+	font-size : 10pt;
+	font-weight : normal;
+	font-style : normal;
+	background-color : #FBFAF4;
+}
+
+LI
+{
+	font-family : Verdana;
+	font-size : 10pt;
+	font-weight : normal;
+	font-style : normal;
+}
+
+TD
+{
+	font-family : Verdana;
+	font-size : 10pt;
+	font-weight : normal;
+	font-style : normal;
+}
+sup {	
+	font-size:0.8em;
+}
+
+a:link 
+{ 
+	font-weight: bold;	
+	color: #363C54;
+}
+
+a:visited 
+{ 
+	font-weight: bold;	
+	color: #566B87;
+}
+
+a:hover, a:active 
+{ 	
+	color: #E7BC68;
+}
+
+iframe
+{
+   text-align: center;
+}
+
+p.adlText
+{
+   font-size : small;
+   color : #363C54;
+   background-color : transparent;
+}
+
+p.ctrAlign
+{
+   text-align: center;
+}
+
+table td strong
+{
+   text-align: center;
+}
+
+tbody.matrixBody
+{
+   color: black;
+   background-color: Yellow;
+}
+
+thead.matrixTitle
+{
+   font-family : Verdana;
+   font-size: 8pt;
+   color: #F7C555;
+   background-color : #363C54;
+   text-align : center;
+}
+
+tr.matrixFont
+{
+   font-family : Verdana;
+   font-size: 8pt;
+   vertical-align : top;
+}
+
+td.adlLogo
+{
+   text-align : left;
+}
+
+td.adlTitle
+{
+	font-size:24px;
+	text-align: center;
+	font-weight : bold;
+	font-family: Verdana;
+	color: #363C54;
+	font-weight: bold;
+	font-style : italic;
+}
+
+td.adlVersionTitle
+{
+	font-family: Verdana;
+	color: #890C08;
+   font-size:16px;
+   text-align: right;
+}
+
+td.matrixBodyComponent
+{
+   width: 211pc;
+   background-color: #ffffff;
+}
+
+td.matrixBodyHeader
+{
+   width: 211pc;
+   background-color: #363C54;
+   color: #ffffff;
+   text-align: center;
+   font-family : Verdana;
+   font-size: 8pt;
+   vertical-align : top;
+}
+
+td.matrixBodyTopType
+{
+   width: 20pc;
+   height: 101px;
+}
+
+td.matrixBodyTopReq
+{
+   width: 59pc;
+   height: 101px;
+}
+
+td.matrixBodyBottomType
+{
+   width: 20pc;
+   height: 68px;
+}
+
+td.matrixBodyBottomReq
+{
+   width: 59pc;
+   height: 68px;
+}
+
+td.version
+{
+   font-family: Arial;
+   font-size: 10pt;
+   color: navy;
+   text-align : right;
+}
+
+/*<!-- ********************************************************************** -->
+<!-- IDs -->
+<!-- ********************************************************************** -->*/
+
+#tableColor
+{
+	font-family : Verdana;
+	font-size : 10pt;
+	color: #fff;
+	font-weight : normal;
+	font-style : normal;
+	border:1px solid #F7C555;
+	background-color: #363C54;
+}
+
+#login_col1
+{
+	float: left;
+	font-family : Verdana;
+	font-size: 10pt;
+	color: #566B87;
+	font-weight:bold;
+	width : 80px;
+	padding : 2px;
+}
+
+

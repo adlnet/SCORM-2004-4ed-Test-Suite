@@ -1,0 +1,100 @@
+        
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+        
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <meta http-equiv="expires" content="Tue, 20 Aug 1999 01:00:00 GMT" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <title>Test Identification Step</title>
+      <script type="text/javascript" src="../scripts/BrowserDetect.js"></script>	  	  
+      <script type="text/javascript" src="../scripts/LMSInstructionFunctions.js"></script>	  
+      <script type="text/javascript">
+		  //<!-- [CDATA[
+		  /**
+		   * This method is called during 'onload' event of body. 
+		   * It sets the state of the control buttons.
+		   */
+		  function writeToInstruction()
+		  {
+		  	 parent.controls.initState();
+			 parent.currentInstructions.document.getElementById("userInstruction").innerHTML = 
+			 "<p>Before beginning this test, verify that the test subject learning management " +
+			 "system (LMS) has been properly installed and configured according to the " + 
+			 "vendor/developer's instructions.</p>" + 
+			 "<p>Please provide the Test Subject Information below and click " + 
+			 "<b>Continue</b> to proceed with the test.</p>";
+		  }
+		  
+		  /**
+		   * This method is called when the Continue control button is pressed. 
+		   * 
+		   */
+		  function cont()
+		  { 
+		     // Passes values entered into Name, Version, and Vendor text boxes into setNameVersionVendor function in LMSControls file.
+             parent.controls.setNameVersionVendor(document.getElementById("pname").value,
+                                                  document.getElementById("pversion").value,
+                                                  document.getElementById("pvname").value);
+		     // Loads CPImportStep page in 'instructions' frame after passing checks.
+		     parent.document.getElementById("instructions").src='LearnerIDStep.htm';
+		  }
+
+          /**
+           * used to start NEW logs as opposed to loading old ones
+           */ 
+          function startLogs()
+          {
+             parent.controls.startNewTest();
+		  }
+	 //]]-->
+	  </script>
+      
+      <link rel="stylesheet" href="../css/CPTS_Styles.css" type="text/css" />
+   </head>
+   <body style="width:400px" onload = "writeToInstruction();startLogs();" onunload="parent.currentInstructions.document.getElementById('userInstruction').innerHTML ='';">
+      <div style="width:400px">
+         <form id="inst" action="">
+            <div class="adlHeader">
+               Test Subject Information
+            </div>
+            <div><br />
+            <br />   </div>         
+           <div class="cell">
+           <table width="100%" border="0" cellspacing="0" cellpadding="2"> 
+				   <tr>
+					   <td class="cell">
+						  <label for="pname" class="products">
+							 LMS Name:
+						  </label>
+					   </td>
+					   <td class="cell">
+						  <input id="pname" name="pname" size="25" />
+					   </td>
+				   </tr>
+				   <tr>
+					   <td class="cell">
+						  <label for="pversion" class="products">
+							 LMS Version/Release Number:
+						  </label>
+					   </td>
+					   <td class="cell">
+						  <input id="pversion" name="pversion" size="25" />
+					   </td>
+				   </tr>
+				   <tr>
+					   <td class="cell">
+						  <label for="pvname" class="products">
+							 LMS Vendor/Developer:
+						  </label>
+					   </td>
+					   <td class="cell">
+						  <input id="pvname" name="pvname" size="25" />
+					   </td>
+				   </tr>
+			   </table>
+            </div>
+         </form>
+      </div>
+   </body>
+</html>
