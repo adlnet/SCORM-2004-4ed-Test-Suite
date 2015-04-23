@@ -69,7 +69,8 @@ There is a Readme for operating the Test Suite found at `C:\dev\SCORM-2004-4ed-T
    limitations under the License.
  
 ## Collaboration
-## Workflow for Editing the SCORM 2004 4th Edition Test Suite
+For those wishing to contribute to the programming efforts of the SCORM 2004 4th
+Edition Test Suite, please follow this process:
 
 ### Set up
 If you are not currently working with GitHub and git, follow these set up steps 
